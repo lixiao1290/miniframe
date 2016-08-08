@@ -1,7 +1,7 @@
 <?php
-namespace MiniCore\Lib;
+namespace miniCore\lib;
 
-use MiniCore\Interfaces\ControllerGeneratable;
+use minicore\interfaces\ControllerGeneratable;
 
 class ControllerGenerator implements ControllerGeneratable
 {

@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace app;
 class Success
 {
     public function __construct()

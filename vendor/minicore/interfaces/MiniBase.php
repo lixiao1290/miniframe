@@ -1,5 +1,5 @@
 <?php
-namespace MiniCore\Interfaces;
+namespace minicore\interfaces;
 
 interface  MiniBase
 {

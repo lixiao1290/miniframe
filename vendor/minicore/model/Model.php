@@ -1,6 +1,6 @@
 <?php
-namespace MiniCore\Model;
-use MiniCore\Interfaces\ModelInterface;
+namespace minicore\model;
+use minicore\interfaces\modelinterface;
 class Model implements ModelInterface
 {
     public function __construct()

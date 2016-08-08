@@ -1,5 +1,5 @@
 <?php
-namespace MiniHelper;
+namespace minicore\helper;
 
 class Helper
 {
