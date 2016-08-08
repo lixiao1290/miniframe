@@ -1,0 +1,20 @@
+{
+    "name": "lixiao/aframe",
+    "description": "lixiao's",
+    "authors": [
+        {
+            "name": "lixiao",
+            "email": "209201763@qq.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
+		 
+	"psr-4": {
+	"App\\": "app/",
+	"MiniCore\\":"vendor/minicore/"
+	}
+			 
+		 
+	}
+}
