@@ -1,7 +1,7 @@
 <?php
 namespace minicore\interfaces;
 
-interface ModelInterface
+interface iModel
 {
     public function __construct();
 }
