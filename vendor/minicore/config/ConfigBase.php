@@ -14,5 +14,7 @@ class ConfigBase
     public static $DbPrex='min';
     public static $DbDsn;
     public static $AppDir;
+    public static $ActionLevel=1;
+
 }
 
