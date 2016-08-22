@@ -3,39 +3,39 @@ namespace minicore\lib;
 
 use minicore\interfaces\MiniBase;
 use minicore\config\ConfigBase;
+use minicore\traits\SingleInstance;
 
 class Mini implements MiniBase
 {
 
     private $config;
-    private static $stance;
+
+    /**
+     * {@inheritDoc}
+     * @see \minicore\interfaces\MiniBase::getVersion()
+     */
     public function getVersion()
     {
         return self::version;
     }
-    public static function getInstance()
-    {
-        if(is_object(self::$stance)) {
-            return self::$stance;
-        } else {
-            self::$stance=new self();
-            return self::$stance;
-        }
-    }
-    private  function __construct()
-    {}
+    use SingleInstance;/* 导入单例模式trait */
+
     function __clone()
     {
         echo  '不可克隆';
     }
-    public function getConfig(ConfigBase $config)
-    {
-        $this->config=$config;
-    }
-
-    public function setConfig()
+    /**
+     * {@inheritDoc}
+     * @see \minicore\interfaces\MiniBase::getConfig()
+     */
+    public function getConfig()
     {
         return $this->config;
+    }
+
+    public function setConfig($config)
+    {
+        $this->config=$config;
     }
     public function run()
     {
@@ -44,7 +44,7 @@ class Mini implements MiniBase
     public function init()
     {
         if(empty($this->config)) {
-            $this->setConfig(ConfigBase);
+            echo 'ijfijaigj';
         } else {
 
         }
