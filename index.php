@@ -29,3 +29,4 @@ $page=new page();
 $str="37012319891224173X";
 $str=substr_replace($str, '%%%%', 4,-4);
 echo $str;
+var_dump('<pre>',$_FILES);
