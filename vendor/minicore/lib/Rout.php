@@ -7,7 +7,7 @@ class Rout
     public function __construct()
     {}
     /*  路由键值对，键名是url，值是对应的控制器*/
-    private $rule=array();
+    private static  $rule=array();
     /**
      * @return the $rule
      */
@@ -19,21 +19,16 @@ class Rout
     /**
      * @param multitype: $rule
      */
-    public function setRule($url)
+    public static  function setRule($url,\Closure $act)
     {
-        $this->rule = $rule;
+        self::$rule[$url]=$act;
     }
-    public function __set($key,$value)
-    {
-        $this->rule[$key]=$value;
-    }
-    public function __get($key)
+    public static  function getRule($key)
     {
         if(array_key_exists($key, $this->rule)) {
             return $this->rule[$key];
         }
     }
-
 
 }
 

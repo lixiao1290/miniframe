@@ -28,6 +28,11 @@ class Container
         static::$registry[$name] = $resolve;
 
     }
+    /**
+     * @param unknown $name
+     * @param \Closure $resolve 闭包 依赖
+     * @return boolean|mixed 返回一个单例
+     */
     public static function soleRegister($name, \Closure $resolve)
     {
         if(self::registered($name)) {

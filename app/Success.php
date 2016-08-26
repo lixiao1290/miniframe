@@ -4,7 +4,7 @@ class Success
 {
     public function __construct()
     {
-        echo "hello";
+        echo "hello",'<br/>';
     }
     public function give()
     {

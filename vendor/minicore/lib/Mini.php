@@ -44,7 +44,7 @@ class Mini implements MiniBase
     public function init()
     {
         if(empty($this->config)) {
-            echo 'ijfijaigj';
+             
         } else {
 
         }
