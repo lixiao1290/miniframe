@@ -33,13 +33,13 @@ class Container
      * @param \Closure $resolve 闭包 依赖
      * @return boolean|mixed 返回一个单例
      */
-    public static function soleRegister($name, \Closure $resolve)
+    public static function getSoleStance($name, \Closure $resolve)
     {
         if(self::registered($name)) {
-            return static::registered($name);
+            return static::$registry[$name];
         } else {
             static::$registry[$name] = $resolve;
-            return static::getService($name);
+            return static::$registry[$name];
         }
     }
 
