@@ -10,7 +10,7 @@ class ClosuresQueue
         array_push($this->closuresArray, $closure);
         array_push($this->closursNotes, $note);
     }
-    public function addClosures(array $closures,$note)
+    public function addClosures(array $closures,$note='null')
     {
         $this->closuresArray=array_merge($this->closuresArray,$closures);
     }

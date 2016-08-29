@@ -4,6 +4,7 @@ namespace minicore\lib;
 use minicore\interfaces\MiniBase;
 use minicore\config\ConfigBase;
 use minicore\traits\SingleInstance;
+use minicore\helper\Db;
 
 class Mini implements MiniBase
 {
@@ -41,13 +42,16 @@ class Mini implements MiniBase
     {
 
     }
-    public function init()
+    
+    public function __construct(ConfigBase $config)
     {
-        if(empty($this->config)) {
-             
-        } else {
-
-        }
+        $this->config=$config;
+        /* Db对象注入 */
+        Container::register('Db', function()use($config) {
+            $db=new  Db();
+            $db->config=$config;
+            
+        });
     }
     public function getRout()
     {
