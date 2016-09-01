@@ -6,7 +6,7 @@ use minicore\config\ConfigBase;
 use minicore\traits\SingleInstance;
 use minicore\helper\Db;
 
-class Mini implements MiniBase
+class Mini extends Base implements MiniBase    
 {
 
     private $config;
@@ -45,13 +45,23 @@ class Mini implements MiniBase
     
     public function __construct(ConfigBase $config)
     {
+        /* $arrayFile=dir($config->getFile()).$config::class.'.php';
+        if(false===is_file($arrayFile)) {
+            $configArray=get_object_vars($config);
+            $configArrayCode=var_export($configArray,true);
+            file_put_contents(dir($config->getFile()).$config::class.'.php', $data);
+        } else {
+            
+        } */
+        
         $this->config=$config;
         /* Db对象注入 */
         Container::register('Db', function()use($config) {
             $db=new  Db();
             $db->config=$config;
-            
+            return $db;
         });
+        
     }
     public function getRout()
     {

@@ -3,11 +3,15 @@ namespace minicore\interfaces;
 
 use minicore\config\ConfigBase;
 
-interface  MiniBase
+interface MiniBase
 {
-    const version='1.0';
-    public function  getVersion();
+
+    const version = '1.0';
+
+    public function getVersion();
+
     public function setConfig($config);
+
     public function getConfig();
 }
 

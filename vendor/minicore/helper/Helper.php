@@ -1,7 +1,9 @@
 <?php
 namespace minicore\helper;
 
-class Helper
+use minicore\lib\Base;
+
+class Helper extends Base
 {
     function __construct()
     {
