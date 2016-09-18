@@ -14,7 +14,6 @@ $sucess = Container::getSoleStance('app\Success', function () {
     return new \app\Success();
 });
 
-    
 /*
  * $names=['l'=>'lixiao','lj'=>'linjiexi'];
  * extract($names);
@@ -25,26 +24,27 @@ $sucess = Container::getSoleStance('app\Success', function () {
  * echo $str;
  * var_dump('<pre>',$_FILES);
  */
- 
 
- 
 $config = new ConfigBase();
-var_dump('<pre>',$config->getClassFile());
+var_dump('<pre>', $config->getClassFile());
 echo $config->getClassFile();
- 
+
 $asoc = [
     'a' => 'b',
     'c' => '8df'
 ];
 array_push($asoc, 'd');
 
-$pathInfo =$_SERVER['REQUEST_URI'];
-$pathInfo=parse_url($pathInfo);
-echo $pathInfo;
+$pathInfo = $_SERVER['PATH_INFO'];
 
-var_dump('<pre>',Rout::parseUrl($pathInfo));
-
-
+$rout = Rout::parseUrl($pathInfo);
+var_dump($rout);
+exit();
+try {
+    Rout::parseUrl($pathInfo);
+} catch (Exception $e) {
+    echo $e->getMessage();
+}   
 
 
 
