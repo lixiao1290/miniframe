@@ -12,9 +12,9 @@
 		 
 	"psr-4": {
 	"app\\": "app/",
-	"minicore\\":"vendor/minicore/"
-	}
-			 
+	"minicore\\":"vendor/minicore/",
+	"admin\\": "admin/"
+	}  
 		 
 	}
 }

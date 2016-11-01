@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'minicore\\' => array($vendorDir . '/minicore'),
     'app\\' => array($baseDir . '/app'),
+    'admin\\' => array($baseDir . '/admin'),
 );
