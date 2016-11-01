@@ -4,8 +4,9 @@ namespace app\controllers;
 use app\view\page;
 use minicore\config\ConfigBase;
 use minicore\model\Model;
+use minicore\lib\ControllerBase;
 
-class IndexController
+class IndexController extends ControllerBase
 {
 
     public function __construct()
@@ -14,6 +15,7 @@ class IndexController
     {
         
         echo '<p>hello friend</p>';
+        self::view();
     }
 }
 

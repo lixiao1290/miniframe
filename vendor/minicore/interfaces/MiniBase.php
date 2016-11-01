@@ -10,7 +10,7 @@ interface MiniBase
 
     public function getVersion();
 
-    public function setConfig($config);
+    public function setConfig($key,$value);
 
     public function getConfig($key);
 }

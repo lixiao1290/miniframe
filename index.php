@@ -23,8 +23,9 @@ $sucess = Container::getSoleStance('app\Success', function () {
  * echo $str;
  * var_dump('<pre>',$_FILES);
  */
-(new Mini())->run();
-
+$ap= new Mini();
+var_dump($ap);
+$ap->run();
 
 
 
