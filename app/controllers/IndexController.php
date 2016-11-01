@@ -1,5 +1,5 @@
 <?php
-namespace app\controller;
+namespace app\controllers;
 
 use app\view\page;
 use minicore\config\ConfigBase;
@@ -12,9 +12,8 @@ class IndexController
     {}
     public  function index()
     {
-        $data=new Model();
-        $data->table='mi';
-        return array('data'=>$data) ;
+        
+        echo '<p>hello friend</p>';
     }
 }
 

@@ -1,6 +1,8 @@
 <?php
 namespace minicore\lib;
 
+use minicore\config\ConfigBase;
+
 /**
  *
  * @author lixiao
@@ -12,11 +14,13 @@ class Rout
     /* url参数分隔符 */
     public static $urlDelimiter = '/';
 
-    /* 控制器在url参数中占前几个 */
-    public static $controllerLevel = 2;
+    /* act在url参数中位置是第几个 */
+    public static $controllerLevel = 0;
 
-    public function __construct()
-    {}
+    public function __construct(ConfigBase $config)
+    {
+        self::$controllerLevel=$config::$controllerLevel;
+    }
 
     /* 路由键值对，键名是url，值是对应的控制器 调用闭包 */
     private static $_get = array();
@@ -45,15 +49,15 @@ class Rout
         if (empty(self::$urlDelimiter)) {
             throw new \ErrorException('未设置url分隔符！');
         }
-        if (empty(self::$controllerLevel)) {
+        if (is_null(self::$controllerLevel)) {
             throw new \ErrorException('未设置控制器层级！');
         } else {
             $pars = explode(self::$urlDelimiter, $url);
             $pars=array_filter($pars);
-            $actArr = array_splice($pars, 0, self::$controllerLevel);
+            $actArr = array_splice($pars, self::$controllerLevel,2 );
             return array(
-                'p' => $pars,
-                'a' => $actArr
+                'controller' => $actArr[0],
+                'act' => $actArr[1]
             );
         }
     }

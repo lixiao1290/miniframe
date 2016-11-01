@@ -12,7 +12,7 @@ interface MiniBase
 
     public function setConfig($config);
 
-    public function getConfig();
+    public function getConfig($key);
 }
 
 ?>

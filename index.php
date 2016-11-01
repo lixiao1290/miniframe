@@ -13,7 +13,6 @@ $model = new Model();
 $sucess = Container::getSoleStance('app\Success', function () {
     return new \app\Success();
 });
-
 /*
  * $names=['l'=>'lixiao','lj'=>'linjiexi'];
  * extract($names);
@@ -24,6 +23,12 @@ $sucess = Container::getSoleStance('app\Success', function () {
  * echo $str;
  * var_dump('<pre>',$_FILES);
  */
+(new Mini())->run();
+
+
+
+
+exit();
 
 $config = new ConfigBase();
 var_dump('<pre>', $config->getClassFile());
@@ -35,10 +40,8 @@ $asoc = [
 ];
 array_push($asoc, 'd');
 
-$pathInfo = $_SERVER['PATH_INFO'];
 
-$rout = Rout::parseUrl($pathInfo);
-var_dump($rout);
+
 exit();
 try {
     Rout::parseUrl($pathInfo);
@@ -48,7 +51,7 @@ try {
 
 
 
-
+$arr=array('afserfds'=>6765447543675);
 
 
 
@@ -122,7 +125,6 @@ if($my->monety->count >10000000) {
     work();
 }
  */
-
 
 
 

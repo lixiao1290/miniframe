@@ -27,8 +27,13 @@ class ConfigBase extends Base
 
     public static $actionLevel = 1;
 
+    public static $controllerLevel = 0;
+
+    public static $controllerNamespace='app\controllers';
+    
+    // 框架核心初始化模式，1不使用closurequeue，2使用。
     public static $executeMode = 1;
- // 框架核心初始化模式，1不使用closurequeue，2使用。
-     
+    // 路由类型，1默认，2注册
+    public static $routType=1;
 }
 
