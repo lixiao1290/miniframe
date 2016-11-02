@@ -30,5 +30,9 @@ return array(
     'viewSuffix' => 'php',
     'routClass'=>'minicore\lib\Rout',
     'routAct'=>'run',
+    'actSuffix'=>'',
+    'actPrefix'=>'',
+    'defaultController'=>'index',
+    'defaultAct'=>'index'
 )
 ;

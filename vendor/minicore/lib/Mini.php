@@ -14,10 +14,30 @@ class Mini extends Base implements MiniBase
     public static $Mini;
 
     private  $controller;
-    
-    private  $act;
+
+    private $act;
+
     private $baseDir;
+
+    private $controllerStance;
     /**
+     * @return the $controllerStance
+     */
+    public function getControllerStance()
+    {
+        return $this->controllerStance;
+    }
+
+    /**
+     * @param field_type $controllerStance
+     */
+    public function setControllerStance($controllerStance)
+    {
+        $this->controllerStance = $controllerStance;
+    }
+
+    /**
+     *
      * @return the $controller
      */
     public function getController()
@@ -26,6 +46,7 @@ class Mini extends Base implements MiniBase
     }
 
     /**
+     *
      * @return the $act
      */
     public function getAct()
@@ -34,7 +55,8 @@ class Mini extends Base implements MiniBase
     }
 
     /**
-     * @param field_type $controller
+     *
+     * @param field_type $controller            
      */
     public function setController($controller)
     {
@@ -42,7 +64,8 @@ class Mini extends Base implements MiniBase
     }
 
     /**
-     * @param field_type $act
+     *
+     * @param field_type $act            
      */
     public function setAct($act)
     {
@@ -50,6 +73,7 @@ class Mini extends Base implements MiniBase
     }
 
     /**
+     *
      * @return the $baseDir
      */
     public function getBaseDir()
@@ -58,13 +82,13 @@ class Mini extends Base implements MiniBase
     }
 
     /**
-     * @param field_type $baseDir
+     *
+     * @param field_type $baseDir            
      */
     public function setBaseDir($baseDir)
     {
         $this->baseDir = $baseDir;
     }
-
 
     /**
      *
@@ -103,7 +127,10 @@ class Mini extends Base implements MiniBase
     public function run()
     {
         if (1 == $this->config['executeMode']) {
-            call_user_func(array($this->getConfig('routClass'),$this->getConfig('routAct')));
+            call_user_func(array(
+                $this->getConfig('routClass'),
+                $this->getConfig('routAct')
+            ));
         }
     }
 
@@ -127,7 +154,7 @@ class Mini extends Base implements MiniBase
             $this->config = $config;
         }
         self::$Mini = $this;
-        $baseDir=dirname(dirname(dirname(dirname(__FILE__)))); 
+        $baseDir = dirname(dirname(dirname(dirname(__FILE__))));
         $this->setBaseDir($baseDir);
        /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();

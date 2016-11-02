@@ -55,6 +55,9 @@ class Rout
             $pars = explode(self::$urlDelimiter, $url);
             $pars=array_filter($pars);
             $actArr = array_splice($pars, self::$controllerLevel,2 );
+            if(empty($actArr)) {
+                $actArr=array((Mini::$Mini->getConfig('defaultController')),(Mini::$Mini->getConfig('defaultAct')));
+            }
             return array(
                 'controller' => $actArr[0],
                 'act' => $actArr[1]
@@ -64,19 +67,19 @@ class Rout
     public static function run(){
         if (1 == Mini::$Mini->getConfig('routType')) {
             @ $pathInfo = $_SERVER['PATH_INFO'];
-            if (isset($pathInfo)) {
                 $rout = Rout::parseUrl($pathInfo);
                 $Controller = Mini::$Mini->getConfig('controllerNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
                 Mini::$Mini->setController($Controller);
-                Mini::$Mini->setAct($rout['act']);
+                Mini::$Mini->setAct(Mini::$Mini->getConfig('actPrefix').$rout['act'].Mini::$Mini->getConfig('actSuffix'));
         
-                if (class_exists(Mini::$Mini->getController())) {
-                    $Controller = Mini::$Mini->getController();
-                    call_user_method(Mini::$Mini->getAct(), new $Controller());
+                if (class_exists($Controller)) {
+                    $ControllerObj = new   $Controller();
+                    Mini::$Mini->setControllerStance($ControllerObj);
+                    call_user_method(Mini::$Mini->getAct(),$ControllerObj );
                 } else {
                     echo ('未发现控制器，检查您的url');
                 }
-            }
+             
         }
     }
 }
