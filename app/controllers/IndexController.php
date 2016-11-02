@@ -14,6 +14,7 @@ class IndexController extends ControllerBase
     public  function index()
     {
         $this->assign('suc', 'success!');
+        $this->assign('list', ['张武','李宵','齐名浩','徐瑶瑶','张彪','王世超','']);
         $this->view();
     }
 }
