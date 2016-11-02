@@ -7,8 +7,8 @@
 </head>
  
     <body>
-    <p>This page uses frames. The current browser you are using does not support frames.</p>
-    <?=$suc;?>
+    <p> </p>
+    <div style="text-align: center;"><?=$suc;?></div>
     </body>
     
 </html>
