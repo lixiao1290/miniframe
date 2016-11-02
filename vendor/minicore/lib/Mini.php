@@ -13,10 +13,42 @@ class Mini extends Base implements MiniBase
 
     public static $Mini;
 
-    private static $controller;
+    private  $controller;
     
-    private static $act;
+    private  $act;
     private $baseDir;
+    /**
+     * @return the $controller
+     */
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    /**
+     * @return the $act
+     */
+    public function getAct()
+    {
+        return $this->act;
+    }
+
+    /**
+     * @param field_type $controller
+     */
+    public function setController($controller)
+    {
+        $this->controller = $controller;
+    }
+
+    /**
+     * @param field_type $act
+     */
+    public function setAct($act)
+    {
+        $this->act = $act;
+    }
+
     /**
      * @return the $baseDir
      */
@@ -33,41 +65,6 @@ class Mini extends Base implements MiniBase
         $this->baseDir = $baseDir;
     }
 
-    /**
-     *
-     * @return the $controller
-     */
-    public static function getController()
-    {
-        return Mini::$controller;
-    }
-
-    /**
-     *
-     * @return the $act
-     */
-    public static function getAct()
-    {
-        return Mini::$act;
-    }
-
-    /**
-     *
-     * @param field_type $controller            
-     */
-    public static function setController($controller)
-    {
-        Mini::$controller = $controller;
-    }
-
-    /**
-     *
-     * @param field_type $act            
-     */
-    public static function setAct($act)
-    {
-        Mini::$act = $act;
-    }
 
     /**
      *
@@ -106,22 +103,7 @@ class Mini extends Base implements MiniBase
     public function run()
     {
         if (1 == $this->config['executeMode']) {
-            if (1 == $this->config['routType']) {
-                @ $pathInfo = $_SERVER['PATH_INFO'];
-                if (isset($pathInfo)) {
-                    $rout = Rout::parseUrl($pathInfo);
-                    $Controller = $this->getConfig('controllerNamespace') . '\\' . $rout['controller'] . $this->getConfig('ControllerSuffix');
-                    self::setController($Controller);
-                    self::setAct($rout['act']);
-                    
-                    if (class_exists(self::getController())) {
-                        $Controller = self::getController();
-                        call_user_method(self::getAct(), new $Controller());
-                    } else {
-                        echo ('未发现控制器，检查您的url');
-                    }
-                }
-            }
+            call_user_func(array($this->getConfig('routClass'),$this->getConfig('routAct')));
         }
     }
 

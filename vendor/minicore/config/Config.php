@@ -20,13 +20,15 @@ return array(
     
     'controllerLevel' => 0,
     
-    'controllerNamespace'=>'app\controllers',
+    'controllerNamespace' => 'app\controllers',
     
     // 框架核心初始化模式，1不使用closurequeue，2使用。
     'executeMode' => 1,
     // 路由类型，1默认，2注册
-    'routType'=>1,
-    'ControllerSuffix'=>'Controller',
-    'viewSuffix'=>'php'
-    
-);
+    'routType' => 1,
+    'ControllerSuffix' => 'Controller',
+    'viewSuffix' => 'php',
+    'routClass'=>'minicore\lib\Rout',
+    'routAct'=>'run',
+)
+;

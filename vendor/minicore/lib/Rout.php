@@ -61,5 +61,23 @@ class Rout
             );
         }
     }
+    public static function run(){
+        if (1 == Mini::$Mini->getConfig('routType')) {
+            @ $pathInfo = $_SERVER['PATH_INFO'];
+            if (isset($pathInfo)) {
+                $rout = Rout::parseUrl($pathInfo);
+                $Controller = Mini::$Mini->getConfig('controllerNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
+                Mini::$Mini->setController($Controller);
+                Mini::$Mini->setAct($rout['act']);
+        
+                if (class_exists(Mini::$Mini->getController())) {
+                    $Controller = Mini::$Mini->getController();
+                    call_user_method(Mini::$Mini->getAct(), new $Controller());
+                } else {
+                    echo ('未发现控制器，检查您的url');
+                }
+            }
+        }
+    }
 }
 
