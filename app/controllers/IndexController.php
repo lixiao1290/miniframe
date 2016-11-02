@@ -13,9 +13,9 @@ class IndexController extends ControllerBase
     {}
     public  function index()
     {
-        
+        $this->assign('suc', 'success!');
         echo '<p>hello friend</p>';
-        self::view();
+        $this->view();
     }
 }
 

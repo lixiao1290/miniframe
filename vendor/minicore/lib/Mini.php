@@ -11,11 +11,30 @@ class Mini extends Base implements MiniBase
 
     private $config;
 
-    private static  $controller;
-    private static $act;
+    public static $Mini;
+
+    private static $controller;
     
+    private static $act;
+    private $baseDir;
+    /**
+     * @return the $baseDir
+     */
+    public function getBaseDir()
+    {
+        return $this->baseDir;
+    }
 
     /**
+     * @param field_type $baseDir
+     */
+    public function setBaseDir($baseDir)
+    {
+        $this->baseDir = $baseDir;
+    }
+
+    /**
+     *
      * @return the $controller
      */
     public static function getController()
@@ -24,6 +43,7 @@ class Mini extends Base implements MiniBase
     }
 
     /**
+     *
      * @return the $act
      */
     public static function getAct()
@@ -32,7 +52,8 @@ class Mini extends Base implements MiniBase
     }
 
     /**
-     * @param field_type $controller
+     *
+     * @param field_type $controller            
      */
     public static function setController($controller)
     {
@@ -40,7 +61,8 @@ class Mini extends Base implements MiniBase
     }
 
     /**
-     * @param field_type $act
+     *
+     * @param field_type $act            
      */
     public static function setAct($act)
     {
@@ -85,19 +107,19 @@ class Mini extends Base implements MiniBase
     {
         if (1 == $this->config['executeMode']) {
             if (1 == $this->config['routType']) {
-                $pathInfo = $_SERVER['PATH_INFO'];
-                $rout = Rout::parseUrl($pathInfo);
-                $Controller = $this->getConfig('controllerNamespace') . '\\' . $rout['controller'] . $this->getConfig('ControllerSuffix');
-                self::setController($Controller);
-                self::setAct($rout['act']);
-               
-                if (class_exists($Controller)) {
-                    call_user_func(array(
-                        self::getController(),
-                        self::getAct()
-                    ));
-                } else {
-                    echo ('未发现控制器，检查您的url');
+                @ $pathInfo = $_SERVER['PATH_INFO'];
+                if (isset($pathInfo)) {
+                    $rout = Rout::parseUrl($pathInfo);
+                    $Controller = $this->getConfig('controllerNamespace') . '\\' . $rout['controller'] . $this->getConfig('ControllerSuffix');
+                    self::setController($Controller);
+                    self::setAct($rout['act']);
+                    
+                    if (class_exists(self::getController())) {
+                        $Controller = self::getController();
+                        call_user_method(self::getAct(), new $Controller());
+                    } else {
+                        echo ('未发现控制器，检查您的url');
+                    }
                 }
             }
         }
@@ -119,11 +141,13 @@ class Mini extends Base implements MiniBase
             // $cofigfiles=realpath('../config/Config.php');
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
-        
+            
             $this->config = $config;
         }
-        
-        Container::register('Mini', function () use ($config) {
+        self::$Mini = $this;
+        $baseDir=dirname(dirname(dirname(dirname(__FILE__)))); 
+        $this->setBaseDir($baseDir);
+       /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();
             if (empty($config)) {
                 // $cofigfiles=realpath('../config/Config.php');
@@ -134,7 +158,7 @@ class Mini extends Base implements MiniBase
             }
             ConfigBase::setConfig($mini->config);
             return $mini;
-        });
+        }); */
     }
 
     public function getRout()

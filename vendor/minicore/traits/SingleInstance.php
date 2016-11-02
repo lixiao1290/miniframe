@@ -10,7 +10,7 @@ trait SingleInstance {
     /* 唯一实例 */
     private static $stance;
     /*  获得唯一实例*/
-    public static function getInstance()
+    public static function getInstance(\Closure $callBack)
     {
         if(is_object(self::$stance)) {
             return self::$stance;
@@ -19,9 +19,9 @@ trait SingleInstance {
             return self::$stance;
         }
     }
-    private  function __construct()
+    private  function __construct(\Closure $callBack)
     {
-
+        call_user_func($callBack);
     }
 }
 

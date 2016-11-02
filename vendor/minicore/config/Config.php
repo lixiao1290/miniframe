@@ -27,4 +27,6 @@ return array(
     // 路由类型，1默认，2注册
     'routType'=>1,
     'ControllerSuffix'=>'Controller',
+    'viewSuffix'=>'php'
+    
 );
