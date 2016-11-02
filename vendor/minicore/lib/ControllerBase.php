@@ -86,7 +86,8 @@ class ControllerBase extends Base
             // echo '@',__FUNCTION__;
             $path = Mini::$Mini->getConfig('controllerNamespace');
             $baseDir = Mini::$Mini->getBaseDir();
-            $filename = $baseDir . '\\' . dirname($path) . '\view\\' . Mini::$Mini->getAct() . '.' . Mini::$Mini->getConfig('viewSuffix');
+            $actfile= Mini::$Mini->getAct() ;
+            $filename = $baseDir . '\\' . dirname($path) . '\view\\' . $actfile.'\\' .$actfile .'.' . Mini::$Mini->getConfig('viewSuffix');
             if (file_exists($filename)) {
                 extract($this->viewVars);
                 

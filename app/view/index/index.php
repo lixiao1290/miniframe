@@ -1,12 +1,11 @@
 <?php
-use minicore\lib\Rout;
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>hello</title>
 <?php $this->head();  ?>
 </head>
 
@@ -19,7 +18,6 @@ use minicore\lib\Rout;
 	<?php endforeach;?>
 	</div>
 	
-	<?php      $this->body(); ?>
 	<div >
 	<ul>
 	<?php foreach ($menu as $item):?>
@@ -29,6 +27,8 @@ use minicore\lib\Rout;
 	<?php endforeach;?>
 	
 	</ul></div>
+	<?php      $this->body(); ?>
+	
 </body>
 
 </html>
