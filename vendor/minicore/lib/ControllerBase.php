@@ -63,7 +63,10 @@ class ControllerBase extends Base
     
          }
     }
-
+    public function includeFile($path)
+    {
+        echo Mini::$Mini->getAppPath(),'';
+    }
     /**
      * 绑定变量
      * @param unknown $key

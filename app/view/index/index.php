@@ -28,7 +28,7 @@
 	
 	</ul></div>
 	<?php      $this->body(); ?>
-	
+	<?php ?>
 </body>
 
 </html>

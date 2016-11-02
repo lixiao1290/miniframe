@@ -3,6 +3,8 @@ namespace minicore\lib;
 
 abstract class Base implements \Iterator
 {
+   
+
     /**
      * {@inheritDoc}
      * @see Iterator::current()
@@ -61,5 +63,6 @@ abstract class Base implements \Iterator
      {
          return '.q'. __FILE__;echo '34342';
      }
+      
 }
 

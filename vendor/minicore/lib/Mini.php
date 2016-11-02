@@ -28,6 +28,22 @@ class Mini extends Base implements MiniBase
         return $this->controllerStance;
     }
 
+    public $appPath;
+    /**
+     * @return the $appPath
+     */
+    public function getAppPath()
+    {
+        return $this->appPath;
+    }
+    
+    /**
+     * @param field_type $appPath
+     */
+    public function setAppPath($appPath)
+    {
+        $this->appPath = $appPath;
+    }
     /**
      * @param field_type $controllerStance
      */
@@ -156,6 +172,10 @@ class Mini extends Base implements MiniBase
         self::$Mini = $this;
         $baseDir = dirname(dirname(dirname(dirname(__FILE__))));
         $this->setBaseDir($baseDir);
+        
+        $path = $this->getConfig('controllerNamespace');
+        $this->setAppPath(dirname($path));
+        
        /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();
             if (empty($config)) {
