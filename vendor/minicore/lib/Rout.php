@@ -75,7 +75,7 @@ class Rout
                 if (class_exists($Controller)) {
                     $ControllerObj = new   $Controller();
                     Mini::$Mini->setControllerStance($ControllerObj);
-                    call_user_method(Mini::$Mini->getAct(),$ControllerObj );
+                    call_user_func(array($ControllerObj, Mini::$Mini->getAct()));
                 } else {
                     echo ('未发现控制器，检查您的url');
                 }

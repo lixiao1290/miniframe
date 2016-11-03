@@ -5,6 +5,7 @@ use minicore\interfaces\MiniBase;
 use minicore\config\ConfigBase;
 use minicore\traits\SingleInstance;
 use minicore\helper\Db;
+use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
 
 class Mini extends Base implements MiniBase
 {
@@ -170,12 +171,12 @@ class Mini extends Base implements MiniBase
             $this->config = $config;
         }
         self::$Mini = $this;
-        $baseDir = dirname(dirname(dirname(dirname(__FILE__))));
+        $pos=strpos(__DIR__, 'vendor')-1;
+        $baseDir=substr(__DIR__, 0,$pos);
         $this->setBaseDir($baseDir);
-        
+        //
         $path = $this->getConfig('controllerNamespace');
         $this->setAppPath(dirname($path));
-        
        /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();
             if (empty($config)) {
