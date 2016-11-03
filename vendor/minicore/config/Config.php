@@ -36,5 +36,6 @@ return array(
     'defaultController'=>'controllers\index',
     'defaultAct'=>'index',
     'urlMode'=>1,
+    'defaultModule'=>'main'
 )
 ;

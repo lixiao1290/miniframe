@@ -82,10 +82,22 @@ class Rout
                 $act=array_pop($actArr); 
                 $controllerend='controllers\\'.array_pop($actArr);
                 $controller=implode('\\', $actArr).'\\'.$controllerend;
-                return array(
+                $rout=array(
                     'controller' => $controller,
                     'act' => $act
                 );
+                if ($rout['act']=='') {
+                
+                    $rout['act'] = Mini::$Mini->getConfig('defaultAct');
+                }
+                if($rout['controller']=='\\controllers\\') {
+                    $rout['controller']=   Mini::$Mini->getConfig('defaultController');
+                    if(Mini::$Mini->getConfig('defaultModule'))    {
+                        $rout['controller']=Mini::$Mini->getConfig('defaultModule').'\\'.$rout['controller'];
+                    }
+                }
+                
+                return $rout;
                 
             }
         }
@@ -96,16 +108,10 @@ class Rout
         if (1 == Mini::$Mini->getConfig('routType')) {
             $path =self::analyzeUrl() ; 
             $rout = Rout::generatController($path); 
-            if ($rout['act']=='') {
-                $rout = array(
-                 'controller' =>   (Mini::$Mini->getConfig('defaultController')),
-                 'act' => (Mini::$Mini->getConfig('defaultAct'))
-                );
-            }
+            
             $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix'); 
             Mini::$Mini->setController($Controller);
             Mini::$Mini->setAct(Mini::$Mini->getConfig('actPrefix') . $rout['act'] . Mini::$Mini->getConfig('actSuffix'));
-            
             if (class_exists($Controller)) {
                 $ControllerObj = new $Controller();
                 Mini::$Mini->setControllerStance($ControllerObj);
