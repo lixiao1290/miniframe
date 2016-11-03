@@ -21,6 +21,7 @@ return array(
     'controllerLevel' => 0,
     
     'controllerNamespace' => 'app\controllers',
+    'appNamespace'=>'app',
     
     // 框架核心初始化模式，1不使用closurequeue，2使用。
     'executeMode' => 1,
@@ -32,7 +33,8 @@ return array(
     'routAct'=>'run',
     'actSuffix'=>'',
     'actPrefix'=>'',
-    'defaultController'=>'index',
-    'defaultAct'=>'index'
+    'defaultController'=>'controllers\index',
+    'defaultAct'=>'index',
+    'urlMode'=>1,
 )
 ;

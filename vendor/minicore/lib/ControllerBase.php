@@ -10,7 +10,7 @@ class ControllerBase extends Base
 
     private $viewVars;
     private $pageFunc;
-     
+    private $viewPath; 
     /**
      * @return the $css
      */
@@ -40,7 +40,8 @@ class ControllerBase extends Base
         if(method_exists(get_called_class(), 'initial')) {
            $this->initial();
         }
-         
+         //print_r( dirname(dirname(get_called_class())));
+         $this->viewPath= dirname(dirname(get_called_class()));
     }
     public function head()
     {
@@ -63,9 +64,10 @@ class ControllerBase extends Base
     
          }
     }
-    public function includeFile($path)
+    public function includeFile($path=null)
     {
-        echo Mini::$Mini->getAppPath(),'';
+        $file=Mini::$Mini->getViewPath().'//'.$path;
+        include $file;
     }
     /**
      * 绑定变量
@@ -87,15 +89,20 @@ class ControllerBase extends Base
         if (is_null($path)) {
             // print_r(dirname());
             // echo '@',__FUNCTION__;
-            $path = Mini::$Mini->getConfig('controllerNamespace');
             $baseDir = Mini::$Mini->getBaseDir();
-            $actfile= Mini::$Mini->getAct() ;
-            $filename = $baseDir . '\\' . dirname($path) . '\view\\' . $actfile.'\\' .$actfile .'.' . Mini::$Mini->getConfig('viewSuffix');
+            $actfile= debug_backtrace()[1]['function'] ;
+            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $actfile.'\\' .$actfile .'.' . Mini::$Mini->getConfig('viewSuffix');
+           //var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
                 extract($this->viewVars);
                 
                 include $filename;
             }
+        } else {
+            extract($this->viewVars);
+            $baseDir = Mini::$Mini->getBaseDir();
+            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $path.'.' . Mini::$Mini->getConfig('viewSuffix');
+            include $filename;
         }
     }
 

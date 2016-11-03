@@ -21,6 +21,23 @@ class Mini extends Base implements MiniBase
     private $baseDir;
 
     private $controllerStance;
+    private $viewPath;
+    /**
+     * @return the $viewPath
+     */
+    public function getViewPath()
+    {
+        return $this->viewPath;
+    }
+
+    /**
+     * @param field_type $viewPath
+     */
+    public function setViewPath($viewPath)
+    {
+        $this->viewPath = $viewPath;
+    }
+
     /**
      * @return the $controllerStance
      */
@@ -144,10 +161,11 @@ class Mini extends Base implements MiniBase
     public function run()
     {
         if (1 == $this->config['executeMode']) {
-            call_user_func(array(
+            Rout::run();
+            /* call_user_func(array(
                 $this->getConfig('routClass'),
                 $this->getConfig('routAct')
-            ));
+            )); */
         }
     }
 
@@ -176,7 +194,10 @@ class Mini extends Base implements MiniBase
         $this->setBaseDir($baseDir);
         //
         $path = $this->getConfig('controllerNamespace');
-        $this->setAppPath(dirname($path));
+        $appPath=$baseDir.'\\'.dirname($path);
+        $this->setAppPath($appPath);
+        $viewPath=$appPath.'\\'.'view';
+        $this->setViewPath($viewPath);
        /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();
             if (empty($config)) {
