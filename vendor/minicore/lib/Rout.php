@@ -81,7 +81,8 @@ class Rout
                 $actArr = array_splice($pars, 0, self::$actLevel);
                 $act=array_pop($actArr); 
                 $controllerend='controllers\\'.array_pop($actArr);
-                $controller=implode('\\', $actArr).'\\'.$controllerend;
+                Mini::$Mini->setModule(implode('\\', $actArr));
+                $controller=Mini::$Mini->getModule().'\\'.$controllerend;
                 $rout=array(
                     'controller' => $controller,
                     'act' => $act

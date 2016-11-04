@@ -22,6 +22,23 @@ class Mini extends Base implements MiniBase
 
     private $controllerStance;
     private $viewPath;
+    private    $module;
+    /**
+     * @return the $module
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    /**
+     * @param field_type $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
+
     /**
      * @return the $viewPath
      */

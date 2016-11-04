@@ -22,6 +22,10 @@
 	
 	<?php    $this->view('layout/left') ?>
 	<?php      $this->body(); ?>
+	<?php 
+	
+	
+	?>
 </body>
 
 </html>
