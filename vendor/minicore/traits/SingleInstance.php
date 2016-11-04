@@ -17,7 +17,7 @@ trait SingleInstance {
         } else {
             self::$stance=new self($members);
             foreach ($members as $key=>$value) {
-                self::$key=$value;
+                self::$stance->$key=$value;
             }
             return self::$stance;
         }
