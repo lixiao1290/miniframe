@@ -4,6 +4,7 @@ namespace minicore\lib;
 abstract class Base implements \Iterator
 {
 
+    private $instance;
     /**
      *
      * {@inheritdoc}
@@ -69,5 +70,15 @@ abstract class Base implements \Iterator
         return '.q' . __FILE__;
         echo '34342';
     }
+    public function obj($members)
+    {
+        self::$instance=new static();
+        foreach ($members as $key=>$value) {
+            self::$instance->$key=$value;
+        }
+        return self::$instance;
+    }
+    
+    
 }
 

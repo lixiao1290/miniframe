@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>hello</title>
-<?php $this->head();  ?>
+<?php   ?>
 </head>
 
 <body>
@@ -20,8 +20,8 @@
 	
 	<div >
 	
-	<?php    $this->view('layout/left') ?>
-	<?php      $this->body(); ?>
+	<?php       $this->view('layout/left') ?>
+	<?php        ?>
 	<?php 
 	
 	

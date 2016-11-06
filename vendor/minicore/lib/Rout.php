@@ -127,19 +127,20 @@ class Rout
     }
     public static function  analyzeUrl($url=null)
     {
-        if(1==Mini::$Mini->getConfig('urlMode')) {
+
+        /* if(1==Mini::$Mini->getConfig('urlMode')) {
             if(isset($_SERVER['PATH_INFO'])) {
                 return strtr($_SERVER['PATH_INFO'],array('/'=>'\\'));
             } else {
-                $uri=$_SERVER['REQUEST_URI'];
-                $root=$_SERVER['DOCUMENT_ROOT'];
-                $scriptFileName=dirname($_SERVER['SCRIPT_FILENAME']);
-                $str=strtr($scriptFileName,array($root=>null)); 
-                $rs= strtr($uri,array($str=>null));
+                $uri=dirname($_SERVER['REQUEST_URI']);//echo $uri,'<br>';
+                $root=$_SERVER['DOCUMENT_ROOT'];//echo $root,'<br>';
+                $scriptFileName=dirname($_SERVER['SCRIPT_FILENAME']);//echo 'scrii',$scriptFileName,'<br>';
+                $str=strtr($scriptFileName,array($root=>null));//echo $str,'<br>'; 
+                $rs= strtr($uri,array($str=>null));//exit;
                 return  strtr($rs,array('/'=>'\\'));
             }    
-        }
-        
+        } */
+        return null;
     }
 
     public static function partial($var)

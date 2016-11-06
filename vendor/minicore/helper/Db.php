@@ -11,58 +11,62 @@ use minicore\traits\SingleInstance;
 class Db extends Helper
 {
 
-    private static $sqlLast;
+    private  $sqlLast;
 
-    private static $pdo;
+    private  $pdo;
 
-    private static $db;
+    private  $db;
 
-    private static $table;
+    private  $table;
 
-    private static $dsn;
+    private  $dsn;
 
-    private static $config;
+    private  $config;
 
-    private static $statement;
+    private  $statement;
 
-    private static $fields;
+    private  $fields;
 
-    private static $host;
-    public  static $user;
-    public static  $pwd;
+    private  $host='localhost';
+    public   $user;
+    public   $pwd;
     
      
     
-    private static $type='mysql';
+    private  $type='mysql';
     use SingleInstance;
     
+    private function __construct()
+    {
+        echo 'sofparent';
+    }
     public static function db($dbname)
     {
-        self::$db = $dbname;
+        self::$instance->db = $dbname;
         return self::Instance();
     }
 
     public  function table($table)
     {
-        self::$table = $table;
+        self::$instance->table = $table;
         return self::Instance();
     }
 
     public  function field($fields)
     {
-        self::$fields = $fields;
+        self::$instance->fields = $fields;
         return self::Instance();
     }
 
     public  function debug()
     {
-        var_dump(self::$db, self::$fields, self::$table);
+        var_dump(self::$instance->db, self::$instance->fields, self::$instance->table);
     }
 
     private static function pdoInit()
     {
-        self::$dsn = self::$type . ':' . 'database=' . self::$db . ';host=' . self::$host;
-        self::$pdo = new \PDO(self::$dsn,self::$user,self::$pass);
+        self::$instance->dsn = self::$instance->type . ':' . 'dbname=' . self::$instance->db . ';host=' . self::$instance->host; 
+        self::$instance->pdo = new \PDO(self::$instance->dsn,self::$instance->user,self::$instance->pwd);
     }
 
     private static function creatParameters($array)
@@ -78,21 +82,21 @@ class Db extends Helper
     public static function insert($data)
     {
         try {
-            $pars = self::creatParameters($data);
+            $pars = self::creatParameters($data);var_dump($pars); 
             $fields=array_keys($data);
-            if(empty(self::$table)) {
+            if(empty(self::$instance->table)) {
                 throw new \Exception('在添加数据时，未指定表名！');
             }
             if(empty($data)) {
                 throw new \Exception('在添加数据时，未给定数据格式化的数组！');
             }
-            $sql='insert into '.self::$table.'('.implode(',', array_keys($data)).')values('.implode(',', array_keys($pars)).')';
+            $sql='INSERT INTO '.self::$instance->table.'('.implode(',', array_keys($data)).')values('.implode(',', array_keys($pars)).')';
             echo $sql;
             self::pdoInit();
-            self::$statement=self::$pdo->prepare($sql);
-            self::$statement->execute($pars);
+            self::$instance->statement=self::$instance->pdo->prepare($sql);
+            self::$instance->statement->execute($pars);
             
-//             var_dump(self::$statement->errorInfo());
+            var_dump('<pre>',self::$instance->pdo->lastInsertId(),self::$instance->statement->debugDumpParams());
         }catch (\Exception $e){
             echo $e->getMessage();
         }
@@ -111,7 +115,7 @@ class Db extends Helper
     public static function exec($sql)
     {
         self::pdoInit();
-        self::$pdo->exec($sql);
+        self::$instance->pdo->exec($sql);
     }
 }
 

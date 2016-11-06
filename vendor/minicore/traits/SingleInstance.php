@@ -8,23 +8,23 @@ namespace minicore\traits;
 trait SingleInstance {
 
     /* 唯一实例 */
-    private static $stance;
+    private static $instance;
     /*  获得唯一实例*/
-    public static function Instance($members=NULL)
+    public static function instance($members=NULL)
     {
-        if(is_object(self::$stance)) {
-            return self::$stance;
+        if(is_object(self::$instance)) {
+            return self::$instance;
         } else {
-            self::$stance=new self($members);
+            self::$instance=new static();
             foreach ($members as $key=>$value) {
-                self::$stance->$key=$value;
+                self::$instance->$key=$value;
             }
-            return self::$stance;
+            return self::$instance;
         }
     }
-    private  function __construct($members )
+    private  function __construct()
     {
-//         echo 'obj'
+        echo 'obj';
        
     }
 }

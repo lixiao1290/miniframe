@@ -42,6 +42,7 @@ class ControllerBase extends Base
         }
          //print_r( dirname(dirname(get_called_class())));
          $this->viewPath= dirname(dirname(get_called_class()));
+         echo $this->viewPath; 
     }
     public function head()
     {
@@ -86,23 +87,26 @@ class ControllerBase extends Base
      */
     public function view($path = NULL)
     {
+        // exit;
         if (is_null($path)) {
             // print_r(dirname());
             // echo '@',__FUNCTION__;
             $baseDir = Mini::$Mini->getBaseDir();
-            $actfile= debug_backtrace()[1]['function'] ;
+            $actfile= Mini::$Mini->getAct() ;
             $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $actfile.'\\' .$actfile .'.' . Mini::$Mini->getConfig('viewSuffix');
            //var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
                 extract($this->viewVars);
-                
-                include $filename;
+                $handle = fopen($filename, "rb");
+                $contents = fread($handle, filesize($filename));
+               echo strip_tags($contents  );exit;
             }
         } else {
-            extract($this->viewVars);
+          //  Rout::partial($path);
+            /* extract($this->viewVars);
             $baseDir = Mini::$Mini->getBaseDir();
-            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $path.'.' . Mini::$Mini->getConfig('viewSuffix');
-            include $filename;
+            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $path.'.' . Mini::$Mini->getConfig('viewSuffix');echo $filename;
+            include  $filename;exit; */
         }
     }
 
