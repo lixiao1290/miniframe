@@ -36,7 +36,7 @@ class Mini extends Base implements MiniBase
      */
     public function setModule($module)
     {
-        $this->module = $module;
+         $this->module = $module;
     }
 
     /**

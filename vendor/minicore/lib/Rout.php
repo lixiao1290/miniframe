@@ -18,11 +18,10 @@ class Rout
     /* 控制器 在url参数中位置是第几个 */
     public static $controllerLevel = 0;
 
-    public static $actLevel=3;
+    public static $actLevel = 3;
+
     public function __construct(ConfigBase $config)
-    {
-        self::$controllerLevel = $config::$controllerLevel;
-    }
+    {}
 
     /* 路由键值对，键名是url，值是对应的控制器 调用闭包 */
     private static $_get = array();
@@ -47,29 +46,32 @@ class Rout
             return $this->rule[$key];
         }
     }
-    public static function initGet ($array)
+
+    public static function initGet($array)
     {
-         
-        while ($var=array_shift($array)) {
-            $_GET[$var]=array_shift($array);
+        while ($var = array_shift($array)) {
+            $_GET[$var] = array_shift($array);
         }
-         
     }
 
+    /**
+     * 生成控制方法arr。.
+     * @param unknown $url
+     * @throws \ErrorException
+     * @return string[]|mixed[]|string[]|mixed[]|\minicore\lib\the[]
+     */
     public static function generatController($url)
     {
-         
         if (is_null(self::$controllerLevel)) {
             throw new \ErrorException('未设置控制器层级！');
         } else {
             if (2 == self::$actLevel) {
                 $pars = explode('\\', $url);
-                $pars = array_filter($pars); 
+                $pars = array_filter($pars);
                 $actArr = array_splice($pars, 0, self::$actLevel);
                 self::initGet($pars);
-                $act=array_pop($actArr); 
-                $controller='controllers\\'.array_pop($actArr);
-                
+                $act = array_pop($actArr);
+                $controller = 'controllers\\' . array_pop($actArr);
                 
                 return array(
                     'controller' => $controller,
@@ -77,40 +79,53 @@ class Rout
                 );
             } else {
                 $pars = explode('\\', $url);
-                $pars = array_filter($pars); 
+                $pars = array_filter($pars);
                 $actArr = array_splice($pars, 0, self::$actLevel);
-                $act=array_pop($actArr); 
-                $controllerend='controllers\\'.array_pop($actArr);
-                Mini::$Mini->setModule(implode('\\', $actArr));
-                $controller=Mini::$Mini->getModule().'\\'.$controllerend;
-                $rout=array(
-                    'controller' => $controller,
-                    'act' => $act
-                );
-                if ($rout['act']=='') {
-                
-                    $rout['act'] = Mini::$Mini->getConfig('defaultAct');
+                $act = array_pop($actArr);
+                $controller = array_pop($actArr);
+                if (empty($controllerId)) {
+                    $controllerId = Mini::$Mini->getConfig('defaultController');
                 }
-                if($rout['controller']=='\\controllers\\') {
-                    $rout['controller']=   Mini::$Mini->getConfig('defaultController');
-                    if(Mini::$Mini->getConfig('defaultModule'))    {
-                        $rout['controller']=Mini::$Mini->getConfig('defaultModule').'\\'.$rout['controller'];
-                    }
+                
+                Mini::$Mini->setModule(implode('\\', $actArr));
+                if (! Mini::$Mini->getModule()) {
+                    Mini::$Mini->setModule(Mini::$Mini->getConfig('defaultModule'));
+                } else {}
+                $controller = $controller;
+                $rout = array(
+                    'controller' => $controller,
+                    'act' => $act,
+                    'module' => Mini::$Mini->getModule()
+                );
+                if ($rout['act'] == '') {
+                    
+                    $rout['act'] = Mini::$Mini->getConfig('defaultAct');
                 }
                 
                 return $rout;
-                
             }
         }
     }
 
+    /**
+     * 运行程序撒......
+     */
     public static function run()
     {
         if (1 == Mini::$Mini->getConfig('routType')) {
-            $path =self::analyzeUrl() ; 
-            $rout = Rout::generatController($path); 
+            // if($config=Mini::$Mini->getConfig('layout')) {
+            // foreach ($config as $row) {
+            // self::partial($row);
+            // }
+            // }
+            $path = self::analyzeUrl(); // echo $path;
+            $rout = Rout::generatController($path);
+            if ($rout['module']) {
+                $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['module'] . '\\controllers\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
+            } else {
+                $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
+            }
             
-            $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix'); 
             Mini::$Mini->setController($Controller);
             Mini::$Mini->setAct(Mini::$Mini->getConfig('actPrefix') . $rout['act'] . Mini::$Mini->getConfig('actSuffix'));
             if (class_exists($Controller)) {
@@ -125,27 +140,64 @@ class Rout
             }
         }
     }
-    public static function  analyzeUrl($url=null)
-    {
 
-        /* if(1==Mini::$Mini->getConfig('urlMode')) {
-            if(isset($_SERVER['PATH_INFO'])) {
-                return strtr($_SERVER['PATH_INFO'],array('/'=>'\\'));
-            } else {
-                $uri=dirname($_SERVER['REQUEST_URI']);//echo $uri,'<br>';
-                $root=$_SERVER['DOCUMENT_ROOT'];//echo $root,'<br>';
-                $scriptFileName=dirname($_SERVER['SCRIPT_FILENAME']);//echo 'scrii',$scriptFileName,'<br>';
-                $str=strtr($scriptFileName,array($root=>null));//echo $str,'<br>'; 
-                $rs= strtr($uri,array($str=>null));//exit;
-                return  strtr($rs,array('/'=>'\\'));
-            }    
-        } */
-        return null;
+    public static function analyzeUrl($url = null)
+    {
+        if (empty($url)) {
+            
+            if (1 == Mini::$Mini->getConfig('urlMode')) {
+                if (isset($_SERVER['PATH_INFO'])) {
+                    return strtr($_SERVER['PATH_INFO'], array(
+                        '/' => '\\'
+                    ));
+                } else {
+                    $uri = $_SERVER['REQUEST_URI']; // echo $uri,'<br>';
+                    $root = $_SERVER['DOCUMENT_ROOT']; // echo $root,'<br>';
+                    $scriptFileName = dirname($_SERVER['SCRIPT_FILENAME']); // echo 'scrii',$scriptFileName,'<br>';
+                    $str = strtr($scriptFileName, array(
+                        $root => null
+                    )); // echo $str,'<br>';
+                    $rs = strtr($uri, array(
+                        $str => null
+                    )); // exit;
+                    return strtr($rs, array(
+                        '/' => '\\',
+                        'index.php' => ''
+                    ));
+                }
+            }
+        } else {
+            return strtr($url, array(
+                '/' => '\\'
+            ));
+        }
     }
 
-    public static function partial($var)
+    public static function partial($path)
     {
-        $rout=self::generatController($var);
+        $path = self::analyzeUrl($path);
+        $rout = self::generatController($path);
+        if ($rout['module']) {
+            $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['module'] . '\\controllers\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
+        } else {
+            $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
+        }
+        if (class_exists($Controller)) {
+            $ControllerObj = call_user_func(array(
+                $Controller,
+                '__CONSTRUCT'
+            ));
+            call_user_func(array(
+                $ControllerObj,
+                $rout['act']
+            ));
+        } else {
+            echo (' ');
+        }
+    }
+
+    public static function callAct($rout)
+    {
         
     }
 }

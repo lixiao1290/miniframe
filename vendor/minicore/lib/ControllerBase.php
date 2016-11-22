@@ -42,7 +42,7 @@ class ControllerBase extends Base
         }
          //print_r( dirname(dirname(get_called_class())));
          $this->viewPath= dirname(dirname(get_called_class()));
-         echo $this->viewPath; 
+//          echo $this->viewPath; 
     }
     public function head()
     {
@@ -77,7 +77,7 @@ class ControllerBase extends Base
      */
     public function assign($key, $value)
     {
-        $this->viewVars[$key] = $value;
+        $this->viewVars[$key] = $value; 
     }
 
     /**
@@ -92,24 +92,26 @@ class ControllerBase extends Base
             // print_r(dirname());
             // echo '@',__FUNCTION__;
             $baseDir = Mini::$Mini->getBaseDir();
-            $actfile= Mini::$Mini->getAct() ;
-            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $actfile.'\\' .$actfile .'.' . Mini::$Mini->getConfig('viewSuffix');
-           //var_dump('<pre>',debug_backtrace());
+            $actfile= debug_backtrace()[1]['function'] ;
+            $actdir= strrchr(debug_backtrace()[1]['class'], '\\') ;
+            $actdir=strtr($actdir, array('\\'=>'','Controller'=>''));
+            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' .strtolower($actdir).'\\' .strtolower($actfile )
+            .'.' . Mini::$Mini->getConfig('viewSuffix');
+         // var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
                 extract($this->viewVars);
-                $handle = fopen($filename, "rb");
-                $contents = fread($handle, filesize($filename));
-               echo strip_tags($contents  );exit;
+                 
+                  include  $filename;
+               
             }
-        } else {
-          //  Rout::partial($path);
-            /* extract($this->viewVars);
-            $baseDir = Mini::$Mini->getBaseDir();
-            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' . $path.'.' . Mini::$Mini->getConfig('viewSuffix');echo $filename;
-            include  $filename;exit; */
+        }  
+    }
+    public function beforeView()
+    {
+        if($layout=Mini::$Mini->getConfig('layout')) {
+            
         }
     }
-
     /**
      * @param unknown $js注册当前页面js文件
      */

@@ -33,9 +33,10 @@ return array(
     'routAct'=>'run',
     'actSuffix'=>'',
     'actPrefix'=>'',
-    'defaultController'=>'controllers\index',
+    'defaultController'=>'index',
     'defaultAct'=>'index',
     'urlMode'=>1,
-    'defaultModule'=>'main'
+    'defaultModule'=>'main',
+    'layout'=>array('layout/left'),
 )
 ;
