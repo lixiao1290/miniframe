@@ -97,6 +97,9 @@ class Rout
                     'act' => $act,
                     'module' => Mini::$Mini->getModule()
                 );
+                if(''==$rout['controller']) {
+                    $rout['controller']=Mini::$Mini->getConfig('defaultController');
+                }
                 if ($rout['act'] == '') {
                     
                     $rout['act'] = Mini::$Mini->getConfig('defaultAct');
@@ -119,13 +122,13 @@ class Rout
             // }
             // }
             $path = self::analyzeUrl(); // echo $path;
-            $rout = Rout::generatController($path);
+            $rout = Rout::generatController($path); 
             if ($rout['module']) {
                 $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['module'] . '\\controllers\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
             } else {
                 $Controller = Mini::$Mini->getConfig('appNamespace') . '\\' . $rout['controller'] . Mini::$Mini->getConfig('ControllerSuffix');
             }
-            
+             
             Mini::$Mini->setController($Controller);
             Mini::$Mini->setAct(Mini::$Mini->getConfig('actPrefix') . $rout['act'] . Mini::$Mini->getConfig('actSuffix'));
             if (class_exists($Controller)) {

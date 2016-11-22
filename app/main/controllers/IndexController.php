@@ -26,8 +26,10 @@ class IndexController extends ControllerBase
         $dsn = 'mysql:dbname=mini;host=localhost';
         
         $pdo=new \PDO($dsn,'root','root');
-        $stat=$pdo->prepare('insert into sys_users(username,hobby)values(:username,:hobby)');
+      /*   $stat=$pdo->prepare('insert into sys_users(username,hobby)values(:username,:hobby)');
         $stat->execute($data);
+       */ 
+        
         //var_dump($stat->debugDumpParams());
         $this->assign('suc', 'success!');
         $this->assign('list', ['张武','李宵','齐名浩','徐瑶瑶','张彪','王世超','']);
