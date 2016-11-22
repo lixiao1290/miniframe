@@ -29,7 +29,7 @@ class IndexController extends ControllerBase
       /*   $stat=$pdo->prepare('insert into sys_users(username,hobby)values(:username,:hobby)');
         $stat->execute($data);
        */ 
-        
+        var_dump('<pre>',Db::instance());
         //var_dump($stat->debugDumpParams());
         $this->assign('suc', 'success!');
         $this->assign('list', ['张武','李宵','齐名浩','徐瑶瑶','张彪','王世超','']);

@@ -215,6 +215,8 @@ class Mini extends Base implements MiniBase
         $this->setAppPath($appPath);
         $viewPath=$appPath.'\\'.'view';
         $this->setViewPath($viewPath);
+         Db::instance(array('host'=>'localhost','user'=>'root','pwd'=>'root'));
+         
        /*  Container::register('Mini', function () use ($config) {
             $mini=new Mini();
             if (empty($config)) {
