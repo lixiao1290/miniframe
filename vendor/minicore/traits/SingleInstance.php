@@ -29,7 +29,7 @@ trait SingleInstance {
     }
     private  function __construct()
     {
-       
+      //  echo __FILE__;
     }
 }
 

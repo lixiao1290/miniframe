@@ -91,8 +91,8 @@ class ControllerBase extends Base
         if (is_null($path)) {
             // print_r(dirname());
             // echo '@',__FUNCTION__;
-            $baseDir = Mini::$Mini->getBaseDir();
-            $actfile= debug_backtrace()[1]['function'] ;
+            $baseDir = Mini::$Mini->getBaseDir(); //var_dump('<pre>',debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,2));exit;
+            $actfile= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,2)[1]['function'] ;
             $actdir= strrchr(debug_backtrace()[1]['class'], '\\') ;
             $actdir=strtr($actdir, array('\\'=>'','Controller'=>''));
             $filename = $baseDir . '\\' . $this->viewPath . '\view\\' .strtolower($actdir).'\\' .strtolower($actfile )
