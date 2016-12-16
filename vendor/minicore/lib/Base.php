@@ -62,14 +62,10 @@ abstract class Base implements \Iterator
 
     public function getClassFile()
     {
-        static::staticFile();
+        $class=new \ReflectionClass(get_called_class());
+        return $class->getFileName();
     }
 
-    public static function staticFile()
-    {
-        return '.q' . __FILE__;
-        echo '34342';
-    }
     public function obj($members)
     {
         self::$instance=new static();

@@ -33,10 +33,13 @@ class IndexController extends ControllerBase
        // var_dump('<pre>',Db::instance());
         //var_dump($stat->debugDumpParams());
         
-        $a=range('a', 'n');
-        $b=range('o','z');
-        $c=array_merge($a,$b);
-        var_dump('<pre>',$c);
+        Db::database('mini')->table('sys_user')->where(array('id','=',2))->getWherePar();
+        
+        
+//         $a=range('a', 'n');
+//         $b=range('o','z');
+//         $c=array_merge($a,$b);
+//         var_dump('<pre>',$c);
         
         
         

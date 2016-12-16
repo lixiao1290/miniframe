@@ -2,7 +2,7 @@
 namespace minicore\helper;
 
 use minicore\traits\SingleInstance;
-
+use minicore\traits\ObjInit;
 /**
  *
  * @author lixiao
@@ -35,7 +35,7 @@ class Db extends Helper
 
     private $lastInsertId;
     private $wherepars;
-
+    
     /* array( array('字段','=','值') ,) */
     public $host = 'localhost';
 
@@ -46,20 +46,19 @@ class Db extends Helper
     public $self;
 
     private $type = 'mysql';
-    use SingleInstance;
+     
 
-    public static function db($dbname)
+    public static function database($dbname)
     {
-        return self::instance(array(
-            'db' => $dbname
-        ));
+        $instance=new self();
+        $instance->db=$dbname;
+        return $instance;
     }
 
-    public static function table($table)
+    public  function table($table)
     {
-        return self::instance(array(
-            'table' => $table
-        ));
+        $this->table=$table;
+        return $this;
     }
 
     public function field($fields)
@@ -70,16 +69,16 @@ class Db extends Helper
 
     public function debug()
     {
-        var_dump(self::$instance->db, self::$instance->fields, self::$instance->table);
+        var_dump($this->db, $this->fields, $this->table);
     }
-
+    
     private function pdoInit()
     {
         try {
             if (is_object($this->pdo)) {
                 return $this->pdop;
             } else {
-                $this->dsn = self::$instance->type . ':' . 'dbname=' . self::$instance->db . ';host=' . self::$instance->host;
+                $this->dsn = $this->type . ':' . 'dbname=' . $this->db . ';host=' . $this->host;
                 $this->pdo = new \PDO($this->dsn, $this->user, $this->pwd);
                 return $this->pdo;
             }
@@ -104,19 +103,19 @@ class Db extends Helper
             $pars = $this->creatParameters($data);
             // var_dump($pars);
             $fields = array_keys($data);
-            if (empty(self::$instance->table)) {
+            if (empty($this->table)) {
                 throw new \Exception('在添加数据时，未指定表名！');
             }
             if (empty($data)) {
                 throw new \Exception('在添加数据时，未给定数据格式化的数组！');
             }
-            $sql = 'INSERT INTO ' . self::$instance->table . '(' . implode(',', array_keys($data)) . ')values(' . implode(',', array_keys($pars)) . ')';
+            $sql = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($data)) . ')values(' . implode(',', array_keys($pars)) . ')';
             // echo $sql;
             $pdo = self::pdoInit();
             $statement = $pdo->prepare($sql);
             $statement->execute($pars);
             $this->lastInsertId = $pdo->lastInsertId();
-            var_dump('<pre>', self::$instance->pdo->lastInsertId(), self::$instance->statement->debugDumpParams());
+            var_dump('<pre>', $this->pdo->lastInsertId(), $this->statement->debugDumpParams());
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
@@ -128,14 +127,14 @@ class Db extends Helper
     public function update()
     {}
 
-    public function select($feilds)
+    public function select($feilds='*')
     {
         try {
             
-            $sql = 'SELECT ' . $feilds . ' from ' . $this->table;
+            $this->sql = 'SELECT ' . $feilds .' from ' . $this->table.' where '.$this->where; 
             $pdo = $this->pdoInit();
             $statement = $pdo->prepare($sql);
-            $statement->execute();
+            $statement->execute($this->wherepars?$this->wherepars:null);
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
             return $result;
         } catch (\PDOException $e) {
@@ -143,14 +142,14 @@ class Db extends Helper
         }
     }
 
-    public static function exec($sql, $pars)
+    public  function exec($sql, $pars)
     {
         self::pdoInit();
         $this->statement = $this->pdo->prepare($sql);
         $this->statement->execute($pars);
     }
 
-    public static function where(array $where)
+    public  function where(array $where)
     {
         try {
             if(empty($where[0]))    {
@@ -163,12 +162,26 @@ class Db extends Helper
                 throw new \Exception('where条件字段的值未给出');
             } else {
                 
-                $this->where.=' '.$where[0].' '.$where[1].' '.$where[2];
+                $this->where.=' '.$where[0].' '.$where[1].' :'.$where[0];
                 $this->wherepars[':'.$where[0]]=$where[2];
             }
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+        return $this;
     }
+    public function getWherePar()
+    {
+        var_dump( $this->wherepars);
+    }
+    
+    public function execute()
+    {
+        $pdo=$this->pdoInit();
+        $statement= $pdo->prepare($this->sql);
+        return $statement->execute();
+        
+    }
+    
 }
 

@@ -9,17 +9,22 @@ class ControllerBase extends Base
     private $js;
 
     private $viewVars;
+
     private $pageFunc;
-    private $viewPath; 
+
+    private $viewPath;
+
     /**
+     *
      * @return the $css
      */
     public function getCss()
     {
         return $this->css;
     }
-    
+
     /**
+     *
      * @return the $js
      */
     public function getJs()
@@ -28,6 +33,7 @@ class ControllerBase extends Base
     }
 
     /**
+     *
      * @return the $viewVars
      */
     public function getViewVars()
@@ -35,54 +41,54 @@ class ControllerBase extends Base
         return $this->viewVars;
     }
 
-    public function __construct() 
+    public function __construct()
     {
-        if(method_exists(get_called_class(), 'initial')) {
-           $this->initial();
+        if (method_exists(get_called_class(), 'initial')) {
+            $this->initial();
         }
-         //print_r( dirname(dirname(get_called_class())));
-         $this->viewPath= dirname(dirname(get_called_class()));
-//          echo $this->viewPath; 
+        $path = dirname(dirname($this->getClassFile())) . '\views';
+        $this->viewPath = $path;
+        // echo $this->viewPath;
     }
+
     public function head()
     {
-        while (list($key,$value)=each($this->css)) {
-            echo '<!-----',$key,'----->
-',
-            '<link rel="stylesheet" href=" ',$value,'"/>
+        while (list ($key, $value) = each($this->css)) {
+            echo '<!-----', $key, '----->
+', '<link rel="stylesheet" href=" ', $value, '"/>
                 ';
-             
-            
         }
     }
+
     public function body()
     {
-         while (list($key,$value)=each($this->js)) {
-            echo '<!-----',$key,'----->
-',
-            '<script type="application/javascript" src="',$value,'"></script>
+        while (list ($key, $value) = each($this->js)) {
+            echo '<!-----', $key, '----->
+', '<script type="application/javascript" src="', $value, '"></script>
                 ';
-    
-         }
+        }
     }
-    public function includeFile($path=null)
+
+    public function includeFile($path = null)
     {
-        $file=Mini::$Mini->getViewPath().'//'.$path;
+        $file = Mini::$Mini->getViewPath() . '//' . $path;
         include $file;
     }
+
     /**
      * 绑定变量
-     * @param unknown $key
-     * @param unknown $value
+     * 
+     * @param unknown $key            
+     * @param unknown $value            
      */
     public function assign($key, $value)
     {
-        $this->viewVars[$key] = $value; 
+        $this->viewVars[$key] = $value;
     }
 
     /**
      * 调用视图文件直接显示
-     * 
+     *
      * @param unknown $path            
      */
     public function view($path = NULL)
@@ -91,29 +97,30 @@ class ControllerBase extends Base
         if (is_null($path)) {
             // print_r(dirname());
             // echo '@',__FUNCTION__;
-            $baseDir = Mini::$Mini->getBaseDir(); //var_dump('<pre>',debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,2));exit;
-            $actfile= debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,2)[1]['function'] ;
-            $actdir= strrchr(debug_backtrace()[1]['class'], '\\') ;
-            $actdir=strtr($actdir, array('\\'=>'','Controller'=>''));
-            $filename = $baseDir . '\\' . $this->viewPath . '\view\\' .strtolower($actdir).'\\' .strtolower($actfile )
-            .'.' . Mini::$Mini->getConfig('viewSuffix');
-         // var_dump('<pre>',debug_backtrace());
+            $actfile = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1]['function'];
+            $actdir = strrchr(debug_backtrace()[1]['class'], '\\');
+            $actdir = strtr($actdir, array(
+                '\\' => '',
+                'Controller' => ''
+            ));
+            $filename = $this->viewPath . '\\' . strtolower($actdir) . '\\' . strtolower($actfile) . '.' . Mini::$Mini->getConfig('viewSuffix');
+            // var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
                 extract($this->viewVars);
-                 
-                  include  $filename;
-               
+                
+                include $filename;
             }
-        }  
-    }
-    public function beforeView()
-    {
-        if($layout=Mini::$Mini->getConfig('layout')) {
-            
         }
     }
+
+    public function beforeView()
+    {
+        if ($layout = Mini::$Mini->getConfig('layout')) {}
+    }
+
     /**
-     * @param unknown $js注册当前页面js文件
+     *
+     * @param unknown $js注册当前页面js文件            
      */
     public function registerJs($js)
     {
@@ -127,7 +134,8 @@ class ControllerBase extends Base
     }
 
     /**
-     * @param unknown $cs注册当前页面css
+     *
+     * @param unknown $cs注册当前页面css            
      */
     public function registerCss($cs)
     {
@@ -139,11 +147,11 @@ class ControllerBase extends Base
             $this->css[key($cs)] = $cs;
         }
     }
-    
-    public static function  widget($widget)
+
+    public static function widget($widget)
     {
         $path = Mini::$Mini->getConfig('controllerNamespace');
-        $widgetObj=new dirname($path) . '\widget\\' .$widget();
+        $widgetObj = new dirname($path) . '\widget\\' . $widget();
         $widgetObj->run();
     }
 }
