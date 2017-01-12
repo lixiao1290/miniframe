@@ -1,11 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\view\page;
-use minicore\config\ConfigBase;
-use minicore\model\Model;
 use minicore\lib\ControllerBase;
-use minicore\lib\Mini;
 
 class IndexController extends ControllerBase
 {

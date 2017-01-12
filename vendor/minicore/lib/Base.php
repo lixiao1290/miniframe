@@ -70,6 +70,7 @@ abstract class Base implements \Iterator
     {
         self::$instance=new static();
         foreach ($members as $key=>$value) {
+        	if(property_exists(get_called_class(), $key))
             self::$instance->$key=$value;
         }
         return self::$instance;
