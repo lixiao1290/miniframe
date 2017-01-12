@@ -62,7 +62,7 @@ abstract class Base implements \Iterator
 
     public function getClassFile()
     {
-        $class=new \ReflectionClass(get_called_class());
+        $class=new \ReflectionClass(static::class);
         return $class->getFileName();
     }
 
@@ -76,6 +76,9 @@ abstract class Base implements \Iterator
         return self::$instance;
     }
     
-    
+    public function PropFuncExist($name)
+    {
+    	return property_exists(static::class, $name)||method_exists(static::class, $name);
+    }
 }
 
