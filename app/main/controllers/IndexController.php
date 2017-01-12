@@ -14,12 +14,12 @@ class IndexController extends ControllerBase
     }
     public  function index()
     {
-         var_dump($_GET);
+         var_dump($_REQUEST);
         $data=['username'=>'lixiao','hobby'=>'music,wine'];
         //$db=Db::instance(array('user'=>'root','pwd'=>'root'))->db('mini');
-        $t=file_get_contents('F:\num.txt');
+        $t=file_get_contents('F:/num.txt');
         $t++;
-        file_put_contents('F:\num.txt', $t);
+        file_put_contents('F:/num.txt', $t);
         
         
        // $db=Db::instance(array('user'=>'root','pwd'=>'root'))->db('mini')->field(array('username','email'))->table('sys_users')->insert($data);
