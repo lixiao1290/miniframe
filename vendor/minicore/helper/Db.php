@@ -131,7 +131,7 @@ class Db extends Helper
             $statement->execute($pars);
             $this->lastInsertId = $pdo->lastInsertId();
             //var_dump('<pre>', $this->pdo->lastInsertId(), $this->statement->debugDumpParams());
-            if('00000'!=$statement->errorCode()) {
+            if(\PDO::ERR_NONE!=$statement->errorCode()) {
 	            return $this->pdo->lastInsertId();
             } else {
             	var_dump($statement->debugDumpParams());
