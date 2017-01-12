@@ -178,7 +178,7 @@ class Mini extends Base implements MiniBase
     public function run()
     {
         if (1 == $this->config['executeMode']) {
-            Rout::run();
+            RequestServer::run();
             /* call_user_func(array(
                 $this->getConfig('routClass'),
                 $this->getConfig('routAct')

@@ -75,6 +75,14 @@ abstract class Base implements \Iterator
         }
         return self::$instance;
     }
+    public static function objStatic($members)
+    {
+        foreach ($members as $key=>$value) {
+        	if(property_exists(get_called_class(), $key))
+            static::$$key=$value;
+        }
+        
+    }
     
     public function PropFuncExist($name)
     {

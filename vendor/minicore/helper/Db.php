@@ -172,7 +172,7 @@ class Db extends Helper
     }
     public function getWherePar()
     {
-        var_dump( $this->wherepars);
+        //var_dump( $this->wherepars);
     }
     
     public function execute()

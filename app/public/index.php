@@ -2,8 +2,9 @@
 use minicore\lib\Mini;
  
 require '../../vendor/autoload.php';
-
-(new Mini())->run();
+ 
+$config=require dirname(dirname(__FILE__)).'/config/Config.php';
+(new Mini($config))->run();
 
 
 

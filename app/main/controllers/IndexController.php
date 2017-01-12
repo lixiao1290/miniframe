@@ -14,7 +14,7 @@ class IndexController extends ControllerBase
     }
     public  function index()
     {
-         
+         var_dump($_GET);
         $data=['username'=>'lixiao','hobby'=>'music,wine'];
         //$db=Db::instance(array('user'=>'root','pwd'=>'root'))->db('mini');
         $t=file_get_contents('F:\num.txt');
@@ -45,7 +45,7 @@ class IndexController extends ControllerBase
         
         
         $this->assign('suc', 'success!');
-        $this->assign('list', ['张武','李宵','齐名浩','徐瑶瑶','张彪','王世超','']);
+        $this->assign('list', ['张武','李宵','徐瑶瑶','张彪','王世超','']);
         $this->registerJs(array('a','b','c'));
         $this->registerCss(array('d',));
           
