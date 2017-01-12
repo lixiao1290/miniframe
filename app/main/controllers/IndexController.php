@@ -14,7 +14,7 @@ class IndexController extends ControllerBase
     }
     public  function index()
     {
-         var_dump($_REQUEST);
+        // var_dump($_REQUEST);
         $data=['username'=>'lixiao','hobby'=>'music,wine'];
         //$db=Db::instance(array('user'=>'root','pwd'=>'root'))->db('mini');
         $t=file_get_contents('F:/num.txt');

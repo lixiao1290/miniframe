@@ -36,6 +36,7 @@ class Db extends Helper
     private $lastInsertId;
     private $wherepars;
     
+    public $fetchstyle=\PDO::FETCH_ASSOC;
     /* array( array('字段','=','值') ,) */
     public $host = 'localhost';
 
@@ -47,7 +48,7 @@ class Db extends Helper
 
     private $type = 'mysql';
      
-
+	
     public static function database($dbname)
     {
         $instance=new self();
@@ -71,7 +72,21 @@ class Db extends Helper
     {
         var_dump($this->db, $this->fields, $this->table);
     }
-    
+    public function asObj() 
+    {
+    	$this->fetchstyle=\PDO::FETCH_OBJ;
+    	return $this;
+    }
+    public function asClass() 
+    {
+    	$this->fetchstyle=\PDO::FETCH_CLASS;
+    	return $this;
+    }
+    public function asAsosoc()
+    {
+    	$this->fetchstyle=\PDO::FETCH_ASSOC;
+    	return $this;
+    }
     private function pdoInit()
     {
         try {
@@ -115,7 +130,12 @@ class Db extends Helper
             $statement = $pdo->prepare($sql);
             $statement->execute($pars);
             $this->lastInsertId = $pdo->lastInsertId();
-            var_dump('<pre>', $this->pdo->lastInsertId(), $this->statement->debugDumpParams());
+            //var_dump('<pre>', $this->pdo->lastInsertId(), $this->statement->debugDumpParams());
+            if('00000'!=$statement->errorCode()) {
+	            return $this->pdo->lastInsertId();
+            } else {
+            	var_dump($statement->debugDumpParams());
+            }
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
@@ -135,7 +155,7 @@ class Db extends Helper
             $pdo = $this->pdoInit();
             $statement = $pdo->prepare($sql);
             $statement->execute($this->wherepars?$this->wherepars:null);
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetchAll($this->fetchstyle);
             return $result;
         } catch (\PDOException $e) {
             echo $e->errorInfo;
@@ -165,8 +185,13 @@ class Db extends Helper
                 $this->where.=' '.$where[0].' '.$where[1].' :'.$where[0];
                 $this->wherepars[':'.$where[0]]=$where[2];
             }
+            return $this;
         } catch (Exception $e) {
             echo $e->getMessage();
+            exit;
+        } catch (\PDOException $e) {
+        	echo $e->getMessage();
+        	exit;
         }
         return $this;
     }
@@ -178,7 +203,7 @@ class Db extends Helper
     public function execute()
     {
         $pdo=$this->pdoInit();
-        $statement= $pdo->prepare($this->sql);
+        $statement= $pdo->prepare($this->sql);$statement->errorInfo();
         return $statement->execute();
         
     }
