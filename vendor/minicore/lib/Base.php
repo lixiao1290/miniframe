@@ -70,7 +70,6 @@ abstract class Base implements \Iterator
     {
          
         foreach ($members as $key=>$value) {
-        	echo get_called_class();
         	if(property_exists(get_called_class(), $key))
             $this->$key=$value;
         }

@@ -33,7 +33,6 @@ class IndexController extends ControllerBase
         //var_dump($stat->debugDumpParams());
         
         $db=Db::database('mini')->table('sys_user')->where(array('id','=',2));
-        var_dump($db);
         
 //         $a=range('a', 'n');
 //         $b=range('o','z');
