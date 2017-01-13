@@ -33,8 +33,8 @@ class IndexController extends ControllerBase
        // var_dump('<pre>',Db::instance());
         //var_dump($stat->debugDumpParams());
         
-        Db::database('mini')->table('sys_user')->where(array('id','=',2))->getWherePar();
-        
+        $db=Db::database('mini')->table('sys_user')->where(array('id','=',2));
+        var_dump($db);
         
 //         $a=range('a', 'n');
 //         $b=range('o','z');
@@ -44,8 +44,8 @@ class IndexController extends ControllerBase
         
         
         
-        $this->assign('suc', 'success!');
-        $this->assign('list', ['张武','李宵','徐瑶瑶','张彪','王世超','']);
+         
+        $this->assign('list', ['张武','李宵','徐瑶瑶','张彪','王世超']);
         $this->registerJs(array('a','b','c'));
         $this->registerCss(array('d',));
           

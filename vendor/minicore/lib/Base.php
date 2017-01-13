@@ -4,7 +4,7 @@ namespace minicore\lib;
 abstract class Base implements \Iterator
 {
 
-    private $instance;
+    public static $obj;
     /**
      *
      * {@inheritdoc}
@@ -68,12 +68,12 @@ abstract class Base implements \Iterator
 
     public function obj($members)
     {
-        self::$instance=new static();
+         
         foreach ($members as $key=>$value) {
+        	echo get_called_class();
         	if(property_exists(get_called_class(), $key))
-            self::$instance->$key=$value;
+            $this->$key=$value;
         }
-        return self::$instance;
     }
     public static function objStatic($members)
     {
