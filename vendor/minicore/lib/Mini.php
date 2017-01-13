@@ -22,7 +22,7 @@ class Mini extends Base implements MiniBase
 
     private $controllerStance;
     private $viewPath;
-    private    $module;
+    private $module;
     /**
      * @return the $module
      */
