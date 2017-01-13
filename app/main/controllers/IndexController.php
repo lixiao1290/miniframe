@@ -26,7 +26,6 @@ class IndexController extends ControllerBase
         $dsn = 'mysql:dbname=mini;host=localhost';
          // var_dump('<pre>',Db::db('mini')->table('sys_user')->select('*'));
         //var_dump('<pre>',Db::instance());
-        $pdo=new \PDO($dsn,'root','root');
       /*   $stat=$pdo->prepare('insert into sys_users(username,hobby)values(:username,:hobby)');
         $stat->execute($data);
        */ 
