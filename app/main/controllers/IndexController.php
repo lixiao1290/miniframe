@@ -21,7 +21,7 @@ class IndexController extends ControllerBase
         file_put_contents('F:/num.txt', $t);
         $dsn = 'mysql:dbname=mini;host=localhost';
         $db=Db::database('mini')->table('sys_user')->where(array('id','=',7))->asObj()->select();
-        Db::database('mini')->getPdo()->beginTransaction();
+       // Db::database('mini')->getPdo()->beginTransaction();
         var_dump($db);
         $this->assign('list', ['张武','李宵','徐瑶瑶','张彪','王世超']);
         $this->registerJs(array('a','b','c'));

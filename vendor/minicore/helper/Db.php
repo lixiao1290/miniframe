@@ -73,14 +73,14 @@ class Db extends Helper
 
     public static function database($db)
     {
-        var_dump(Mini::$app->getConfig(),static::class);exit;
         $static = new static();
         if (is_array($db)) {
             $static->miniObj($db);
         } else {
-            if (Mini::$app->getConfig('db')) {
+            $static->miniObj();
+            /* if (Mini::$app->getConfig('db')) {
                 $static->miniObj(Mini::$app->getConfig('db'));
-            }
+            } */
         }
         $static->db = $db;
         return $static;

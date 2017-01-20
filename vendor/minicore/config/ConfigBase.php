@@ -6,8 +6,10 @@ use minicore\lib\Base;
 class ConfigBase extends Base
 {
 
-    private static  $config=array();
+    private static $config = array();
+
     /**
+     *
      * @return the $config
      */
     public static function getConfig()
@@ -16,7 +18,8 @@ class ConfigBase extends Base
     }
 
     /**
-     * @param multitype: $config
+     *
+     * @param multitype: $config            
      */
     public static function setConfig($config)
     {
@@ -25,7 +28,7 @@ class ConfigBase extends Base
 
     public function __construct()
     {}
-/* 
+
     public static $dbHost = 'localhost';
 
     public static $dbUsr = 'root';
@@ -46,11 +49,11 @@ class ConfigBase extends Base
 
     public static $controllerLevel = 0;
 
-    public static $controllerNamespace='app\controllers';
+    public static $controllerNamespace = 'app\controllers';
     
     // 框架核心初始化模式，1不使用closurequeue，2使用。
     public static $executeMode = 1;
     // 路由类型，1默认，2注册
-    public static $routType=1;
- */}
+    public static $routType = 1;
+}
 

@@ -157,7 +157,7 @@ class Mini extends Base implements MiniBase
     /* 导入单例模式trait */
     function __clone()
     {
-        echo '不可克隆';
+         
     }
 
     /**
@@ -175,7 +175,12 @@ class Mini extends Base implements MiniBase
         }
         
     }
-
+    public function getExtention($key=null) 
+    { 
+        if($key) {
+            return @$this->config['extentions'][$key]?:null;
+        }
+    }
     public function setConfig($key, $value)
     {
         $this->config[$key] = $value;

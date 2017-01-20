@@ -5,6 +5,7 @@ abstract class Base implements \Iterator
 {
 
     public static $obj;
+
     /**
      *
      * {@inheritdoc}
@@ -62,29 +63,34 @@ abstract class Base implements \Iterator
 
     public function getClassFile()
     {
-        $class=new \ReflectionClass(static::class);
+        $class = new \ReflectionClass(static::class);
         return $class->getFileName();
     }
 
-    public function miniObj($members)
+    public function miniObj($members=null)
     {
-        foreach ($members as $key=>$value) {
-        	if(property_exists(get_called_class(), $key))
-            $this->$key=$value;
-        }
-    }
-    public static function miniObjStatic($members)
-    {
-        foreach ($members as $key=>$value) {
-        	if(property_exists(get_called_class(), $key))
-            static::$$key=$value;
+        if (empty($members)) {
+            $members=Mini::$app->getExtention(static::class);
+        
+        } 
+        foreach ($members as $key => $value) {
+            if (property_exists(get_called_class(), $key))
+                $this->$key = $value;
         }
         
     }
-    
+
+    public static function miniObjStatic($members)
+    {
+        foreach ($members as $key => $value) {
+            if (property_exists(get_called_class(), $key))
+                static::$$key = $value;
+        }
+    }
+
     public function PropFuncExist($name)
     {
-    	return property_exists(static::class, $name)||method_exists(static::class, $name);
+        return property_exists(static::class, $name) || method_exists(static::class, $name);
     }
 }
 
