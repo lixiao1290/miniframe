@@ -1,5 +1,5 @@
 <?php
-use minicore\lib\Rout;
+use minicore\helper\Db;
 
 ?>
 
@@ -25,7 +25,7 @@ use minicore\lib\Rout;
 	<?php       ?>
 	<?php        ?>
 	<?php 
-	
+	  Db::database('mini');
 	
 	?>
 </body>

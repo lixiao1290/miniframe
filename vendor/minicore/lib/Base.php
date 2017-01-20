@@ -66,15 +66,14 @@ abstract class Base implements \Iterator
         return $class->getFileName();
     }
 
-    public function obj($members)
+    public function miniObj($members)
     {
-         
         foreach ($members as $key=>$value) {
         	if(property_exists(get_called_class(), $key))
             $this->$key=$value;
         }
     }
-    public static function objStatic($members)
+    public static function miniObjStatic($members)
     {
         foreach ($members as $key=>$value) {
         	if(property_exists(get_called_class(), $key))

@@ -104,7 +104,7 @@ class RequestServer extends Base {
 	 */
 	public static function runRout($routeArr) {
 		if (array_key_exists ( static::class, Mini::$app->getConfig ( 'extentions' ) )) {
-			 static::objStatic (Mini::$app->getConfig('extentions')[static::class]);
+			 static::miniObjStatic(Mini::$app->getConfig('extentions')[static::class]);
 		}
 // 		echo self::$urlDelimiter,'ijiji';
 		if (1 == Mini::$app->getConfig ( 'routType' )) {
@@ -118,6 +118,7 @@ class RequestServer extends Base {
 			} else {
 				$Controller = Mini::$app->getConfig ( 'appNamespace' ) . '\\' . $routeArr ['controller'] . Mini::$app->getConfig ( 'ControllerSuffix' );
 			}
+			 
 			Mini::$app->setController ( $Controller );
 			Mini::$app->setAct ( Mini::$app->getConfig ( 'actPrefix' ) . $routeArr ['act'] . Mini::$app->getConfig ( 'actSuffix' ) );
 			if (class_exists ( $Controller )) {

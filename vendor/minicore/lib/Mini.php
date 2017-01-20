@@ -6,6 +6,7 @@ use minicore\config\ConfigBase;
 use minicore\traits\SingleInstance;
 use minicore\helper\Db;
 use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
+use minicore\helper\DbContainer;
 
 class Mini extends Base implements MiniBase
 {
@@ -165,9 +166,14 @@ class Mini extends Base implements MiniBase
      *
      * @see \minicore\interfaces\MiniBase::getConfig()
      */
-    public function getConfig($key)
+    public function getConfig($key=NULL)
     {
-        return $this->config[$key]?:false;
+        if($key) {
+            return $this->config[$key]?:false;
+        } else {
+            return $this->config;
+        }
+        
     }
 
     public function setConfig($key, $value)
@@ -180,28 +186,22 @@ class Mini extends Base implements MiniBase
         if (1 == $this->config['executeMode']) {
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatController($path); 
+        	
+        	DbContainer::register('Db', function () {
+        	    $db=new Db();
+        	    $db->miniObj(Mini::$app->getConfig('db'));
+        	    return $db;
+        	});
+        	DbContainer::$db=DbContainer::getService('Db');
         	RequestServer::runRout($routArr);
-            /* call_user_func(array(
-                $this->getConfig('routClass'),
-                $this->getConfig('routAct')
-            )); */
+              
         }
     }
 
     public function __construct($config = null)
     {
-        /*
-         * $arrayFile=dir($config->getFile()).$config::class.'.php';
-         * if(false===is_file($arrayFile)) {
-         * $configArray=get_object_vars($config);
-         * $configArrayCode=var_export($configArray,true);
-         * file_put_contents(dir($config->getFile()).$config::class.'.php', $data);
-         * } else {
-         *
-         * }
-         */
-        if (empty($config)) {
-            // $cofigfiles=realpath('../config/Config.php');
+        
+        if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
             $this->config = $config;
@@ -216,20 +216,7 @@ class Mini extends Base implements MiniBase
         $this->setAppPath($appPath);
         $viewPath=$appPath.'\\'.'view';
         $this->setViewPath($viewPath);
-        // Db::instance(array('host'=>'localhost','user'=>'root','pwd'=>'root'));
          
-       /*  Container::register('Mini', function () use ($config) {
-            $app=new Mini();
-            if (empty($config)) {
-                // $cofigfiles=realpath('../config/Config.php');
-                $app->config = include dirname(__FILE__) . '/../config/Config.php';
-            } else {
-                
-                $app->config = $config;
-            }
-            ConfigBase::setConfig($app->config);
-            return $app;
-        }); */
     }
 
     public function getRout()

@@ -1,4 +1,6 @@
 <?php
+ 
+
 return array(
 
 		'db' => array(
@@ -32,7 +34,7 @@ return array(
 		'routType' => 1,
 		'ControllerSuffix' => 'Controller',
 		'viewSuffix' => 'php',
-		'routClass' => 'minicore\lib\Rout',
+		'routClass' => minicore\lib\RequestServer::class,
 		'routAct' => 'run',
 		'actSuffix' => '',
 		'actPrefix' => '',
@@ -48,6 +50,21 @@ return array(
 						'urlDelimiter'=>'/',
 						'actLevel'=>3
 				],
+		    minicore\helper\Db::class => array(
+		        'host' => 'localhost',
+		    
+		        'user' => 'root',
+		    
+		        'pwd' => 'root',
+		    
+		        'db' => 'mini',
+		    
+		        'port' => '3306',
+		    
+		        'prex' => 'min',
+		    
+		        'dsn'
+		    ),
 		]
 );
  
