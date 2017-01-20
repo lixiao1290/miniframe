@@ -31,6 +31,4 @@ class a{
 
 //echo property_exists(a, 'b');
 
-$ref=new ReflectionClass(a::class);
-$statics=$ref->getStaticProperties();
-echo array_key_exists('a', $statics);
+ 

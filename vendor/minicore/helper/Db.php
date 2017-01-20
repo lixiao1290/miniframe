@@ -1,7 +1,6 @@
 <?php
 namespace minicore\helper;
 
-
 /**
  *
  * @author lixiao
@@ -28,8 +27,9 @@ class Db extends Helper
 
     private $selectSql;
 
-    private $where;/* array( array('字段','=','值') ,) */
+    private $where;
 
+    /* array( array('字段','=','值') ,) */
     private $pars;
 
     private $lastInsertId;
@@ -38,7 +38,6 @@ class Db extends Helper
 
     public $fetchstyle = \PDO::FETCH_ASSOC;
 
-    
     public $host;
 
     public $user;
@@ -49,13 +48,13 @@ class Db extends Helper
 
     private $type = 'mysql';
 
-    
     /**
+     *
      * @return the $pdo
      */
     public function getPdo()
     {
-        if(is_object($this->pdo)) {
+        if (is_object($this->pdo)) {
             return $this->pdo;
         } else {
             return $this->pdoInit();
@@ -63,7 +62,8 @@ class Db extends Helper
     }
 
     /**
-     * @param \PDO $pdo
+     *
+     * @param \PDO $pdo            
      */
     public function setPdo($pdo)
     {
@@ -77,9 +77,11 @@ class Db extends Helper
             $static->miniObjInit($db);
         } else {
             $static->miniObjInit();
-            /* if (Mini::$app->getConfig('db')) {
-                $static->miniObjInit(Mini::$app->getConfig('db'));
-            } */
+            /*
+             * if (Mini::$app->getConfig('db')) {
+             * $static->miniObjInit(Mini::$app->getConfig('db'));
+             * }
+             */
         }
         $static->db = $db;
         return $static;
@@ -126,8 +128,8 @@ class Db extends Helper
             if (is_object($this->pdo)) {
                 return $this->pdo;
             } else {
-                $this->dsn = $this->type . ':' . 'dbname=' . $this->db . ';host=' . $this->host; 
-                $this->setPdo( (new \PDO($this->dsn, $this->user, $this->pwd))) ;
+                $this->dsn = $this->type . ':' . 'dbname=' . $this->db . ';host=' . $this->host;
+                $this->setPdo((new \PDO($this->dsn, $this->user, $this->pwd)));
                 return $this->pdo;
             }
         } catch (\PDOException $e) {
@@ -188,12 +190,12 @@ class Db extends Helper
             if (! empty($this->wherepars)) {
                 $this->selectSql .= ' where ' . $this->where;
             }
-            $pdo = $this->pdoInit(); 
-            //var_dump($this->sql, $this->wherepars);
+            $pdo = $this->pdoInit();
+            // var_dump($this->sql, $this->wherepars);
             $statement = $pdo->prepare($this->selectSql);
             $statement->execute($this->wherepars ? $this->wherepars : null);
             $result = $statement->fetchAll($this->fetchstyle);
-            //var_dump($result, $this->fetchstyle);
+            // var_dump($result, $this->fetchstyle);
             return $result;
         } catch (\PDOException $e) {
             echo $e->errorInfo;
@@ -231,6 +233,36 @@ class Db extends Helper
             echo $e->getMessage();
             exit();
         }
+        return $this;
+    }
+
+    public function filteWhere(array $where)
+    {
+        if (! empty($where)) {
+            try {
+                if (empty($where[0])) {
+                    throw new \Exception('where条件字段未给出');
+                }
+                if (empty($where[1])) {
+                    throw new \Exception('where条件类型未给出');
+                }
+                if (empty($where[2])) {
+                    throw new \Exception('where条件字段的值未给出');
+                } else {
+                    
+                    $this->where .= ' ' . $where[0] . ' ' . $where[1] . ' :' . $where[0];
+                    $this->wherepars[':' . $where[0]] = $where[2];
+                }
+                return $this;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+                exit();
+            } catch (\PDOException $e) {
+                echo $e->getMessage();
+                exit();
+            }
+        }
+        
         return $this;
     }
 
