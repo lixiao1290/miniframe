@@ -12,7 +12,7 @@ trait ObjConfigInit
     
         }
         foreach ($members as $key => $value) {
-            if (property_exists(get_called_class(), $key))
+            if (property_exists(static::class, $key))
                 $this->$key = $value;
         }
     
@@ -22,10 +22,12 @@ trait ObjConfigInit
     {
         if (empty($members)) {
             $members=Mini::$app->getExtention(static::class);
-    
+                
         }
         foreach ($members as $key => $value) {
-            if (property_exists(get_called_class(), $key))
+            $reflect=new \ReflectionClass(static::class);
+            $staticVars=$reflect->getStaticProperties();
+            if (array_key_exists($key, $staticVars))
                 static::$$key = $value;
         }
     }

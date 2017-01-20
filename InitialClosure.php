@@ -23,4 +23,14 @@ $array = array(
 
 InitialClosure::$init=$array['data'];
 $init=new InitialClosure();
-echo $init->name;
+//echo $init->name;
+class a{
+    public $a;
+    public static $b;
+}
+
+//echo property_exists(a, 'b');
+
+$ref=new ReflectionClass(a::class);
+$statics=$ref->getStaticProperties();
+echo array_key_exists('a', $statics);
