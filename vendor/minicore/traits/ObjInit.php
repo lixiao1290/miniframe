@@ -18,7 +18,7 @@ trait ObjInit {
 
     private function __construct()
     {
-        echo __FILE__;
+         
     }
 }
 

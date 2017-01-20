@@ -1,7 +1,6 @@
 <?php
 namespace minicore\helper;
 
-use minicore\lib\Mini;
 
 /**
  *
