@@ -49,6 +49,22 @@ class Db extends Helper
     private $type = 'mysql';
 
     /**
+     * @return the $fields
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param Ambigous <string, unknown> $fields
+     */
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+    }
+
+    /**
      *
      * @return the $pdo
      */
@@ -95,6 +111,7 @@ class Db extends Helper
 
     public function field($fields)
     {
+        
         $this->fields = $fields;
         return $this;
     }
@@ -179,24 +196,37 @@ class Db extends Helper
     public function delete()
     {}
 
-    public function update()
+    public function update($pars)
     {}
 
-    public function select($feilds = '*')
+    public function select($fields = '*')
     {
         try {
-            
-            $this->selectSql = 'SELECT ' . $feilds . ' from ' . $this->table;
+            $fieldStr=' ';
+            if(!empty($this->fields)) {
+                if(is_array($this->fields)) {
+                     
+                    foreach ($this->fields as $k=>$v) {
+                        $fieldStr.="{$k} as {$v} ";//key 字段 value as
+                    }
+                } else {
+                    $fieldStr=$this->fields;
+                }
+            } else {
+                if(is_array($feilds)) {
+                    foreach ($feilds as $k=>$v) {
+                        $fieldStr.="{$k} as {$v} ";//key 字段 value as
+                    }
+                } else {
+                    $fieldStr=$fields;
+                }
+            }
+            $this->selectSql = 'SELECT ' .$fieldStr. ' from ' . $this->table;
             if (! empty($this->wherepars)) {
                 $this->selectSql .= ' where ' . $this->where;
             }
-            $pdo = $this->pdoInit();
-            // var_dump($this->sql, $this->wherepars);
-            $statement = $pdo->prepare($this->selectSql);
-            $statement->execute($this->wherepars ? $this->wherepars : null);
-            $result = $statement->fetchAll($this->fetchstyle);
-            // var_dump($result, $this->fetchstyle);
-            return $result;
+            $this->exec($this->selectSql, $this->wherepars);
+            return $this->statement->fetchAll($this->fetchstyle);
         } catch (\PDOException $e) {
             echo $e->errorInfo;
         }
