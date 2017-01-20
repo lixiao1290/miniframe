@@ -52,7 +52,7 @@ class RequestServer extends Base {
 	 * @throws \ErrorException
 	 * @return string[]|mixed[]|string[]|mixed[]|\minicore\lib\the[]
 	 */
-	public static function generatController($url) {
+	public static function generatRoute($url) {
 			if (2 == self::$actLevel) {
 				$pars = explode ( '\\', $url );
 				$pars = array_filter ( $pars );

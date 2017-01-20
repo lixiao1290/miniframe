@@ -190,7 +190,7 @@ class Mini extends Base implements MiniBase
     {
         if (1 == $this->config['executeMode']) {
         	$path=RequestServer::analyzeUrl();
-        	$routArr=RequestServer::generatController($path); 
+        	$routArr=RequestServer::generatRoute($path); 
         	
         	DbContainer::register('Db', function () {
         	    $db=new Db();
