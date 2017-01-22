@@ -1,9 +1,25 @@
 <?php
 namespace minicore\lib;
 
-class Container
+class MiniContainer
 {
+   public static  $app;
 
+    /**
+     * @return the $app
+     */
+    public static function getApp()
+    {
+        return MiniContainer::$app;
+    }
+
+/**
+     * @param field_type $app
+     */
+    public static function setApp($app)
+    {
+        MiniContainer::$app = $app;
+    }
 
     /*  单例模式获取对象*/
     public function __construct()
