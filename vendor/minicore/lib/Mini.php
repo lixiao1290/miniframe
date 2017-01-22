@@ -191,14 +191,9 @@ class Mini extends Base implements MiniBase
         if (1 == $this->config['executeMode']) {
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatRoute($path); 
-        	
-        	DbContainer::register('Db', function () {
-        	    $db=new Db();
-        	    $db->miniObjInit(Mini::$app->getConfig('db'));
-        	    return $db;
-        	});
-        	DbContainer::$db=DbContainer::getService('Db');
-        	RequestServer::runRout($routArr);
+        	$_SESSION['miniroute']=$routArr;
+        	call_user_func(array(Mini::$app->getConfig('app')['runClass'],'run'));
+        	//RequestServer::runRout($routArr);
               
         }
     }

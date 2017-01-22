@@ -1,6 +1,9 @@
 <?php
  
 
+use app\run\RunClass;
+use minicore\lib\MiniRouteManager;
+
 return array(
 
 		'db' => array(
@@ -45,6 +48,13 @@ return array(
 		'layout' => array(
 				'layout/left'
 		),
+        'app'=>[
+            'runClosure'=>function ($app) {
+            
+            },
+            'runClass'=>RunClass::class,
+            'routManager'=>MiniRouteManager::class,
+        ],
 		'extentions' => [
 				minicore\lib\RequestServer::class=>[
 						'urlDelimiter'=>'/',

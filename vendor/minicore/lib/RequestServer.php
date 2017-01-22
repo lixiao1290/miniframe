@@ -83,9 +83,9 @@ class RequestServer extends Base {
 				}
 				$controller = $controller;
 				$routeArr = array (
+						'module' => Mini::$app->getModule () ,
 						'controller' => $controller,
 						'act' => $act,
-						'module' => Mini::$app->getModule () 
 				);
 				if ('' == $routeArr ['controller']) {
 					$routeArr ['controller'] = Mini::$app->getConfig ( 'defaultController' );
