@@ -1,19 +1,18 @@
 <?php
 namespace minicore\lib;
 
-use minicore\interfaces\MiniBase;
 use minicore\config\ConfigBase;
 use minicore\traits\SingleInstance;
 use minicore\helper\Db;
 use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
 use minicore\helper\DbContainer;
+use minicore\interfaces\MiniInterface;
 
-class Mini extends Base implements MiniBase
+class Mini extends MiniBase  
 {
 
     private $config;
 
-    public static $app;
 
     private  $controller;
 
