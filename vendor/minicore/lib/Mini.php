@@ -189,10 +189,11 @@ class Mini extends Base implements MiniBase
     public function run()
     {
         if (1 == $this->config['executeMode']) {
+            RequestServer::miniObjInitStatic();
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatRoute($path); 
         	$_SESSION['miniroute']=$routArr;
-        	call_user_func(array(Mini::$app->getConfig('app')['runClass'],'run'));
+        	call_user_func(Mini::$app->getConfig('app')['runClass']);
         	//RequestServer::runRout($routArr);
               
         }

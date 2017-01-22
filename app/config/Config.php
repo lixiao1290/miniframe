@@ -49,10 +49,11 @@ return array(
 				'layout/left'
 		),
         'app'=>[
+            'runMode'=>'',
             'runClosure'=>function ($app) {
             
             },
-            'runClass'=>RunClass::class,
+            'runClass'=>[RunClass::class,'run'],
             'routManager'=>MiniRouteManager::class,
         ],
 		'extentions' => [

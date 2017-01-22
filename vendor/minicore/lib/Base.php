@@ -87,7 +87,7 @@ abstract class Base implements \Iterator
      * 初始化静态属性
      * @param unknown $members
      */
-    public static function miniObjInitStatic($members)
+    public static function miniObjInitStatic($members=null)
     {
         if (empty($members)) {
             $members=Mini::$app->getExtention(static::class);

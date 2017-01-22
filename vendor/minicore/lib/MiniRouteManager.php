@@ -5,7 +5,7 @@ class MiniRouteManager extends MiniRouteManagement
 {
     public function __construct($route)
     {
-         
+                      
     }
     /**
      * {@inheritDoc}

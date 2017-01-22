@@ -15,6 +15,7 @@ class IndexController extends ControllerBase
     }
     public  function index()
     {
+        var_dump($_GET);
         $data=['username'=>'lixiao','hobby'=>'music,wine'];
         $t=file_get_contents('F:/num.txt');
         $t++;
