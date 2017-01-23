@@ -180,9 +180,9 @@ class Mini extends MiniBase
             return @$this->config['extentions'][$key]?:null;
         }
     }
-    public function setConfig($key, $value)
+    public function setConfig( $value)
     {
-        $this->config[$key] = $value;
+        $this->config= $value;
     }
 
     public function run()
@@ -204,7 +204,7 @@ class Mini extends MiniBase
         if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
-            $this->config = $config;
+            $this->setConfig($config);
         }
         self::$app = $this;
         $pos=strpos(__DIR__, 'vendor')-1;

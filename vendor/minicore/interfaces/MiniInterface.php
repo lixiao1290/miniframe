@@ -10,7 +10,7 @@ interface MiniInterface
 
     public function getVersion();
 
-    public function setConfig($key,$value);
+    public function setConfig($value);
 
     public function getConfig($key);
 }

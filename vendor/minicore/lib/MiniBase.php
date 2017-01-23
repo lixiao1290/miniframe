@@ -9,3 +9,4 @@ class MiniBase extends Base implements MiniInterface
     
 }
 
+  
