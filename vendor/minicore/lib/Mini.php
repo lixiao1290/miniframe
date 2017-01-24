@@ -11,7 +11,7 @@ use minicore\interfaces\MiniInterface;
 class Mini extends MiniBase  
 {
 
-    private $config;
+    
 
 
     private  $controller;
@@ -141,16 +141,7 @@ class Mini extends MiniBase
         $this->baseDir = $baseDir;
     }
 
-    /**
-     *
-     * {@inheritdoc}
-     *
-     * @see \minicore\interfaces\MiniBase::getVersion()
-     */
-    public function getVersion()
-    {
-        return self::version;
-    }
+    
     use SingleInstance;
 
     /* 导入单例模式trait */
@@ -159,31 +150,15 @@ class Mini extends MiniBase
          
     }
 
-    /**
-     *
-     * {@inheritdoc}
-     *
-     * @see \minicore\interfaces\MiniBase::getConfig()
-     */
-    public function getConfig($key=NULL)
-    {
-        if($key) {
-            return $this->config[$key]?:false;
-        } else {
-            return $this->config;
-        }
-        
-    }
+   
     public function getExtention($key=null) 
     { 
         if($key) {
             return @$this->config['extentions'][$key]?:null;
         }
     }
-    public function setConfig( $value)
-    {
-        $this->config= $value;
-    }
+    
+    
 
     public function run()
     {
