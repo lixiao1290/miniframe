@@ -162,7 +162,7 @@ class Mini extends MiniBase
 
     public function run()
     {
-        if (1 == $this->config['executeMode']) {
+        if (1 == $this->getConfig('executeMode')) {
             RequestServer::miniObjInitStatic();
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatRoute($path); 

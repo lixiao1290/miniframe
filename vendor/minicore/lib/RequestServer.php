@@ -38,7 +38,7 @@ class RequestServer extends Base {
 			return $this->rule [$key];
 		}
 	}
-	public static function initGet($array) { 
+	public static function initGet($array) {  
 		while ( $var = array_shift ( $array ) ) {
 			$_GET [$var] = array_shift ( $array );
 			$_REQUEST [$var] = $_GET [$var];
@@ -52,8 +52,10 @@ class RequestServer extends Base {
 	 * @throws \ErrorException
 	 * @return string[]|mixed[]|string[]|mixed[]|\minicore\lib\the[]
 	 */
-	public static function generatRoute($url) {
-	       $url=substr($url, 0,strpos($url, '?'));
+	public static function generatRoute($url) { 
+	       if(strpos($url, '?')) {
+	           $url=substr($url, 0,strpos($url, '?')); 
+	       }
 			if (2 == self::$actLevel) {
 				$pars = explode ( '\\', $url );
 				$pars = array_filter ( $pars );
@@ -69,7 +71,7 @@ class RequestServer extends Base {
 			} else {
 				$pars = explode ( '\\', $url );
 				$pars = array_filter ( $pars );
-				$actArr = array_splice ( $pars, 0, self::$actLevel ); 
+				$actArr = array_splice ( $pars, 0, self::$actLevel );  
 				self::initGet ( $pars );
 				$act = array_pop ( $actArr );
 				$controller = array_pop ( $actArr );

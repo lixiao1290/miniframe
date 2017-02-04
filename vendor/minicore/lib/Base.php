@@ -76,7 +76,7 @@ abstract class Base implements \Iterator
             $members=Mini::$app->getExtention(static::class);
     
         }
-        foreach ($members as $key => $value) {
+        foreach ((array)$members as $key => $value) {
             if (property_exists(static::class, $key))
                 $this->$key = $value;
         }
@@ -93,7 +93,7 @@ abstract class Base implements \Iterator
             $members=Mini::$app->getExtention(static::class);
                 
         }
-        foreach ($members as $key => $value) {
+        foreach ((array)$members as $key => $value) {
             $reflect=new \ReflectionClass(static::class);
             $staticVars=$reflect->getStaticProperties();
             if (array_key_exists($key, $staticVars))
