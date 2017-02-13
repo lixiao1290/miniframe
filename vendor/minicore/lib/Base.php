@@ -88,11 +88,12 @@ abstract class Base implements \Iterator
      * @param unknown $members
      */
     public static function miniObjInitStatic($members=null)
-    {
+    { 
         if (empty($members)) {
             $members=Mini::$app->getExtention(static::class);
-                
+              
         }
+         
         foreach ((array)$members as $key => $value) {
             $reflect=new \ReflectionClass(static::class);
             $staticVars=$reflect->getStaticProperties();

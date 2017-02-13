@@ -152,9 +152,9 @@ class Mini extends MiniBase
 
    
     public function getExtention($key=null) 
-    { 
+    {  //var_dump($key,$this->getConfig('extentions')[$key]);
         if($key) {
-            return @$this->config['extentions'][$key]?:null;
+            return   $this->getConfig('extentions')[$key]?:null;
         }
     }
     
@@ -166,7 +166,7 @@ class Mini extends MiniBase
             RequestServer::miniObjInitStatic();
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatRoute($path); 
-        	$_SESSION['miniroute']=$routArr;
+        	$_SESSION['miniroute']=$routArr; 
         	call_user_func(Mini::$app->getConfig('app')['runClass']);
         	//RequestServer::runRout($routArr);
               

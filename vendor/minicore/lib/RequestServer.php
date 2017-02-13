@@ -16,7 +16,7 @@ class RequestServer extends Base {
 	public static $urlDelimiter ;
 	
 	/* 控制器 在url参数中位置是第几个 */
-	public static $actLevel ;
+	public static $actLevel=3 ;
 	public function __construct() {
 	}
 	
@@ -52,7 +52,7 @@ class RequestServer extends Base {
 	 * @throws \ErrorException
 	 * @return string[]|mixed[]|string[]|mixed[]|\minicore\lib\the[]
 	 */
-	public static function generatRoute($url) { 
+	public static function generatRoute($url) {  
 	       if(strpos($url, '?')) {
 	           $url=substr($url, 0,strpos($url, '?')); 
 	       }
@@ -69,6 +69,7 @@ class RequestServer extends Base {
 						'act' => $act 
 				);
 			} else {
+			    
 				$pars = explode ( '\\', $url );
 				$pars = array_filter ( $pars );
 				$actArr = array_splice ( $pars, 0, self::$actLevel );  
