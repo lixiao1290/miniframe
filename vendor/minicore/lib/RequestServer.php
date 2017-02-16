@@ -16,7 +16,7 @@ class RequestServer extends Base {
 	public static $urlDelimiter ;
 	
 	/* 控制器 在url参数中位置是第几个 */
-	public static $actLevel=3 ;
+	public static $actLevel ;
 	public function __construct() {
 	}
 	

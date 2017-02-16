@@ -164,6 +164,7 @@ class Mini extends MiniBase
     {
         if (1 == $this->getConfig('executeMode')) {
             RequestServer::miniObjInitStatic();
+            RequestServer::miniObjInitStatic();
         	$path=RequestServer::analyzeUrl();
         	$routArr=RequestServer::generatRoute($path); 
         	$_SESSION['miniroute']=$routArr; 

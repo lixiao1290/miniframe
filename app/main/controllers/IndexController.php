@@ -28,7 +28,6 @@ class IndexController extends ControllerBase
         $dsn = 'mysql:dbname=mini;host=localhost';
         // $db=Db::database('mini')->table('sys_user')->where(array('id','=',7))->asObj()->select();
         // Db::database('mini')->getPdo()->beginTransaction();
-        var_dump($db);
         $this->assign('list', [
             '张武',
             '李宵',
@@ -44,7 +43,7 @@ class IndexController extends ControllerBase
         $this->registerCss(array(
             'd'
         ));
-        var_dump($_SERVER['HTTP_USER_AGENT']);
+       // var_dump($_SERVER['HTTP_USER_AGENT']);
         /*
          * $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
          * if(strpos($useragent, 'MicroMessenger') === false && strpos($useragent, 'Windows Phone') === false ){
@@ -63,9 +62,20 @@ class IndexController extends ControllerBase
             'ffprobe.binaries' => 'E:\ffpeg/ffprobe.exe'
         ]);
         
-        $video = $ffpeg->open('sample.3gp');
+        $video = $ffpeg->open('QQ20170123-151825-HD.mp4');
         $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds(2));
         $frame->save('image.jpg');
+    }
+
+    public function wx()
+    {
+        $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
+        if (strpos($useragent, 'MicroMessenger') === false && strpos($useragent, 'Windows Phone') === false) {
+            echo " 非微信浏览器禁止访问";
+          }else{
+          
+       }
+        
     }
 }
 
