@@ -5,6 +5,8 @@ use minicore\helper\Db;
 use minicore\lib\ControllerBase;
 use minicore\helper\DbContainer;
 use FFMpeg\FFMpeg;
+use minicore\model\minidemo;
+use minicore\config\Configer;
 
 class IndexController extends ControllerBase
 {
@@ -76,6 +78,14 @@ class IndexController extends ControllerBase
           
        }
         
+    }
+    public function refs()
+    {
+        $reflect=new \ReflectionClass(minidemo::class);
+         var_dump($reflect->getConstructor()->getParameters()[0]->getName());
+         
+         
+         var_dump(Configer::getConfig('db.db'));
     }
 }
 

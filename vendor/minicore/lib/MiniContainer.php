@@ -5,7 +5,17 @@ class MiniContainer
 {
    public static  $app;
 
-    /**
+ 
+   
+   /**
+    * @var array 类的反射对象
+    */
+   private $_reflections = [];
+   /**
+    * @var array 类反射的依赖，构造函数参数
+    */
+   private $_dependencies = [];
+   /**
      * @return the $app
      */
     public static function getApp()
@@ -90,5 +100,45 @@ class MiniContainer
     {
         self::getInstance($name);
     }
+    public static function getDependencies($class)
+    {
+        if (isset($this->_reflections[$class])) {
+            return [$this->_reflections[$class], $this->_dependencies[$class]];
+        }
+
+        $dependencies = [];
+        $reflection = new ReflectionClass($class);
+
+        $constructor = $reflection->getConstructor();
+        if ($constructor !== null) {
+            foreach ($constructor->getParameters() as $param) {
+                if ($param->isDefaultValueAvailable()) {
+                    $dependencies[] = $param->getDefaultValue();
+                } else {
+                    $c = $param->getClass();
+                    $dependencies[] = Instance::of($c === null ? null : $c->getName());
+                }
+            }
+        }
+
+        $this->_reflections[$class] = $reflection;
+        $this->_dependencies[$class] = $dependencies;
+
+        return [$reflection, $dependencies];
+    }
+    public static function iniDependencies($dependencies,$reflection)
+    {
+
+        foreach ($dependencies as $index => $dependency) {
+            
+        }
+        return $dependencies;
+        
+    }
+    public static function creatObjByConfig($class,$config)
+    {
+        
+    }
+    
 }
 
