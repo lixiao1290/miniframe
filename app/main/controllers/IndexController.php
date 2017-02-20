@@ -85,7 +85,7 @@ class IndexController extends ControllerBase
          var_dump($reflect->getConstructor()->getParameters()[0]->getName());
          
          
-         var_dump(Configer::getConfig('db.db'));
+        // var_dump(Configer::getConfig('db.db'));
     }
 }
 

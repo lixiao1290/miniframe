@@ -8,7 +8,6 @@
         }
     ],
     "require": {
-        "php-ffmpeg/php-ffmpeg": "^0.8.0"
     },
 	"autoload": {
 		 
