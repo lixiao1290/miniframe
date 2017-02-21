@@ -9,36 +9,55 @@ use minicore\helper\DbContainer;
 use minicore\interfaces\MiniInterface;
 use minicore\config\Configer;
 
-class MiniApp extends MiniBase  
+class MiniApp extends MiniBase
 {
 
-    
-
-
-    private  $controller;
+    private $controller;
 
     private $act;
 
     private $baseDir;
 
     private $controllerStance;
+
     private $viewPath;
+
     private $module;
+
     private $component;
     
-    public function __get($name=NULL)
+    public static $params;
+
+    /**
+     * @return the $params
+     */
+    public static function getParams($key)
     {
-        if(array_key_exists($name, $this->component)) {
+        return MiniApp::$params[$key];
+    }
+
+    /**
+     * @param field_type $params
+     */
+    public static function setParams($params)
+    {
+        MiniApp::$params = $params;
+    }
+
+    public function __get($name = NULL)
+    {
+        if (array_key_exists($name, $this->component)) {
             return $this->component[$name];
         }
     }
-    
-    public function __set($name,$component)
+
+    public function __set($name, $component)
     {
-        $this->component[$name]=$component;
+        $this->component[$name] = $component;
     }
-    
+
     /**
+     *
      * @return the $module
      */
     public function getModule()
@@ -47,14 +66,16 @@ class MiniApp extends MiniBase
     }
 
     /**
-     * @param field_type $module
+     *
+     * @param field_type $module            
      */
     public function setModule($module)
     {
-         $this->module = $module;
+        $this->module = $module;
     }
 
     /**
+     *
      * @return the $viewPath
      */
     public function getViewPath()
@@ -63,7 +84,8 @@ class MiniApp extends MiniBase
     }
 
     /**
-     * @param field_type $viewPath
+     *
+     * @param field_type $viewPath            
      */
     public function setViewPath($viewPath)
     {
@@ -71,6 +93,7 @@ class MiniApp extends MiniBase
     }
 
     /**
+     *
      * @return the $controllerStance
      */
     public function getControllerStance()
@@ -79,23 +102,28 @@ class MiniApp extends MiniBase
     }
 
     public $appPath;
+
     /**
+     *
      * @return the $appPath
      */
     public function getAppPath()
     {
         return $this->appPath;
     }
-    
+
     /**
-     * @param field_type $appPath
+     *
+     * @param field_type $appPath            
      */
     public function setAppPath($appPath)
     {
         $this->appPath = $appPath;
     }
+
     /**
-     * @param field_type $controllerStance
+     *
+     * @param field_type $controllerStance            
      */
     public function setControllerStance($controllerStance)
     {
@@ -155,43 +183,35 @@ class MiniApp extends MiniBase
     {
         $this->baseDir = $baseDir;
     }
-
     
     use SingleInstance;
 
     /* 导入单例模式trait */
     function __clone()
-    {
-         
-    }
+    {}
 
-   
-    public function getExtention($key=null) 
-    {  //var_dump($key,$this->getConfig('extentions')[$key]);
-        if($key) {
-            return   $this->getConfig('extentions')[$key]?:null;
+    public function getExtention($key = null)
+    { // var_dump($key,$this->getConfig('extentions')[$key]);
+        if ($key) {
+            return $this->getConfig('extentions')[$key] ?: null;
         }
     }
-    
-    
 
     public function run()
     {
         if (1 == $this->getConfig('executeMode')) {
             RequestServer::miniObjInitStatic();
             RequestServer::miniObjInitStatic();
-        	$path=RequestServer::analyzeUrl();
-        	$routArr=RequestServer::generatRoute($path); 
-        	$_SESSION['miniroute']=$routArr; 
-        	call_user_func(Mini::$app->getConfig('app')['runClass']);
-        	//RequestServer::runRout($routArr);
-              
+            $path = RequestServer::analyzeUrl();
+            $routArr = RequestServer::generatRoute($path);
+            $_SESSION['miniroute'] = $routArr;
+            call_user_func(Mini::$app->getConfig('app')['runClass']);
+            // RequestServer::runRout($routArr);
         }
     }
 
     public function __construct($config = null)
     {
-        
         if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
@@ -199,22 +219,9 @@ class MiniApp extends MiniBase
             Configer::setConfig($config);
         }
         Mini::$app = $this;
-        $pos=strpos(__DIR__, 'vendor')-1;
-        $baseDir=substr(__DIR__, 0,$pos);
-        $this->setBaseDir($baseDir);
-        //
-        $path = $this->getConfig('controllerNamespace');
-        $appPath=$baseDir.'\\'.dirname($path);
-        $this->setAppPath($appPath);
-        $viewPath=$appPath.'\\'.'view';
-        $this->setViewPath($viewPath);
+        self::setParams($config['params']);
          
     }
 
-    public function getRout()
-    {}
-
-    public function setRout()
-    {}
 }
 
