@@ -32,8 +32,6 @@ class Db extends Helper
     /* array( array('字段','=','值') ,) */
     private $pars;
 
-    private $lastInsertId;
-
     private $wherepars;
 
     public $fetchstyle = \PDO::FETCH_ASSOC;
@@ -49,6 +47,7 @@ class Db extends Helper
     private $type = 'mysql';
 
     /**
+     *
      * @return the $fields
      */
     public function getFields()
@@ -57,7 +56,9 @@ class Db extends Helper
     }
 
     /**
-     * @param Ambigous <string, unknown> $fields
+     *
+     * @param
+     *            Ambigous <string, unknown> $fields
      */
     public function setFields($fields)
     {
@@ -111,7 +112,6 @@ class Db extends Helper
 
     public function field($fields)
     {
-        
         $this->fields = $fields;
         return $this;
     }
@@ -176,13 +176,14 @@ class Db extends Helper
             if (empty($data)) {
                 throw new \Exception('在添加数据时，未给定数据格式化的数组！');
             }
-            $sql = 'INSERT INTO ' . $this->table . '(' . implode(',', array_keys($data)) . ')values(' . implode(',', array_keys($pars)) . ')';
-            // echo $sql;
+            $sql = <<<SQL
+                INSERT INTO $this->table(implode(',', array_keys($data))values(implode(',', array_keys($pars))
+SQL;
+            
             $pdo = self::pdoInit();
             $statement = $pdo->prepare($sql);
             $statement->execute($pars);
-            $this->lastInsertId = $pdo->lastInsertId();
-            // var_dump('<pre>', $this->pdo->lastInsertId(), $this->statement->debugDumpParams());
+            return $pdo->lastInsertId();
             if (\PDO::ERR_NONE != $statement->errorCode()) {
                 return $this->pdo->lastInsertId();
             } else {
@@ -194,34 +195,87 @@ class Db extends Helper
     }
 
     public function delete()
-    {}
+    {
+        if (empty($this->where) || empty($this->wherepars)) {
+            echo '未给出条件';
+        }
+        if (empty($this->table)) {
+            echo '未给出表';
+        } else { 
+        $sql = <<<SQL
+            delete from $this->table where $this->where 
+SQL;
+        echo $sql;
+    }
+}
+
+    public function SqlizePars ($pars)
+    {
+        $str=<<<SQL
+set
+SQL;
+        $keys=array_keys($pars);
+        $end=count($keys)-1;
+        foreach ($keys as $k=>$vo) { 
+            if($k==$end) {
+                $str.=<<<SQL
+ $vo = :$vo
+SQL;
+                
+            } else{
+                    
+            $str.=<<<SQL
+ $vo = :$vo,
+SQL;
+                }
+        }  
+        return $str;
+    }
 
     public function update($pars)
-    {}
+    {
+
+        if (empty($this->where) || empty($this->wherepars)) {
+            echo '未给出条件';
+        }
+        if (empty($this->table)) {
+            echo '未给出表';
+        } else {
+            $parsStr=$this->SqlizePars($pars);
+            $sql = <<<SQL
+            update $this->table $parsStr where $this->where
+SQL;
+            echo $sql;
+        }
+        
+    }
 
     public function select($fields = '*')
     {
         try {
-            $fieldStr=' ';
-            if(!empty($this->fields)) {
-                if(is_array($this->fields)) {
-                     
-                    foreach ($this->fields as $k=>$v) {
-                        $fieldStr.="{$k} as {$v} ";//key 字段 value as
+            $fieldStr = ' ';
+            if (! empty($this->fields)) {
+                if (is_array($this->fields)) {
+                    
+                    foreach ($this->fields as $k => $v) {
+                        $fieldStr .= "{$k} as {$v} "; // key 字段 value as
                     }
                 } else {
-                    $fieldStr=$this->fields;
+                    $fieldStr = $this->fields;
                 }
             } else {
-                if(is_array($feilds)) {
-                    foreach ($feilds as $k=>$v) {
-                        $fieldStr.="{$k} as {$v} ";//key 字段 value as
+                if (is_array($feilds)) {
+                    foreach ($feilds as $k => $v) {
+                        $fieldStr .= "{$k} as {$v} "; // key 字段 value as
                     }
                 } else {
-                    $fieldStr=$fields;
+                    $fieldStr = $fields;
                 }
             }
-            $this->selectSql = 'SELECT ' .$fieldStr. ' from ' . $this->table;
+            $this->selectSql = <<<SQL
+            SELECT   $fieldStr   from   $this->table
+SQL;
+            // echo $this->selectSql;
             if (! empty($this->wherepars)) {
                 $this->selectSql .= ' where ' . $this->where;
             }
@@ -298,14 +352,18 @@ class Db extends Helper
 
     public function getWherePar()
     {
-        // var_dump( $this->wherepars);
+        return $this->wherepars;
     }
 
+    /**
+     * 执行数据库查询
+     *
+     * @return boolean
+     */
     public function execute()
     {
         $pdo = $this->pdoInit();
         $statement = $pdo->prepare($this->sql);
-        $statement->errorInfo();
         return $statement->execute();
     }
 }

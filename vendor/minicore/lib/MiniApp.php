@@ -8,7 +8,12 @@ use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
 use minicore\helper\DbContainer;
 use minicore\interfaces\MiniInterface;
 use minicore\config\Configer;
+use app\run\RunClass;
 
+/**
+ * @author Administrator
+ *@property  
+ */
 class MiniApp extends MiniBase
 {
 
@@ -45,7 +50,7 @@ class MiniApp extends MiniBase
     }
 
     public function __get($name = NULL)
-    {
+    {var_dump($name);
         if (array_key_exists($name, $this->component)) {
             return $this->component[$name];
         }

@@ -7,6 +7,7 @@ use minicore\helper\DbContainer;
 use FFMpeg\FFMpeg;
 use minicore\model\minidemo;
 use minicore\config\Configer;
+use minicore\lib\Mini;
 
 class IndexController extends ControllerBase
 {
@@ -28,7 +29,25 @@ class IndexController extends ControllerBase
         $t ++;
         file_put_contents('F:/num.txt', $t);
         $dsn = 'mysql:dbname=mini;host=localhost';
-        // $db=Db::database('mini')->table('sys_user')->where(array('id','=',7))->asObj()->select();
+        $list = Db::database('mini')->table('sys_user')
+            ->where(array(
+            'id',
+            '=',
+            7
+        ))
+            ->asObj()
+            ->select();
+        $list = Db::database('mini')->table('sys_user')
+            ->where(array(
+            'id',
+            '=',
+            7
+        ))
+            ->update(array(
+            'name' => 'iegj',
+            'sex' => 1
+        ));
+        var_dump($list);
         // Db::database('mini')->getPdo()->beginTransaction();
         $this->assign('list', [
             '张武',
@@ -45,7 +64,12 @@ class IndexController extends ControllerBase
         $this->registerCss(array(
             'd'
         ));
-       // var_dump($_SERVER['HTTP_USER_AGENT']);
+        
+        
+        Mini::$app->appPath;
+        
+        
+        // var_dump($_SERVER['HTTP_USER_AGENT']);
         /*
          * $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
          * if(strpos($useragent, 'MicroMessenger') === false && strpos($useragent, 'Windows Phone') === false ){
@@ -74,18 +98,13 @@ class IndexController extends ControllerBase
         $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
         if (strpos($useragent, 'MicroMessenger') === false && strpos($useragent, 'Windows Phone') === false) {
             echo " 非微信浏览器禁止访问";
-          }else{
-          
-       }
-        
+        } else {}
     }
+
     public function refs()
     {
         $reflect=new \ReflectionClass(minidemo::class);
-         var_dump($reflect->getConstructor()->getParameters()[0]->getName());
-         
-         
-        // var_dump(Configer::getConfig('db.db'));
+        var_dump($reflect->getConstructor()->getParameters()[0]->getName());
     }
 }
 
