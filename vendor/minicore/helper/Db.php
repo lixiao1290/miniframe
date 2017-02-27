@@ -46,6 +46,64 @@ class Db extends Helper
 
     private $type = 'mysql';
 
+    public $sql;
+
+    /**
+     *
+     * @return the $wherepars
+     */
+    public function getWherepars()
+    {
+        return $this->wherepars;
+    }
+
+    /**
+     *
+     * @param field_type $wherepars            
+     */
+    public function setWherepars($wherepars)
+    {
+        $this->wherepars = $wherepars;
+    }
+
+    /**
+     *
+     * @return the $sql
+     */
+    public function getSql()
+    {
+        return $this->sql;
+    }
+
+    /**
+     *
+     * @param string $sql            
+     */
+    public function setSql($sql)
+    {
+        $this->sql = $sql;
+    }
+
+    public $executePars;
+
+    /**
+     *
+     * @return the $executePars
+     */
+    public function getExecutePars()
+    {
+        return $this->executePars;
+    }
+
+    /**
+     *
+     * @param field_type $executePars            
+     */
+    public function setExecutePars($executePars)
+    {
+        $this->executePars = $executePars;
+    }
+
     /**
      *
      * @return the $fields
@@ -118,7 +176,7 @@ class Db extends Helper
 
     public function debug()
     {
-        var_dump($this->db, $this->fields, $this->table);
+        var_dump($this->db, $this->fields, $this->table, $this->pdo->errorInfo(), $this->statement->errorInfo());
     }
 
     public function asObj()
@@ -201,53 +259,55 @@ SQL;
         }
         if (empty($this->table)) {
             echo '未给出表';
-        } else { 
-        $sql = <<<SQL
+        } else {
+            $sql = <<<SQL
             delete from $this->table where $this->where 
 SQL;
-        echo $sql;
+            echo $sql;
+        }
     }
-}
 
-    public function SqlizePars ($pars)
+    public function SqlizePars($pars)
     {
-        $str=<<<SQL
+        $str = <<<SQL
 set
 SQL;
-        $keys=array_keys($pars);
-        $end=count($keys)-1;
-        foreach ($keys as $k=>$vo) { 
-            if($k==$end) {
-                $str.=<<<SQL
+        $keys = array_keys($pars);
+        $end = count($keys) - 1;
+        foreach ($keys as $k => $vo) {
+            if ($k == $end) {
+                $str .= <<<SQL
  $vo = :$vo
 SQL;
+            } else {
                 
-            } else{
-                    
-            $str.=<<<SQL
+                $str .= <<<SQL
  $vo = :$vo,
 SQL;
-                }
-        }  
+            }
+        }
         return $str;
     }
 
     public function update($pars)
     {
-
         if (empty($this->where) || empty($this->wherepars)) {
             echo '未给出条件';
         }
         if (empty($this->table)) {
             echo '未给出表';
         } else {
-            $parsStr=$this->SqlizePars($pars);
-            $sql = <<<SQL
+            $parsStr = $this->SqlizePars($pars);
+            $this->setSql(<<<SQL
             update $this->table $parsStr where $this->where
-SQL;
-            echo $sql;
+SQL
+);
+            $pars = array_merge($this->creatParameters($pars), $this->getWherepars());
+            echo $this->getSql();
+            var_dump($pars);
+            $this->execute($this->getSql(), $pars);
+            $this->debug();
         }
-        
     }
 
     public function select($fields = '*')
@@ -272,25 +332,19 @@ SQL;
                     $fieldStr = $fields;
                 }
             }
-            $this->selectSql = <<<SQL
+            $this->setSql(<<<SQL
             SELECT   $fieldStr   from   $this->table
-SQL;
+SQL
+);
             // echo $this->selectSql;
             if (! empty($this->wherepars)) {
                 $this->selectSql .= ' where ' . $this->where;
             }
-            $this->exec($this->selectSql, $this->wherepars);
+            $this->exec($this->getSql(), $this->getWherepars());
             return $this->statement->fetchAll($this->fetchstyle);
         } catch (\PDOException $e) {
             echo $e->errorInfo;
         }
-    }
-
-    public function exec($sql, $pars)
-    {
-        self::pdoInit();
-        $this->statement = $this->pdo->prepare($sql);
-        $this->statement->execute($pars);
     }
 
     public function where(array $where)
@@ -350,9 +404,11 @@ SQL;
         return $this;
     }
 
-    public function getWherePar()
+    public function exec($sql, $pars = NULL)
     {
-        return $this->wherepars;
+        self::pdoInit();
+        $this->statement = $this->pdo->prepare($sql);
+        $this->statement->execute($pars);
     }
 
     /**
@@ -360,11 +416,17 @@ SQL;
      *
      * @return boolean
      */
-    public function execute()
+    public function execute($sql, $pars)
     {
-        $pdo = $this->pdoInit();
-        $statement = $pdo->prepare($this->sql);
-        return $statement->execute();
+        try {
+            $pdo = $this->pdoInit();
+            $this->statement = $pdo->prepare($this->sql);
+            return $this->statement->execute($pars);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }
 

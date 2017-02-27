@@ -37,16 +37,17 @@ class IndexController extends ControllerBase
         ))
             ->asObj()
             ->select();
-        $list = Db::database('mini')->table('sys_user')
+        $list2 = Db::database('mini')->table('sys_user')
             ->where(array(
             'id',
             '=',
             7
         ))
             ->update(array(
-            'name' => 'iegj',
+            'username' => 'iegj',
             'sex' => 1
         ));
+            
         var_dump($list);
         // Db::database('mini')->getPdo()->beginTransaction();
         $this->assign('list', [
