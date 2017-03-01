@@ -41,10 +41,10 @@ return array(
 		'routAct' => 'run',
 		'actSuffix' => '',
 		'actPrefix' => '',
+		'defaultModule' => 'main',
 		'defaultController' => 'index',
 		'defaultAct' => 'index',
 		'urlMode' => 1,
-		'defaultModule' => 'main',
 		'layout' => array(
 				'layout/left'
 		),
