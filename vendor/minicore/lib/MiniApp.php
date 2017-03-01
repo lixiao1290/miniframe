@@ -11,8 +11,10 @@ use minicore\config\Configer;
 use app\run\RunClass;
 
 /**
+ *
  * @author Administrator
- *@property  
+ * @property
+ *
  */
 class MiniApp extends MiniBase
 {
@@ -30,10 +32,11 @@ class MiniApp extends MiniBase
     private $module;
 
     private $component;
-    
+
     public static $params;
 
     /**
+     *
      * @return the $params
      */
     public static function getParams($key)
@@ -42,7 +45,8 @@ class MiniApp extends MiniBase
     }
 
     /**
-     * @param field_type $params
+     *
+     * @param field_type $params            
      */
     public static function setParams($params)
     {
@@ -50,7 +54,8 @@ class MiniApp extends MiniBase
     }
 
     public function __get($name = NULL)
-    {var_dump($name);
+    {
+        var_dump($name);
         if (array_key_exists($name, $this->component)) {
             return $this->component[$name];
         }
@@ -225,8 +230,9 @@ class MiniApp extends MiniBase
         }
         Mini::$app = $this;
         self::setParams($config['params']);
-         
+        if (PHP_SESSION_DISABLED  === session_status()) {
+            session_start();
+        }
     }
-
 }
 

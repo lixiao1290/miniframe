@@ -11,7 +11,6 @@ class RunClass extends RunClassAbstract
     public function __construct()
     {
         if (true === (new MiniRouteManager($_SESSION['miniroute']['route']))->valid()) {
-            
             RequestServer::runRout($_SESSION['miniroute']);
         } else {
             //RequestServer::runRout($_SESSION['miniroute']);

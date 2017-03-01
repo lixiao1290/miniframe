@@ -67,9 +67,6 @@ class IndexController extends ControllerBase
         ));
         
         
-        Mini::$app->appPath;
-        
-        
         // var_dump($_SERVER['HTTP_USER_AGENT']);
         /*
          * $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
@@ -106,6 +103,14 @@ class IndexController extends ControllerBase
     {
         $reflect=new \ReflectionClass(minidemo::class);
         var_dump($reflect->getConstructor()->getParameters()[0]->getName());
+    }
+    public function session()
+    {
+        //session_start();
+        Mini::$app->appPath;
+        var_dump(session_get_cookie_params());
+        $_SESSION['session']='ijgjaea3256233jklfak6324lkjkjkl253643kljdafdafdskj543426734456l;jlka';
+        var_dump($_SESSION);
     }
 }
 
