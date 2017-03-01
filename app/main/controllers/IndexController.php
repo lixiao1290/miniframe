@@ -108,8 +108,9 @@ class IndexController extends ControllerBase
     {
         //session_start();
         Mini::$app->appPath;
-        var_dump(session_get_cookie_params());
+        $sss=session_id();
         $_SESSION['session']='ijgjaea3256233jklfak6324lkjkjkl253643kljdafdafdskj543426734456l;jlka';
+        var_dump(session_get_cookie_params(),session_id(),session_save_path());
         var_dump($_SESSION);
     }
 }

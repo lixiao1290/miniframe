@@ -209,7 +209,7 @@ class MiniApp extends MiniBase
 
     public function run()
     {
-        if (1 == $this->getConfig('executeMode')) {
+        if (1 == $this->getConfig('RunMode')) {
             RequestServer::miniObjInitStatic();
             RequestServer::miniObjInitStatic();
             $path = RequestServer::analyzeUrl();
