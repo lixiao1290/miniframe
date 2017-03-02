@@ -76,6 +76,6 @@ return array(
 		    
 		        'dsn'
 		    ),
-		]
+		] 
 );
  
