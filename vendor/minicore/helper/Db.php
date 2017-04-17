@@ -312,6 +312,7 @@ SQL
 
     public function select($fields = '*')
     {
+      
         try {
             $fieldStr = ' ';
             if (! empty($this->fields)) {
@@ -324,8 +325,9 @@ SQL
                     $fieldStr = $this->fields;
                 }
             } else {
-                if (is_array($feilds)) {
-                    foreach ($feilds as $k => $v) {
+                
+                if (is_array($fields)) {
+                    foreach ($fields as $k => $v) {
                         $fieldStr .= "{$k} as {$v} "; // key 字段 value as
                     }
                 } else {

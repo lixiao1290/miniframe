@@ -98,6 +98,8 @@ class ControllerBase extends Base
             // print_r(dirname());
             // echo '@',__FUNCTION__;
              
+             $actdir=Mini::$app->getController();
+             $actfile=Mini::$app->getAct();
             $filename = $this->viewPath . '\\' . strtolower($actdir) . '\\' . strtolower($actfile) . '.' . Mini::$app->getConfig('viewSuffix');
             // var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
