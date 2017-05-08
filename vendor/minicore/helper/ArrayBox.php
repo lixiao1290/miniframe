@@ -27,7 +27,7 @@ class ArrayBox extends
 
     public static function get($patterm,$array)
     {
-        $return=self::$array?self::array:$array;
+        $return=self::$array?self::$array:$array;
         $tok=strtok($patterm,'.');
 
         while($tok!==false) {
