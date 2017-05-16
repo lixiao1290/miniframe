@@ -1,5 +1,5 @@
 <?php
-namespace app\main\controllers;
+namespace admin\main\controllers;
 
 use minicore\helper\Db;
 use minicore\lib\ControllerBase;
@@ -25,11 +25,8 @@ class IndexController extends ControllerBase
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
-        $t = file_get_contents('F:/num.txt');
-        $t ++;
-        file_put_contents('F:/num.txt', $t);
         $dsn = 'mysql:dbname=mini;host=localhost';
-        $list = Db::database('mini')->table('sys_user')
+       /* $list = Db::database('mini')->table('sys_user')
             ->where(array(
             'id',
             '=',
@@ -48,7 +45,7 @@ class IndexController extends ControllerBase
             'sex' => 1
         ));
             
-        var_dump($list);
+        var_dump($list);*/
         // Db::database('mini')->getPdo()->beginTransaction();
         $this->assign('list', [
             '张武',
@@ -112,6 +109,11 @@ class IndexController extends ControllerBase
         $_SESSION['session']='ijgjaea3256233jklfak6324lkjkjkl253643kljdafdafdskj543426734456ljlka';
         var_dump(session_get_cookie_params(),session_id(),session_save_path());
         var_dump($_SESSION,get_defined_vars());
+    }
+
+    public function mails()
+    {
+
     }
 }
 

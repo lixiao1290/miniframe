@@ -29,7 +29,7 @@ return array(
 		'controllerLevel' => 0,
 
 		'controllerNamespace' => 'app\controllers',
-		'appNamespace' => 'app',
+		'appNamespace' => 'admin',
 
 		// 框架核心初始化模式，1不使用closurequeue，2使用。
 		'RunMode' => 1,

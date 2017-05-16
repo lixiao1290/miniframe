@@ -215,7 +215,9 @@ class MiniApp extends MiniBase
             $path = RequestServer::analyzeUrl();
             $routArr = RequestServer::generatRoute($path);
             $_SESSION['miniroute'] = $routArr;
-            call_uwser_func(Configer::getConfig('app.runClass'));
+
+//            var_dump('<pre>',$_SESSION,Configer::getConfig('app.runClass'));
+            call_user_func(Configer::getConfig('app.runClass'));
             // RequestServer::runRout($routArr);
         }
     }

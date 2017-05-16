@@ -25,30 +25,9 @@ class IndexController extends ControllerBase
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
-        $t = file_get_contents('F:/num.txt');
-        $t ++;
-        file_put_contents('F:/num.txt', $t);
-        $dsn = 'mysql:dbname=mini;host=localhost';
-        $list = Db::database('mini')->table('sys_user')
-            ->where(array(
-            'id',
-            '=',
-            7
-        ))
-            ->asObj()
-            ->select();
-        $list2 = Db::database('mini')->table('sys_user')
-            ->where(array(
-            'id',
-            '=',
-            7
-        ))
-            ->update(array(
-            'username' => 'iegj',
-            'sex' => 1
-        ));
+
             
-        var_dump($list);
+
         // Db::database('mini')->getPdo()->beginTransaction();
         $this->assign('list', [
             '张武',
