@@ -1,22 +1,23 @@
 {
-    "name": "lixiao/miniframe",
-    "description": "lixiao's",
-    "authors": [
-        {
-            "name": "lixiao",
-            "email": "209201763@qq.com"
-        }
-    ],
-    "require": {
-        "swiftmailer/swiftmailer": "^5.4"
-    },
-	"autoload": {
-		 
-	"psr-4": {
-	"app\\": "app/",
-	"minicore\\":"vendor/minicore/",
-	"admin\\": "admin/"
-	}  
-		 
-	}
+  "name": "lixiao/miniframe",
+  "description": "lixiao's",
+  "authors": [
+    {
+      "name": "lixiao",
+      "email": "209201763@qq.com"
+    }
+  ],
+  "require": {
+    "swiftmailer/swiftmailer": "^5.4",
+	"syscover/email-reader": "~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app/",
+      "minicore\\": "vendor/minicore/",
+      "admin\\": "admin/",
+      "emailreader\\": "vendor/emailreader/",
+      "common\\":"common"
+    }
+  }
 }
