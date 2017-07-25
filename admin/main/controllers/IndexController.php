@@ -271,14 +271,13 @@ class IndexController extends ControllerBase
     {
         $server=new Server('imap.163.com','993','imap');
         $server->setAuthentication('aizhizhiren@163.com','lx0521131');
-        $messages=  $server->getMessages(11);
-        echo '<pre>';
-//        print_r($messages);
+        $messages=  $server->getMessages(20);
+        echo '<pre>  ';
+//       print_r($messages);
         echo '<pre>';
         foreach($messages as $message) {
             echo $message->getHtmlBody();
         }
-        var_dump($server->getMailBox());
     }
 }
 
