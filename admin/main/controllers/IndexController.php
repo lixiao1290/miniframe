@@ -24,6 +24,7 @@ class IndexController extends ControllerBase
     public function index()
     {
         var_dump($_GET);
+        echo 'ijfidja';
 
         $data = [
             'username' => 'lixiao',
