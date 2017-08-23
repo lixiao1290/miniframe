@@ -23,8 +23,8 @@ class IndexController extends ControllerBase
 
     public function index()
     {
-        var_dump($_GET);
-        echo 'ijfidja';
+        
+
 
         $data = [
             'username' => 'lixiao',
@@ -55,9 +55,9 @@ class IndexController extends ControllerBase
         $this->assign('list', [
             '张武',
             '李宵',
-            '徐瑶瑶',
+         /*   '徐瑶瑶',
             '张彪',
-            '王世超'
+            '王世超'*/
         ]);
         $this->registerJs(array(
             'a',

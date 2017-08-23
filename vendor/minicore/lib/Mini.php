@@ -8,7 +8,7 @@ namespace minicore\lib;
 class Mini
 {
     /**
-     * @var  
+     * @var  \minicore\lib\MiniApp  $app 
      */
     public static $app;
     public function __construct()

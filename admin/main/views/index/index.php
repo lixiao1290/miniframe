@@ -13,21 +13,16 @@ use minicore\helper\Db;
 
 <body>
 	<p></p>
-	<div style="text-align: center;"><?=$suc;?></div>
+	<div style="text-align: center;"><? ?></div>
 	<div style="text-align: center;">
 	<?php foreach ($list as $row):?>
-	<font style="color: olive;"><?php echo $row?></font>
+	<i style="color: olive;"><?php echo $row?></i>
 	<?php endforeach;?>
 	</div>
 	
 	<div >
-	
-	<?php       ?>
-	<?php        ?>
-	<?php 
-	  Db::database('mini');
-	
-	?>
+
+<script type="" src="f"></script>
 </body>
 
 </html>

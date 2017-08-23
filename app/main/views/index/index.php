@@ -13,11 +13,9 @@ use minicore\lib\Rout;
 
 <body>
 	<p></p>
-	<div style="text-align: center;"><?=$suc;?></div>
+	<div style="text-align: center;"> </div>
 	<div style="text-align: center;">
-	<?php foreach ($list as $row):?>
-	<font style="color: olive;"><?php echo $row?></font>
-	<?php endforeach;?>
+
 	</div>
 	
 	<div >

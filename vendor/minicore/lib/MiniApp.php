@@ -32,8 +32,25 @@ class MiniApp extends MiniBase
     private $module;
 
     private $component;
+    private $controllerName;
 
     public static $params;
+
+    /**
+     * @return the $controllerName
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+
+    /**
+     * @param field_type $controllerName
+     */
+    public function setControllerName($controllerName)
+    {
+        $this->controllerName = $controllerName;
+    }
 
     /**
      *
