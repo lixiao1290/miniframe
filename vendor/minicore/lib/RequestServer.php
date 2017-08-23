@@ -63,10 +63,7 @@ class RequestServer extends Base
     public static function generatRoute($url)
     {
 
-        if (substr_count($url, '\\') < 2) {
 
-            $url="index\index";
-        }
         if (strpos($url, '?')) {
             $url = substr($url, 0, strpos($url, '?'));
         }
@@ -105,13 +102,7 @@ class RequestServer extends Base
                 'controller' => $controller,
                 'act' => $act
             );
-            if ('' == $routeArr['controller']) {
-                $routeArr['controller'] = Mini::$app->getConfig('defaultController');
-            }
-            if ($routeArr['act'] == '') {
 
-                $routeArr['act'] = Mini::$app->getConfig('defaultAct');
-            }
             $routeArr['route'] = implode('/', $routeArr);
             return $routeArr;
         }
@@ -132,6 +123,13 @@ class RequestServer extends Base
             // self::partial($row);
             // }
             // }
+            if ('' == $routeArr['controller']) {
+                $routeArr['controller'] = Mini::$app->getConfig('defaultController');
+            }
+            if ($routeArr['act'] == '') {
+
+                $routeArr['act'] = Mini::$app->getConfig('defaultAct');
+            }
             if ($routeArr['module']) {
                 $Controller = Mini::$app->getConfig('appNamespace') . '\\' . $routeArr['module'] . '\\controllers\\' . $routeArr['controller'] . Mini::$app->getConfig('ControllerSuffix');
             } else {
@@ -140,13 +138,21 @@ class RequestServer extends Base
             Mini::$app->setControllerName($routeArr['controller']);
             Mini::$app->setController($Controller);
             Mini::$app->setAct(Mini::$app->getConfig('actPrefix') . $routeArr['act'] . Mini::$app->getConfig('actSuffix'));
+            echo method_exists($Controller,Mini::$app->getAct());
             if (class_exists($Controller)) {
                 $ControllerObj = (new \ReflectionClass($Controller))->newInstance();
-                Mini::$app->setControllerStance($ControllerObj);
-                call_user_func(array(
-                    $ControllerObj,
-                    Mini::$app->getAct()
-                ));
+                if(method_exists($ControllerObj,Mini::$app->getAct())) {
+                    Mini::$app->setControllerStance($ControllerObj);
+                    call_user_func(array(
+                        $ControllerObj,
+                        Mini::$app->getAct()
+                    ));
+                } else {
+                    header("HTTP/1.1 404 Not Found");
+                    header("Status: 404 Not Found");
+                    exit();
+                }
+
             } else {
                 header("HTTP/1.1 404 Not Found");
                 header("Status: 404 Not Found");
