@@ -133,7 +133,10 @@ class RequestServer extends Base {
 						Mini::$app->getAct () 
 				) );
 			} else {
-				echo ('未发现控制器，检查您的url');
+                header("HTTP/1.1 404 Not Found");
+                header("Status: 404 Not Found");
+                exit;
+                echo ('未发现控制器，检查您的url');
 			}
 		}
 	}
