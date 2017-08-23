@@ -1,4 +1,5 @@
 <?php
+
 namespace minicore\lib;
 
 use minicore\config\ConfigBase;
@@ -7,7 +8,7 @@ use app;
 /**
  *
  * @author lixiao
- *        
+ *
  */
 class RequestServer extends Base
 {
@@ -19,7 +20,8 @@ class RequestServer extends Base
     public static $actLevel;
 
     public function __construct()
-    {}
+    {
+    }
 
     /* 路由键值对，键名是url，值是对应的控制器 调用闭包 */
     private static $_get = array();
@@ -28,7 +30,7 @@ class RequestServer extends Base
 
     /**
      *
-     * @param multitype: $rule
+     * @param multitype : $rule
      */
     public static function get($url, \Closure $act)
     {
@@ -36,10 +38,12 @@ class RequestServer extends Base
     }
 
     public static function post($url, \Closure $act)
-    {}
+    {
+    }
 
     public static function getRule($key)
-    {}
+    {
+    }
 
     public static function initGet($array)
     {
@@ -58,6 +62,11 @@ class RequestServer extends Base
      */
     public static function generatRoute($url)
     {
+
+        if (substr_count($url, '\\') < 2) {
+
+            $url="index\index";
+        }
         if (strpos($url, '?')) {
             $url = substr($url, 0, strpos($url, '?'));
         }
@@ -68,13 +77,13 @@ class RequestServer extends Base
             self::initGet($pars);
             $act = array_pop($actArr);
             $controller = 'controllers\\' . array_pop($actArr);
-            
+
             return array(
                 'controller' => $controller,
                 'act' => $act
             );
         } else {
-            
+
             $pars = explode('\\', $url);
             $pars = array_filter($pars);
             $actArr = array_splice($pars, 0, self::$actLevel);
@@ -84,11 +93,12 @@ class RequestServer extends Base
             if (empty($controllerId)) {
                 $controllerId = Mini::$app->getConfig('defaultController');
             }
-            
+
             Mini::$app->setModule(implode('\\', $actArr));
-            if (! Mini::$app->getModule()) {
+            if (!Mini::$app->getModule()) {
                 Mini::$app->setModule(Mini::$app->getConfig('defaultModule'));
-            } else {}
+            } else {
+            }
             $controller = $controller;
             $routeArr = array(
                 'module' => Mini::$app->getModule(),
@@ -99,7 +109,7 @@ class RequestServer extends Base
                 $routeArr['controller'] = Mini::$app->getConfig('defaultController');
             }
             if ($routeArr['act'] == '') {
-                
+
                 $routeArr['act'] = Mini::$app->getConfig('defaultAct');
             }
             $routeArr['route'] = implode('/', $routeArr);
@@ -141,7 +151,7 @@ class RequestServer extends Base
                 header("HTTP/1.1 404 Not Found");
                 header("Status: 404 Not Found");
                 exit();
-                echo ('未发现控制器，检查您的url');
+                echo('未发现控制器，检查您的url');
             }
         }
     }
@@ -149,7 +159,7 @@ class RequestServer extends Base
     public static function analyzeUrl($url = null)
     {
         if (empty($url)) {
-            
+
             if (1 == Mini::$app->getConfig('urlMode')) {
                 if (isset($_SERVER['PATH_INFO'])) {
                     return strtr($_SERVER['PATH_INFO'], array(
@@ -194,11 +204,12 @@ class RequestServer extends Base
                 $routeArr['act']
             ));
         } else {
-            echo (' ');
+            echo(' ');
         }
     }
 
     public static function callAct($routeArr)
-    {}
+    {
+    }
 }
 
