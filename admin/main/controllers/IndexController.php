@@ -24,7 +24,7 @@ class IndexController extends ControllerBase
     public function index()
     {
         
-
+        var_dump($_GET);
 
         $data = [
             'username' => 'lixiao',
@@ -103,6 +103,7 @@ class IndexController extends ControllerBase
 
     public function refs()
     {
+        var_dump($_GET);
         $reflect = new \ReflectionClass(minidemo::class);
         var_dump($reflect->getConstructor()->getParameters()[0]->getName());
     }

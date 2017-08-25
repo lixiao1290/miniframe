@@ -1,4 +1,5 @@
 <?php
+
 namespace minicore\config;
 
 use minicore\lib\Base;
@@ -12,21 +13,41 @@ class Configer extends Base
      * Configer::getConfig('db.db')
      * @return the $config
      */
-    public static function getConfig($patterm)
+    public static function getConfig(  $patterm)
     {
-        $return=self::$config;
-        $tok=strtok($patterm,'.');
-        
-        while($tok!==false) {
-            $return=$return[$tok];
-            $tok=strtok('.');
+        $return = self::$config;
+        $tok = strtok($patterm, '.');
+        while ($tok !== false) {
+            $return = $return[$tok];
+            $tok = strtok('.');
         }
         return $return;
     }
 
+
+
+    public static function iterateArray($arr)
+    {
+        static $assoc="";
+        foreach ($arr as $key=>$item) {
+            if (is_array($item)) {
+                if (empty($assoc)) {
+                    $assoc .= $key;
+                } else {
+                    $assoc .= '.'.$key;
+
+                }
+                self::iterateArray($item);
+            } else {
+                echo $assoc,"=>",var_export($item,true),PHP_EOL;
+                $assoc="";
+            }
+        }
+    }
+
     /**
      *
-     * @param multitype: $config            
+     * @param multitype : $config
      */
     public static function setConfig($config)
     {
@@ -34,7 +55,8 @@ class Configer extends Base
     }
 
     public function __construct()
-    {}
+    {
+    }
 
     public static $dbHost = 'localhost';
 
@@ -57,7 +79,7 @@ class Configer extends Base
     public static $controllerLevel = 0;
 
     public static $controllerNamespace = 'app\controllers';
-    
+
     // 框架核心初始化模式，1不使用closurequeue，2使用。
     public static $executeMode = 1;
     // 路由类型，1默认，2注册

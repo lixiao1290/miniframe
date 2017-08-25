@@ -17,7 +17,7 @@ class RequestServer extends Base
     public static $urlDelimiter;
 
     /* 控制器 在url参数中位置是第几个 */
-    public static $actLevel;
+    public static $actLevel=3;
 
     public function __construct()
     {
@@ -82,7 +82,7 @@ class RequestServer extends Base
         } else {
 
             $pars = explode('\\', $url);
-            $pars = array_filter($pars);
+             $pars = array_filter($pars);//var_dump($pars);
             $actArr = array_splice($pars, 0, self::$actLevel);
             self::initGet($pars);
             $act = array_pop($actArr);
@@ -138,7 +138,6 @@ class RequestServer extends Base
             Mini::$app->setControllerName($routeArr['controller']);
             Mini::$app->setController($Controller);
             Mini::$app->setAct(Mini::$app->getConfig('actPrefix') . $routeArr['act'] . Mini::$app->getConfig('actSuffix'));
-            echo method_exists($Controller,Mini::$app->getAct());
             if (class_exists($Controller)) {
                 $ControllerObj = (new \ReflectionClass($Controller))->newInstance();
                 if(method_exists($ControllerObj,Mini::$app->getAct())) {

@@ -1,6 +1,7 @@
 <?php
 namespace app\run;
 
+use minicore\config\Configer;
 use minicore\lib\RequestServer;
 use minicore\lib\MiniRouteManager;
 use minicore\lib\RunClassAbstract;
@@ -8,13 +9,23 @@ use minicore\lib\RunClassAbstract;
 class RunClass extends RunClassAbstract
 {
 
-    public function __construct()
+    public static function run()
     {
-        if (true === (new MiniRouteManager($_SESSION['miniroute']['route']))->valid()) {
+        if (true === (new MiniRouteManager(@$_SESSION['miniroute.route']))->valid()) {
             RequestServer::runRout($_SESSION['miniroute']);
         } else {
             //RequestServer::runRout($_SESSION['miniroute']);
         }
+    }
+    public function __construct()
+    {
+        RequestServer::miniObjInitStatic();
+        RequestServer::miniObjInitStatic();
+        $path = RequestServer::analyzeUrl();
+        $routArr = RequestServer::generatRoute($path);
+        $_SESSION['miniroute'] = $routArr;
+//        var_dump('<pre>',$_SESSION,Configer::getConfig('app.runClass'));
+
     }
 }
 

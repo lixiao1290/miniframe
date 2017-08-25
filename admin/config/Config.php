@@ -1,5 +1,5 @@
 <?php
- 
+
 
 use app\run\RunClass;
 use minicore\lib\MiniRouteManager;
@@ -21,7 +21,6 @@ return array(
 
 				'dsn'
 		),
-
 		'appdir',
 
 		'actionLevel' => 1,
@@ -51,9 +50,9 @@ return array(
         'app'=>[
             'runMode'=>'',
             'runClosure'=>function ($app) {
-            
+                    echo 'a';
             },
-            'runClass'=>[RunClass::class,'run'],
+            'runClass'=>['class'=>RunClass::class,'method'=>'run'],
             'routManager'=>MiniRouteManager::class,
         ],
 		'extentions' => [
@@ -63,19 +62,19 @@ return array(
 				],
 		    minicore\helper\Db::class => array(
 		        'host' => 'localhost',
-		    
+
 		        'user' => 'root',
-		    
+
 		        'pwd' => 'root',
-		    
+
 		        'db' => 'mini',
-		    
+
 		        'port' => '3306',
-		    
+
 		        'prex' => 'min',
-		    
+
 		        'dsn'
 		    ),
-		] 
+		]
 );
  

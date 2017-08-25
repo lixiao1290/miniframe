@@ -227,14 +227,12 @@ class MiniApp extends MiniBase
     public function run()
     {
         if (1 == $this->getConfig('RunMode')) {
-            RequestServer::miniObjInitStatic();
-            RequestServer::miniObjInitStatic();
-            $path = RequestServer::analyzeUrl();
-            $routArr = RequestServer::generatRoute($path);
-            $_SESSION['miniroute'] = $routArr;
 
-//            var_dump('<pre>',$_SESSION,Configer::getConfig('app.runClass'));
-            call_user_func(Configer::getConfig('app.runClass'));
+
+            $runClass=Configer::getConfig('app.runClass.class');
+            $runMethod=Configer::getConfig('app.runClass.method');
+            $runObj=(new \ReflectionClass($runClass))->newInstance();
+            call_user_func([$runObj,$runMethod]);
             // RequestServer::runRout($routArr);
         }
     }
@@ -244,6 +242,7 @@ class MiniApp extends MiniBase
         if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
+            $config['configCacheDir']=dirname(debug_backtrace(0,1)[0]['file']).'/cache/config';
             $this->setConfig($config);
             Configer::setConfig($config);
         }
