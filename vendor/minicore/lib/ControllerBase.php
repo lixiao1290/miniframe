@@ -105,7 +105,7 @@ class ControllerBase extends Base
             if (file_exists($filename)) {
                 extract($this->viewVars);
                 
-                include $filename;
+                include $filename;exit;
             }
         }
     }

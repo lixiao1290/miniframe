@@ -18,18 +18,19 @@ class IndexController extends ControllerBase
 
     public function initial()
     {
-        // $this->assign('menu', array('首页','会员管理'));
+        $this->assign('AssetDir', Mini::$app->getIndexDir()."/");
     }
 
     public function index()
     {
-        
-        var_dump('get',$_GET);
+//        echo $_SERVER['PATH_INFO'],'<br/>',$_SERVER['DOCUMENT_ROOT'],'<br/>',$_SERVER['REQUEST_URI'];
 
         $data = [
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
+        $i=intval(file_get_contents("E:log.txt"));
+        file_put_contents("E:log.txt",$i++);
         $dsn = 'mysql:dbname=mini;host=localhost';
         /* $list = Db::database('mini')->table('sys_user')
              ->where(array(
@@ -280,6 +281,11 @@ class IndexController extends ControllerBase
         foreach($messages as $message) {
             echo $message->getHtmlBody();
         }
+    }
+    public function welcome()
+    {
+        echo 'fidf';
+        $this->view();
     }
 }
 

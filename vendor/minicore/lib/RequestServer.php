@@ -23,10 +23,7 @@ class RequestServer extends Base
     {
     }
 
-    /* 路由键值对，键名是url，值是对应的控制器 调用闭包 */
-    private static $_get = array();
 
-    private static $_post = array();
 
     /**
      *
@@ -84,7 +81,9 @@ class RequestServer extends Base
             $pars = explode('\\', $url);
              $pars = array_filter($pars);//var_dump($pars);
             $actArr = array_splice($pars, 0, self::$actLevel);
-            self::initGet($pars);
+            if(!empty($pars)) {
+                self::initGet($pars);
+            }
             $act = array_pop($actArr);
             $controller = array_pop($actArr);
             if (empty($controllerId)) {
@@ -146,6 +145,7 @@ class RequestServer extends Base
                         $ControllerObj,
                         Mini::$app->getAct()
                     ));
+                    exit;
                 } else {
                     header("HTTP/1.1 404 Not Found");
                     header("Status: 404 Not Found");
@@ -166,17 +166,17 @@ class RequestServer extends Base
         if (empty($url)) {
 
             if (1 == Mini::$app->getConfig('urlMode')) {
-                if (isset($_SERVER['PATH_INFO'])) {
+                if (!isset($_SERVER['PATH_INFO'])) {
                     return strtr($_SERVER['PATH_INFO'], array(
                         '/' => '\\'
                     ));
                 } else {
                     $uri = $_SERVER['REQUEST_URI']; // echo $uri,'<br>';
-                    $root = $_SERVER['DOCUMENT_ROOT']; // echo $root,'<br>';
+                    $root = $_SERVER['DOCUMENT_ROOT'];//  echo $root,'<br>';
                     $scriptFileName = dirname($_SERVER['SCRIPT_FILENAME']); // echo 'scrii',$scriptFileName,'<br>';
                     $str = strtr($scriptFileName, array(
                         $root => null
-                    )); // echo $str,'<br>';
+                    ));
                     $rs = strtr($uri, array(
                         $str => null
                     )); // exit;

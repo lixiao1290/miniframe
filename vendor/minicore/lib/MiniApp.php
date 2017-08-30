@@ -1,4 +1,5 @@
 <?php
+
 namespace minicore\lib;
 
 use minicore\config\ConfigBase;
@@ -63,7 +64,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $params            
+     * @param field_type $params
      */
     public static function setParams($params)
     {
@@ -94,7 +95,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $module            
+     * @param field_type $module
      */
     public function setModule($module)
     {
@@ -112,7 +113,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $viewPath            
+     * @param field_type $viewPath
      */
     public function setViewPath($viewPath)
     {
@@ -141,7 +142,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $appPath            
+     * @param field_type $appPath
      */
     public function setAppPath($appPath)
     {
@@ -150,7 +151,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $controllerStance            
+     * @param field_type $controllerStance
      */
     public function setControllerStance($controllerStance)
     {
@@ -177,7 +178,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $controller            
+     * @param field_type $controller
      */
     public function setController($controller)
     {
@@ -186,7 +187,7 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $act            
+     * @param field_type $act
      */
     public function setAct($act)
     {
@@ -204,18 +205,46 @@ class MiniApp extends MiniBase
 
     /**
      *
-     * @param field_type $baseDir            
+     * @param field_type $baseDir
      */
     public function setBaseDir($baseDir)
     {
         $this->baseDir = $baseDir;
     }
-    
+
+    public $indexDir;
+
+    /**
+     * @return mixed
+     */
+    public function getIndexDir()
+    {
+        if (empty($this->indexDir)) {
+            $this->setIndexDir();
+            return $this->indexDir;
+        } else
+            return $this->indexDir;
+    }
+
+    /**
+     * @param mixed $indexDir
+     */
+    public function setIndexDir()
+    {
+        $root = $_SERVER['DOCUMENT_ROOT'];//  echo $root,'<br>';
+        $scriptFileName = dirname($_SERVER['SCRIPT_FILENAME']); // echo 'scrii',$scriptFileName,'<br>';
+        $str = strtr($scriptFileName, array(
+            $root => null
+        ));
+        $this->indexDir = $str;
+    }
+
     use SingleInstance;
 
     /* 导入单例模式trait */
     function __clone()
-    {}
+    {
+    }
 
     public function getExtention($key = null)
     { // var_dump($key,$this->getConfig('extentions')[$key]);
@@ -229,10 +258,10 @@ class MiniApp extends MiniBase
         if (1 == $this->getConfig('RunMode')) {
 
 
-            $runClass=Configer::getConfig('app.runClass.class');
-            $runMethod=Configer::getConfig('app.runClass.method');
-            $runObj=(new \ReflectionClass($runClass))->newInstance();
-            call_user_func([$runObj,$runMethod]);
+            $runClass = Configer::getConfig('app.runClass.class');
+            $runMethod = Configer::getConfig('app.runClass.method');
+            $runObj = (new \ReflectionClass($runClass))->newInstance();
+            call_user_func([$runObj, $runMethod]);
             // RequestServer::runRout($routArr);
         }
     }
@@ -242,13 +271,14 @@ class MiniApp extends MiniBase
         if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
-            $config['configCacheDir']=dirname(debug_backtrace(0,1)[0]['file']).'/cache/config';
+            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
             $this->setConfig($config);
             Configer::setConfig($config);
+
         }
         Mini::$app = $this;
         self::setParams($config['params']);
-        if (PHP_SESSION_DISABLED  === session_status()) {
+        if (PHP_SESSION_DISABLED === session_status()) {
             session_start();
         }
     }

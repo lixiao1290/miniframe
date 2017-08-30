@@ -12,7 +12,7 @@ class RunClass extends RunClassAbstract
     public static function run()
     {
         if (true === (new MiniRouteManager(@$_SESSION['miniroute.route']))->valid()) {
-            RequestServer::runRout($_SESSION['miniroute']);
+            RequestServer::runRout($_SESSION['miniroute']);echo 'run';
         } else {
             //RequestServer::runRout($_SESSION['miniroute']);
         }
