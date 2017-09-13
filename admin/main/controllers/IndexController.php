@@ -23,6 +23,7 @@ class IndexController extends ControllerBase
 
     public function index()
     {
+
 //        echo $_SERVER['PATH_INFO'],'<br/>',$_SERVER['DOCUMENT_ROOT'],'<br/>',$_SERVER['REQUEST_URI'];
 
         $data = [
@@ -285,6 +286,12 @@ class IndexController extends ControllerBase
     public function welcome()
     {
         echo 'fidf';
+        $this->view();
+    }
+
+    public function main()
+    {
+
         $this->view();
     }
 }

@@ -166,7 +166,7 @@ class RequestServer extends Base
         if (empty($url)) {
 
             if (1 == Mini::$app->getConfig('urlMode')) {
-                if (!isset($_SERVER['PATH_INFO'])) {
+                if (isset($_SERVER['PATH_INFO'])) {
                     return strtr($_SERVER['PATH_INFO'], array(
                         '/' => '\\'
                     ));

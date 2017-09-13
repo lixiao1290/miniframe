@@ -92,5 +92,16 @@ class IndexController extends ControllerBase
         var_dump(session_get_cookie_params(),session_id(),session_save_path());
         var_dump($_SESSION,get_defined_vars());
     }
+
+
+    public function welcome()
+    {
+        $this->view();
+    }
+
+    public function main()
+    {
+        $this->view();
+    }
 }
 

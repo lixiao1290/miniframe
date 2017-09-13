@@ -174,7 +174,7 @@
 	<div id="iframe_box" class="Hui-article">
 		<div class="show_iframe">
 			<div style="display:none" class="loading"></div>
-			<iframe scrolling="yes" frameborder="0" src="welcome"></iframe>
+			<iframe scrolling="yes" frameborder="0" src="../../main/index/main"></iframe>
 	</div>
 </div>
 </section>
