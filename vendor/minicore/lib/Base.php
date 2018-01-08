@@ -66,6 +66,12 @@ abstract class Base implements \Iterator
         return $class->getFileName();
     }
 
+    public function getClassDir()
+    {
+        $class = new \ReflectionClass(static::class);
+        return dirname($class->getFileName());
+    }
+
 
     /**
      * @param unknown 初始化对象

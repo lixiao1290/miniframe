@@ -18,7 +18,7 @@ class IndexController extends ControllerBase
 
     public function initial()
     {
-        $this->assign('AssetDir', Mini::$app->getIndexDir()."/");
+        $this->assign('AssetDir', Mini::$app->getIndexDir() . "/");
     }
 
     public function index()
@@ -30,8 +30,8 @@ class IndexController extends ControllerBase
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
-        $i=intval(file_get_contents("E:log.txt"));
-        file_put_contents("E:log.txt",$i++);
+        $i = intval(file_get_contents("E:log.txt"));
+        file_put_contents("E:log.txt", $i++);
         $dsn = 'mysql:dbname=mini;host=localhost';
         /* $list = Db::database('mini')->table('sys_user')
              ->where(array(
@@ -57,9 +57,9 @@ class IndexController extends ControllerBase
         $this->assign('list', [
             '张武',
             '李宵',
-         /*   '徐瑶瑶',
-            '张彪',
-            '王世超'*/
+            /*   '徐瑶瑶',
+               '张彪',
+               '王世超'*/
         ]);
         $this->registerJs(array(
             'a',
@@ -211,14 +211,14 @@ class IndexController extends ControllerBase
 
 
             if (!empty($st->parts)) {
-                $body = '第'.$n.'封';
+                $body = '第' . $n . '封';
                 $j = count($st->parts);
                 var_dump($st->parts);
                 for ($i = 0; $i < $j; $i++) {
                     $part = $st->parts[$i];
                     if ($part->subtype == 'PLAIN') {
-                        $body.='part_'.$i;
-                        $contents=(imap_fetchbody($mail, $n, $i));
+                        $body .= 'part_' . $i;
+                        $contents = (imap_fetchbody($mail, $n, $i));
                         $body .= $contents;
                         $mine = imap_fetchmime($mail, $n, $i);
                     }
@@ -228,8 +228,8 @@ class IndexController extends ControllerBase
             }
             $mail_header = imap_headerinfo($mail, $n);
             $subject = $mail_header->subject;//邮件标题
-            $subject =  ConvertEncoder::decode_mime ($subject);
-            echo ($body), '</pre><br/>';
+            $subject = ConvertEncoder::decode_mime($subject);
+            echo($body), '</pre><br/>';
             echo $subject;
 
         }
@@ -242,8 +242,8 @@ class IndexController extends ControllerBase
         $hostname = 'imap.163.com';
         $username = 'aizhizhiren@163.com';
         $password = 'lx0521131';
-        $fileSavePaht =  '/emailsave/';
-        $obj = new ReceiveMail($username, $password, $username,$hostname, 'imap', '993', false);
+        $fileSavePaht = '/emailsave/';
+        $obj = new ReceiveMail($username, $password, $username, $hostname, 'imap', '993', false);
         $obj->connect();
         $tot = $obj->getTotalMails(); //Total Mails in Inbox Return integer value
         echo "Total Mails:: $tot<br>";
@@ -266,26 +266,26 @@ class IndexController extends ControllerBase
             foreach ($ar as $key => $value)
                 echo ($value == "") ? "" : "Atteched File :: " . $value . "<br>";
             echo "<br>------------------------------------------------------------------------------------------<BR>";
-          //  $obj->removeEamil($i); // Delete Mail from Mail box
+            //  $obj->removeEamil($i); // Delete Mail from Mail box
         }
         $obj->close_mailbox();   //Close Mail Box
     }
 
     public function reademails()
     {
-        $server=new Server('imap.163.com','993','imap');
-        $server->setAuthentication('aizhizhiren@163.com','lx0521131');
-        $messages=  $server->getMessages(20);
+        $server = new Server('imap.163.com', '993', 'imap');
+        $server->setAuthentication('aizhizhiren@163.com', 'lx0521131');
+        $messages = $server->getMessages(20);
         echo '<pre>  ';
 //       print_r($messages);
         echo '<pre>';
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             echo $message->getHtmlBody();
         }
     }
+
     public function welcome()
     {
-        echo 'fidf';
         $this->view();
     }
 

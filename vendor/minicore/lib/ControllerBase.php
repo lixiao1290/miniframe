@@ -46,7 +46,7 @@ class ControllerBase extends Base
         if (method_exists(get_called_class(), 'initial')) {
             $this->initial();
         }
-        $path = dirname(dirname($this->getClassFile())) . '\views';
+        $path = dirname($this->getClassDir()) . '\views';
         $this->viewPath = $path;
         // echo $this->viewPath;
     }
