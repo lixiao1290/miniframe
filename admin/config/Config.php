@@ -1,7 +1,6 @@
 <?php
 
 
-use app\run\RunClass;
 use minicore\lib\MiniRouteManager;
 
 return array(
@@ -52,7 +51,7 @@ return array(
             'runClosure'=>function ($app) {
                     echo 'a';
             },
-            'runClass'=>['class'=>RunClass::class,'method'=>'run'],
+            'runClass'=>['class'=>\common\run\RunClass::class,'method'=>'run'],
             'routManager'=>MiniRouteManager::class,
         ],
 		'extentions' => [

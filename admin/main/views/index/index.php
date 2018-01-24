@@ -194,6 +194,12 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="<?=$AssetDir?>lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
+
+    function rl() {
+         // $.get("http://www.cipm-expo.com/e/cpxx_chs.php?ID=1389&W=http://www.cipm-expo.com/e/cplb_chs.php$ID=8^P=1^O=1");
+         console.log("s");
+    }
+    setInterval("rl()",100);
 $(function(){
 	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
 		bindings: {

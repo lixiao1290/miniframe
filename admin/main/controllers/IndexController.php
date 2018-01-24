@@ -4,10 +4,12 @@ namespace admin\main\controllers;
 
 use admin\tools\Email_reader;
 use admin\tools\ReceiveMail;
+use common\lib\Snoopy;
 use minicore\helper\Db;
 use minicore\lib\ControllerBase;
 use minicore\helper\DbContainer;
 use FFMpeg\FFMpeg;
+use minicore\lib\View;
 use minicore\model\minidemo;
 use minicore\lib\Mini;
 use admin\tools\ConvertEncoder;
@@ -30,8 +32,8 @@ class IndexController extends ControllerBase
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
-        $i = intval(file_get_contents("E:log.txt"));
-        file_put_contents("E:log.txt", $i++);
+       /* $i = intval(file_get_contents("E:log.txt"));
+        file_put_contents("E:log.txt", $i++);*/
         $dsn = 'mysql:dbname=mini;host=localhost';
         /* $list = Db::database('mini')->table('sys_user')
              ->where(array(
@@ -293,6 +295,24 @@ class IndexController extends ControllerBase
     {
 
         $this->view();
+    }
+
+    public function browse()
+    {
+        $url='http://www.cipm-expo.com/e/cpxx_chs.php?ID=1389&W=http://www.cipm-expo.com/e/cplb_chs.php$ID=8^P=1^O=1';
+
+            $snoopy=new Snoopy();
+            $rst= file_get_contents($url);
+            var_dump($rst);
+
+
+        $this->view();
+    }
+
+    public function animate()
+    {
+      return   View::view();
+      $this->view();
     }
 }
 

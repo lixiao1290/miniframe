@@ -138,7 +138,9 @@ class RequestServer extends Base
             Mini::$app->setController($Controller);
             Mini::$app->setAct(Mini::$app->getConfig('actPrefix') . $routeArr['act'] . Mini::$app->getConfig('actSuffix'));
             if (class_exists($Controller)) {
-                $ControllerObj = (new \ReflectionClass($Controller))->newInstance();
+                $controllerReflectObj=(new \ReflectionClass($Controller));
+                Mini::$app->setControllerReflectObj($controllerReflectObj);
+                $ControllerObj = $controllerReflectObj->newInstance();
                 if(method_exists($ControllerObj,Mini::$app->getAct())) {
                     Mini::$app->setControllerStance($ControllerObj);
                     call_user_func(array(

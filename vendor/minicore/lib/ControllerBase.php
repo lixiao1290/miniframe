@@ -1,4 +1,5 @@
 <?php
+
 namespace minicore\lib;
 
 class ControllerBase extends Base
@@ -13,6 +14,22 @@ class ControllerBase extends Base
     private $pageFunc;
 
     private $viewPath;
+
+    /**
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return $this->viewPath;
+    }
+
+    /**
+     * @param string $viewPath
+     */
+    public function setViewPath($viewPath)
+    {
+        $this->viewPath = $viewPath;
+    }
 
     /**
      *
@@ -48,6 +65,8 @@ class ControllerBase extends Base
         }
         $path = dirname($this->getClassDir()) . '\views';
         $this->viewPath = $path;
+        $this->setViewPath($path);
+        Mini::$app->setViewPath($path);
         // echo $this->viewPath;
     }
 
@@ -77,9 +96,9 @@ class ControllerBase extends Base
 
     /**
      * 绑定变量
-     * 
-     * @param unknown $key            
-     * @param unknown $value            
+     *
+     * @param unknown $key
+     * @param unknown $value
      */
     public function assign($key, $value)
     {
@@ -89,7 +108,7 @@ class ControllerBase extends Base
     /**
      * 调用视图文件直接显示
      *
-     * @param unknown $path            
+     * @param unknown $path
      */
     public function view($path = NULL)
     {
@@ -97,27 +116,31 @@ class ControllerBase extends Base
         if (is_null($path)) {
             // print_r(dirname());
             // echo '@',__FUNCTION__;
-             
-             $actdir=Mini::$app->getControllerName();
-             $actfile=Mini::$app->getAct();
-            $filename = $this->viewPath . '\\' . strtolower($actdir) . '\\' . strtolower($actfile) . '.' . Mini::$app->getConfig('viewSuffix');
+
+            $actdir = Mini::$app->getControllerName();
+            $actfile = Mini::$app->getAct();
+            $filename = $this->getViewPath() . '\\' . strtolower($actdir) . '\\' . strtolower($actfile) . '.' . Mini::$app->getConfig('viewSuffix');
             // var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
                 extract($this->viewVars);
-                
-                include $filename;exit;
+
+                include $filename;
+                exit;
+            } else {
+                echo "未找到视图文件";
             }
         }
     }
 
     public function beforeView()
     {
-        if ($layout = Mini::$app->getConfig('layout')) {}
+        if ($layout = Mini::$app->getConfig('layout')) {
+        }
     }
 
     /**
      *
-     * @param unknown $js注册当前页面js文件            
+     * @param unknown $js注册当前页面js文件
      */
     public function registerJs($js)
     {
@@ -132,7 +155,7 @@ class ControllerBase extends Base
 
     /**
      *
-     * @param unknown $cs注册当前页面css            
+     * @param unknown $cs注册当前页面css
      */
     public function registerCss($cs)
     {

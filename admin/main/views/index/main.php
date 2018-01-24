@@ -1,9 +1,4 @@
-<?php
-use minicore\helper\Db;
-
-?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<!DOCTYPE  html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,7 +11,6 @@ use minicore\helper\Db;
 	<div style="text-align: center;">
 
 	</div>
-	48651894651
 	<div >
 
 <script type="" src="f"></script>

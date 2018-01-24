@@ -20,19 +20,54 @@ use app\run\RunClass;
 class MiniApp extends MiniBase
 {
 
+    /**
+     * @var string $controller
+     */
     private $controller;
 
+    /**
+     * @var string $act
+     */
     private $act;
 
+    /**
+     * @var string $baseDir
+     */
     private $baseDir;
 
+
+    /**
+     * @var \miniCore\lib\ControllerBase $controllerStance
+     */
     private $controllerStance;
 
+    /**
+     * @return ControllerBase
+     */
+    public function getControllerStance()
+    {
+        return $this->controllerStance;
+    }
+
+    /**
+     * @param ControllerBase $controllerStance
+     */
+    public function setControllerStance($controllerStance)
+    {
+        $this->controllerStance = $controllerStance;
+    }
+
+    /**
+     * @var string $viewPath
+     */
     private $viewPath;
 
     private $module;
 
     private $component;
+    /**
+     * @var string $controllerName
+     */
     private $controllerName;
 
     public static $params;
@@ -120,14 +155,7 @@ class MiniApp extends MiniBase
         $this->viewPath = $viewPath;
     }
 
-    /**
-     *
-     * @return the $controllerStance
-     */
-    public function getControllerStance()
-    {
-        return $this->controllerStance;
-    }
+
 
     public $appPath;
 
@@ -150,13 +178,26 @@ class MiniApp extends MiniBase
     }
 
     /**
-     *
-     * @param field_type $controllerStance
+     * @var \ReflectionClass
+     **/
+    public $controllerReflectObj;
+
+    /**
+     * @return mixed $controllerReflectObj
      */
-    public function setControllerStance($controllerStance)
+    public function getControllerReflectObj()
     {
-        $this->controllerStance = $controllerStance;
+        return $this->controllerReflectObj;
     }
+
+    /**
+     * @param mixed $controllerReflectObj
+     */
+    public function setControllerReflectObj($controllerReflectObj)
+    {
+        $this->controllerReflectObj = $controllerReflectObj;
+    }
+
 
     /**
      *
