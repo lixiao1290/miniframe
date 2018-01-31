@@ -415,7 +415,7 @@ function sphSetBit ( $flag, $bit, $on )
 
 
 /// sphinx searchd client class
-class SphinxClient
+class SphinxClientTool
 {
 	var $_host;			///< searchd host (default is "localhost")
 	var $_port;			///< searchd port (default is 9312)
@@ -465,7 +465,7 @@ class SphinxClient
 	/////////////////////////////////////////////////////////////////////////////
 
 	/// create a new client object and fill defaults
-	function SphinxClient ()
+	function __construct ()
 	{
 		// per-client-object settings
 		$this->_host		= "localhost";

@@ -33,8 +33,8 @@ class IndexController extends ControllerBase
             'username' => 'lixiao',
             'hobby' => 'music,wine'
         ];
-       /* $i = intval(file_get_contents("E:log.txt"));
-        file_put_contents("E:log.txt", $i++);*/
+        /* $i = intval(file_get_contents("E:log.txt"));
+         file_put_contents("E:log.txt", $i++);*/
         $dsn = 'mysql:dbname=mini;host=localhost';
         /* $list = Db::database('mini')->table('sys_user')
              ->where(array(
@@ -300,11 +300,11 @@ class IndexController extends ControllerBase
 
     public function browse()
     {
-        $url='http://www.cipm-expo.com/e/cpxx_chs.php?ID=1389&W=http://www.cipm-expo.com/e/cplb_chs.php$ID=8^P=1^O=1';
+        $url = 'http://www.cipm-expo.com/e/cpxx_chs.php?ID=1389&W=http://www.cipm-expo.com/e/cplb_chs.php$ID=8^P=1^O=1';
 
-            $snoopy=new Snoopy();
-            $rst= file_get_contents($url);
-            var_dump($rst);
+        $snoopy = new Snoopy();
+        $rst = file_get_contents($url);
+        var_dump($rst);
 
 
         $this->view();
@@ -312,44 +312,58 @@ class IndexController extends ControllerBase
 
     public function animate()
     {
-      return   View::view();
-      $this->view();
+        return View::view();
+        $this->view();
     }
 
     /**
-     * 
+     *
      */
     public function refle()
     {
 
-               var_dump($_SERVER);
+        var_dump($_SERVER);
         /**
          * @var  demo $demo
          */
-        $demo=Mini::createObj(demo::class);
+        $demo = Mini::createObj(demo::class);
         $demo->big();
     }
-    function sphinx($kw=null)
+
+    function sphinx($kw = null)
     {
 //        include './xiunophp/sphinx.class.php';
-        /*echo $this->getClassFile().'./lib/sphinx.php';*/exit;
-        $sx = new SphinxClient();
+        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
+        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/sphinx.php';
+        $sx = new \SphinxClientTool();
         $sx->SetServer('127.0.0.1', 9312);
         $sx->SetArrayResult(true);
         $sx->SetMatchMode(SPH_MATCH_ANY); //��ѯģʽ
         $sx->SetRankingMode(SPH_RANK_WORDCOUNT); //��������ʽ
         $sx->SetSortMode(SPH_SORT_RELEVANCE, "WEIGHT() DESC");//�����ֶ�
         //$sx->SetFilter('catid', array(3,4)); ����
-        $sx->SetLimits(0, 1000);//��������
-        $r = $sx->Query($kw, 'ciku');
-        $sx->Close();
-        $ids =array();
-        if(is_array($r['matches']) && !empty($r['matches'])){
+//        $sx->SetLimits(0, 1000);//��������
+        $r = $sx->Query("自", "ciku");
+        var_dump(  $r);
+//        $sx->Close();
+        $ids = array();
+        if (is_array($r['matches']) && !empty($r['matches'])) {
             foreach ($r['matches'] as $k => $v) {
                 $ids[$v['id']] = $v['id'];
             }
         }
-        return $ids;
+        var_dump($ids);
+
+        $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
+        //打开调试信息
+        $sphinx->debug = true;
+        //查询
+        $prodList = $sphinx->search();
+        //插入数据
+//        $sphinxData['title'] = $title;
+//        $sphinxData['content'] = $content;
+//        $sphinx->insert($sphinxData);
+        var_dump("sphinxrt",$prodList);
     }
 }
 
