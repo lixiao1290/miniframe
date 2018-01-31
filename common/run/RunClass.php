@@ -1,9 +1,8 @@
 <?php
 namespace common\run;
 
-use minicore\config\Configer;
-use minicore\lib\RequestServer;
 use minicore\lib\MiniRouteManager;
+use minicore\lib\RequestServer;
 use minicore\lib\RunClassAbstract;
 
 class RunClass extends RunClassAbstract

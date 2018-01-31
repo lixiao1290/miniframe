@@ -308,11 +308,11 @@ class MiniApp extends MiniBase
     }
 
     public function __construct($config = null)
-    {
+    { 
         if (is_null($config)) {
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
-            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
+//            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
             $this->setConfig($config);
             Configer::setConfig($config);
 

@@ -5,6 +5,7 @@ namespace admin\main\controllers;
 use admin\tools\Email_reader;
 use admin\tools\ReceiveMail;
 use common\lib\Snoopy;
+use common\models\demo;
 use minicore\helper\Db;
 use minicore\lib\ControllerBase;
 use minicore\helper\DbContainer;
@@ -313,6 +314,20 @@ class IndexController extends ControllerBase
     {
       return   View::view();
       $this->view();
+    }
+
+    /**
+     * 
+     */
+    public function refle()
+    {
+
+               var_dump($_SERVER);
+        /**
+         * @var  demo $demo
+         */
+        $demo=Mini::creatObj(demo::class);
+        $demo->big();
     }
 }
 

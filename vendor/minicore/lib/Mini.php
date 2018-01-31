@@ -33,9 +33,35 @@ class Mini
     /**
      *
      */
-    public static function creatObj(string $name)
+    public static function creatObj($name)
     {
-        $reflectionClass=new \ReflectionClass($name);
+        $reflectionClass = new \ReflectionClass($name);
+        $reflectionMethod = $reflectionClass->getConstructor();
+        if ($reflectionClass->getConstructor() && $paremeters = $reflectionClass->getConstructor()->getParameters()) {
+            $actualParameters = array();
+            foreach ($paremeters as $parameter) {
+
+                $className = $parameter->getClass()->getName();
+                if (class_exists($className)) {
+                    $actualParameters[$parameter->getName()] = static::creatObj($className);
+                }
+            }
+//            var_dump($name, $actualParameters);
+            $obj = $reflectionClass->newInstanceArgs($actualParameters);
+        } else {
+            $obj = $reflectionClass->newInstance();
+        }
+        return $obj;
+    }
+
+    public static function creatObjByArgs($classname, $args)
+    {
+        $reflectionClass = new \ReflectionClass($name);
+        $obj=$reflectionClass->newInstanceArgs($args);
+    }
+
+    public static function creatObjByReflectionClass($reflectionClass)
+    {
 
     }
 }

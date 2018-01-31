@@ -55,7 +55,7 @@ return array(
             'routManager'=>MiniRouteManager::class,
         ],
 		'extentions' => [
-				minicore\lib\RequestServer::class=>[
+				\minicore\lib\RequestServer::class=>[
 						'urlDelimiter'=>'/',
 						'actLevel'=>3
 				],
