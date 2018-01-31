@@ -39,22 +39,22 @@ class MiniApp extends MiniBase
     /**
      * @var \miniCore\lib\ControllerBase $controllerStance
      */
-    private $controllerStance;
+    private $controllerInstance;
 
     /**
-     * @return ControllerBase
+     * @return ControllerBase $controllerInstance
      */
-    public function getControllerStance()
+    public function getControllerInstance()
     {
-        return $this->controllerStance;
+        return $this->controllerInstance;
     }
 
     /**
-     * @param ControllerBase $controllerStance
+     * @param ControllerBase $controllerInstance
      */
-    public function setControllerStance($controllerStance)
+    public function setControllerInstance($controllerStance)
     {
-        $this->controllerStance = $controllerStance;
+        $this->controllerStance = $controllerInstance;
     }
 
     /**
@@ -305,6 +305,10 @@ class MiniApp extends MiniBase
             call_user_func([$runObj, $runMethod]);
             // RequestServer::runRout($routArr);
         }
+        $path=$this->getControllerInstance()->getClassFile();
+        echo $path;
+        $this->setAppPath();
+
     }
 
     public function __construct($config = null)
@@ -317,6 +321,7 @@ class MiniApp extends MiniBase
             Configer::setConfig($config);
 
         }
+
         Mini::$app = $this;
         self::setParams($config['params']);
         if (PHP_SESSION_DISABLED === session_status()) {

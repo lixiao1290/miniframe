@@ -326,12 +326,13 @@ class IndexController extends ControllerBase
         /**
          * @var  demo $demo
          */
-        $demo=Mini::creatObj(demo::class);
+        $demo=Mini::createObj(demo::class);
         $demo->big();
     }
     function sphinx($kw=null)
     {
-        include './xiunophp/sphinx.class.php';
+//        include './xiunophp/sphinx.class.php';
+        /*echo $this->getClassFile().'./lib/sphinx.php';*/exit;
         $sx = new SphinxClient();
         $sx->SetServer('127.0.0.1', 9312);
         $sx->SetArrayResult(true);

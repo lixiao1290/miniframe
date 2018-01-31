@@ -4,7 +4,7 @@
 use minicore\lib\MiniRouteManager;
 
 return array(
-
+        'app'=>array('path'),
 		'db' => array(
 				'host' => 'localhost',
 
@@ -51,7 +51,7 @@ return array(
             'runClosure'=>function ($app) {
                     echo 'a';
             },
-            'runClass'=>['class'=>\common\run\RunClass::class,'method'=>'run'],
+            'runClass'=>['class'=>\minicore\run\RunClass::class,'method'=>'run'],
             'routManager'=>MiniRouteManager::class,
         ],
 		'extentions' => [

@@ -140,11 +140,11 @@ class RequestServer extends Base
             if (class_exists($Controller)) {
                 $controllerReflectObj=(new \ReflectionClass($Controller));
                 Mini::$app->setControllerReflectObj($controllerReflectObj);
-                $ControllerObj = $controllerReflectObj->newInstance();
-                if(method_exists($ControllerObj,Mini::$app->getAct())) {
-                    Mini::$app->setControllerStance($ControllerObj);
+                $controllerObj = $controllerReflectObj->newInstance();
+                Mini::$app->setControllerInstance($controllerObj);
+                if(method_exists($controllerObj,Mini::$app->getAct())) {
                     call_user_func(array(
-                        $ControllerObj,
+                        $controllerObj,
                         Mini::$app->getAct()
                     ));
                     exit;

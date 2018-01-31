@@ -7,7 +7,7 @@ $config=require dirname(dirname(__FILE__)).'/config/Config.php';
 $config['params']=require dirname(dirname(__FILE__)).'/config/params.php';
 (new MiniApp($config))->run();
 
-/*$application = \minicore\lib\Mini::creatObj(MiniApp::class,array('config'=>$config));
+/*$application = \minicore\lib\Mini::createObj(MiniApp::class,array('config'=>$config));
 $application->run();*/
 
 

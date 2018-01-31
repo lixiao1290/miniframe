@@ -33,7 +33,7 @@ class Mini
     /**
      *
      */
-    public static function creatObj($name)
+    public static function createObj($name)
     {
         $reflectionClass = new \ReflectionClass($name);
         $reflectionMethod = $reflectionClass->getConstructor();
