@@ -530,7 +530,7 @@ class SphinxRt
         if(!$this->_link) $this->triggerDebug($this->debug);
         
         $rs = mysqli_query($this->_link, $sql);
-        if(!$rs) $this->error = mysqli_error();
+        if(!$rs) $this->error = mysqli_error($this->_link);
         $this->triggerDebug($this->debug);
         return $rs;
     }

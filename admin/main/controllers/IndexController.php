@@ -334,8 +334,8 @@ class IndexController extends ControllerBase
     {
 //        include './xiunophp/sphinx.class.php';
         include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
-        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/sphinx.php';
-        $sx = new \SphinxClientTool();
+//        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/sphinx.php';
+        $sx = new \SphinxClient();
         $sx->SetServer('127.0.0.1', 9312);
         $sx->SetArrayResult(true);
         $sx->SetMatchMode(SPH_MATCH_ANY); //��ѯģʽ
@@ -343,7 +343,7 @@ class IndexController extends ControllerBase
         $sx->SetSortMode(SPH_SORT_RELEVANCE, "WEIGHT() DESC");//�����ֶ�
         //$sx->SetFilter('catid', array(3,4)); ����
 //        $sx->SetLimits(0, 1000);//��������
-        $r = $sx->Query("自", "ciku");
+        $r = $sx->Query("自", "word");
         var_dump(  $r);
 //        $sx->Close();
         $ids = array();
@@ -354,7 +354,7 @@ class IndexController extends ControllerBase
         }
         var_dump($ids);
 
-        $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
+        $sphinx = new \SphinxRt('word', '127.0.0.1:9306');
         //打开调试信息
         $sphinx->debug = true;
         //查询
