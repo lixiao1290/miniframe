@@ -329,5 +329,26 @@ class IndexController extends ControllerBase
         $demo=Mini::creatObj(demo::class);
         $demo->big();
     }
+    function sphinx($kw=null)
+    {
+        include './xiunophp/sphinx.class.php';
+        $sx = new SphinxClient();
+        $sx->SetServer('127.0.0.1', 9312);
+        $sx->SetArrayResult(true);
+        $sx->SetMatchMode(SPH_MATCH_ANY); //��ѯģʽ
+        $sx->SetRankingMode(SPH_RANK_WORDCOUNT); //��������ʽ
+        $sx->SetSortMode(SPH_SORT_RELEVANCE, "WEIGHT() DESC");//�����ֶ�
+        //$sx->SetFilter('catid', array(3,4)); ����
+        $sx->SetLimits(0, 1000);//��������
+        $r = $sx->Query($kw, 'ciku');
+        $sx->Close();
+        $ids =array();
+        if(is_array($r['matches']) && !empty($r['matches'])){
+            foreach ($r['matches'] as $k => $v) {
+                $ids[$v['id']] = $v['id'];
+            }
+        }
+        return $ids;
+    }
 }
 
