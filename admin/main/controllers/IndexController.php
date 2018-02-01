@@ -274,6 +274,10 @@ class IndexController extends ControllerBase
         $obj->close_mailbox();   //Close Mail Box
     }
 
+    /**
+     *读邮件
+     * @throws \Exception
+     */
     public function reademails()
     {
         $server = new Server('imap.163.com', '993', 'imap');
@@ -337,7 +341,7 @@ class IndexController extends ControllerBase
      * sphinx.conf中的serachd 配置listen=9306:mysql41 实现sphinx可以支持mysql连接执行sql语句端口为9306
      * 连接命令：mysql -h 127.0.0.1 -P 9306
      * 启动sphinx bin\searchd.exe  --config ./sphinx.conf nmp集成环境
-     *
+     * 数据文件 vendor\minicore\sqlmigration
      *
      *
      */
