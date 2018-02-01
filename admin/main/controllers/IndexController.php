@@ -330,7 +330,18 @@ class IndexController extends ControllerBase
         $demo->big();
     }
 
-    function sphinx($kw = null)
+    /**
+     * sphinx 搜索demo
+     * 配置文件：\common\lib\sphinx.conf
+     * sphinxRt 实时索引curd 类 相当于sphinx拿来作数据库用可以执行sql语句
+     * sphinx.conf中的serachd 配置listen=9306:mysql41 实现sphinx可以支持mysql连接执行sql语句端口为9306
+     * 连接命令：mysql -h 127.0.0.1 -P 9306
+     * 启动sphinx bin\searchd.exe  --config ./sphinx.conf nmp集成环境
+     *
+     *
+     *
+     */
+    function sphinx()
     {
 //        include './xiunophp/sphinx.class.php';
         include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
@@ -347,12 +358,13 @@ class IndexController extends ControllerBase
 
         $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
         //打开调试信息
-        $sphinx->debug = true;
+        $sphinx->debug = false;
         //查询
 //        $prodList = $sphinx->where($condition)->order($orderCondition)->group('prod_uid')->search();
 
-        $prodList = $sphinx ->where("WHERE MATCH('大') and group_id = 5")->limit(100)->search();
-        echo "sphinxrt","<pre>"; print_r($prodList);
+        $prodList = $sphinx->where("WHERE MATCH('大') and group_id = 5")->limit(100)->search();
+        echo "sphinxrt", "<pre>";
+        print_r($prodList);
         //插入数据
         $sphinxData['word'] = "大";
         $sphinxData['group_id'] = 5;
@@ -367,7 +379,8 @@ class IndexController extends ControllerBase
         $sx->SetFilter('group_id', array(5));
 //        $sx->SetLimits(0, 1000);//
         $r = $sx->Query("大", "ciku");
-        echo "<pre>";print_r(  $r);
+        echo "<pre>";
+        print_r($r);
     }
 }
 
