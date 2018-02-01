@@ -386,5 +386,25 @@ class IndexController extends ControllerBase
         echo "<pre>";
         print_r($r);
     }
+
+    /**
+     *
+     */
+    public function insertSphinx()
+    {
+
+        $db_config=array("host" => "localhost", "port" => "3306", "db" => "test", "user" => "root", "pwd" => "root","type"=>"mysql");
+        $list=Db::database($db_config)->table("ciku_keyword")->asArray();
+        var_dump($list);
+        die;
+        $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
+        //打开调试信息
+        $sphinx->debug = false;
+        //插入数据
+        $sphinxData['word'] = "大";
+        $sphinxData['group_id'] = 5;
+        $sphinx->insert($sphinxData); //插入数据
+
+    }
 }
 

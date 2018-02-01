@@ -6,21 +6,40 @@ namespace minicore\helper;
  * @author lixiao
  *         数据库操作类
  */
+/**
+ * Class Db
+ * @package minicore\helper
+ */
 class Db extends Helper
 {
 
+    /**
+     * @var
+     */
     private $sqlLast;
 
+    /**
+     * @var \PDO
+     */
     private $pdo;
 
-    public $db;
+    /**
+     * @var string $db
+     */
+    protected $db;
 
+    /**
+     * @var string
+     */
     private $table;
 
     private $dsn;
 
     private $config;
 
+    /**
+     * @var \PDOStatement $statement
+     */
     private $statement;
 
     private $fields;
@@ -28,7 +47,10 @@ class Db extends Helper
     private $selectSql;
 
     private $where;
-
+    /**
+     * @var Db
+     */
+    protected static $staticObj;
     /* array( array('字段','=','值') ,) */
     private $pars;
 
@@ -48,22 +70,31 @@ class Db extends Helper
 
     public $sql;
 
+    public function __construct($host,$user,$pwd,$type,$db,$port)
+    {
+        $this->host=$host;
+        $this->user=$user;
+        $this->pwd=$pwd;
+        $this->type=$type;
+        $this->db=$db;
+        $this->port=$port;
+    }
     /**
      *
      * @return the $wherepars
      */
     public function getWherepars()
     {
-        return $this->wherepars;
+        return self::$staticObj->wherepars;
     }
 
     /**
      *
-     * @param field_type $wherepars            
+     * @param field_type $wherepars
      */
     public function setWherepars($wherepars)
     {
-        $this->wherepars = $wherepars;
+        self::$staticObj->wherepars = $wherepars;
     }
 
     /**
@@ -72,16 +103,16 @@ class Db extends Helper
      */
     public function getSql()
     {
-        return $this->sql;
+        return self::$staticObj->sql;
     }
 
     /**
      *
-     * @param string $sql            
+     * @param string $sql
      */
     public function setSql($sql)
     {
-        $this->sql = $sql;
+        self::$staticObj->sql = $sql;
     }
 
     public $executePars;
@@ -92,16 +123,16 @@ class Db extends Helper
      */
     public function getExecutePars()
     {
-        return $this->executePars;
+        return self::$staticObj->executePars;
     }
 
     /**
      *
-     * @param field_type $executePars            
+     * @param field_type $executePars
      */
     public function setExecutePars($executePars)
     {
-        $this->executePars = $executePars;
+        self::$staticObj->executePars = $executePars;
     }
 
     /**
@@ -110,7 +141,7 @@ class Db extends Helper
      */
     public function getFields()
     {
-        return $this->fields;
+        return self::$staticObj->fields;
     }
 
     /**
@@ -120,7 +151,7 @@ class Db extends Helper
      */
     public function setFields($fields)
     {
-        $this->fields = $fields;
+        self::$staticObj->fields = $fields;
     }
 
     /**
@@ -129,121 +160,130 @@ class Db extends Helper
      */
     public function getPdo()
     {
-        if (is_object($this->pdo)) {
-            return $this->pdo;
+        if (is_object(self::$staticObj->pdo)) {
+            return self::$staticObj->pdo;
         } else {
-            return $this->pdoInit();
+            return self::$staticObj->pdoInit();
         }
     }
 
     /**
      *
-     * @param \PDO $pdo            
+     * @param \PDO $pdo
      */
     public function setPdo($pdo)
     {
-        $this->pdo = $pdo;
+        self::$staticObj->pdo = $pdo;
     }
 
     public static function database($db)
     {
-        $static = new static();
-        if (is_array($db)) {
-            $static->miniObjInit($db);
-        } else {
-            $static->miniObjInit();
-            /*
-             * if (Mini::$app->getConfig('db')) {
-             * $static->miniObjInit(Mini::$app->getConfig('db'));
-             * }
-             */
-        }
-        $static->db = $db;
-        return $static;
+
+
+//        $static->db = $db;
+        self::$staticObj=self::ObjInit($db);
+        return self::$staticObj;
     }
 
+    /**
+     * @param $table 表名
+     * @param $table tablename
+     * @return self::$staticObj
+     */
     public function table($table)
     {
-        $this->table = $table;
-        return $this;
+        self::$staticObj->table = $table;
+        return self::$staticObj;
     }
 
     public function field($fields)
     {
-        $this->fields = $fields;
-        return $this;
+        self::$staticObj->fields = $fields;
+        return self::$staticObj;
     }
 
     public function debug()
     {
-        var_dump($this->db, $this->fields, $this->table, $this->pdo->errorInfo(), $this->statement->errorInfo());
+        var_dump(self::$staticObj->db, self::$staticObj->fields, self::$staticObj->table, self::$staticObj->pdo->errorInfo(), self::$staticObj->statement->errorInfo());
     }
 
     public function asObj()
     {
-        $this->fetchstyle = \PDO::FETCH_OBJ;
-        return $this;
+        self::$staticObj->fetchstyle = \PDO::FETCH_OBJ;
+        return self::$staticObj;
     }
 
     public function asClass()
     {
-        $this->fetchstyle = \PDO::FETCH_CLASS;
-        return $this;
+        self::$staticObj->fetchstyle = \PDO::FETCH_CLASS;
+        return self::$staticObj;
     }
 
     public function asArray()
     {
-        $this->fetchstyle = \PDO::FETCH_ASSOC;
-        return $this;
+        self::$staticObj->fetchstyle = \PDO::FETCH_ASSOC;
+        return self::$staticObj->select();
     }
 
     private function pdoInit()
     {
         try {
-            if (is_object($this->pdo)) {
-                return $this->pdo;
+            if (is_object(self::$staticObj->pdo)) {
+                return self::$staticObj->pdo;
             } else {
-                $this->dsn = $this->type . ':' . 'dbname=' . $this->db . ';host=' . $this->host;
-                $this->setPdo((new \PDO($this->dsn, $this->user, $this->pwd)));
-                return $this->pdo;
+                self::$staticObj->dsn = self::$staticObj->type . ':' . 'dbname=' . self::$staticObj->db . ';host=' . self::$staticObj->host;
+                echo self::$staticObj->dsn ;
+                self::$staticObj->setPdo((new \PDO(self::$staticObj->dsn, self::$staticObj->user, self::$staticObj->pwd)));
+                return self::$staticObj->pdo;
             }
         } catch (\PDOException $e) {
             echo $e->errorInfo;
         }
     }
 
-    private function creatParameters($array)
+    /**
+     * 解析数组为pdoStatement可以用的数组 类似 array(':calories' => 175, ':colour' => 'yellow')
+     * @param $array
+     * @return array
+     */
+    private function creatPars($array)
     {
         $rs = [];
         foreach ($array as $key => $value) {
             $rs[':' . $key] = $value;
         }
-        
+
         return $rs;
     }
 
+    /**
+     *添加数据
+     * @param $data
+     * @return string
+     * @throws \Exception
+     */
     public function insert($data)
     {
         try {
-            $pars = $this->creatParameters($data);
+            $pars = self::$staticObj->creatPars($data);
             // var_dump($pars);
             $fields = array_keys($data);
-            if (empty($this->table)) {
+            if (empty(self::$staticObj->table)) {
                 throw new \Exception('在添加数据时，未指定表名！');
             }
             if (empty($data)) {
                 throw new \Exception('在添加数据时，未给定数据格式化的数组！');
             }
             $sql = <<<SQL
-                INSERT INTO $this->table(implode(',', array_keys($data))values(implode(',', array_keys($pars))
+                INSERT INTO self::$staticObj->table(implode(',', array_keys($data))values(implode(',', array_keys($pars))
 SQL;
-            
+
             $pdo = self::pdoInit();
             $statement = $pdo->prepare($sql);
             $statement->execute($pars);
             return $pdo->lastInsertId();
             if (\PDO::ERR_NONE != $statement->errorCode()) {
-                return $this->pdo->lastInsertId();
+                return self::$staticObj->pdo->lastInsertId();
             } else {
                 var_dump($statement->debugDumpParams());
             }
@@ -254,14 +294,14 @@ SQL;
 
     public function delete()
     {
-        if (empty($this->where) || empty($this->wherepars)) {
+        if (empty(self::$staticObj->where) || empty(self::$staticObj->wherepars)) {
             echo '未给出条件';
         }
-        if (empty($this->table)) {
+        if (empty(self::$staticObj->table)) {
             echo '未给出表';
         } else {
             $sql = <<<SQL
-            delete from $this->table where $this->where 
+            delete from self::$staticObj->table where self::$staticObj->where 
 SQL;
             echo $sql;
         }
@@ -280,7 +320,7 @@ SQL;
  $vo = :$vo
 SQL;
             } else {
-                
+
                 $str .= <<<SQL
  $vo = :$vo,
 SQL;
@@ -289,61 +329,61 @@ SQL;
         return $str;
     }
 
+    /**
+     * 修改
+     * @param $pars
+     */
     public function update($pars)
     {
-        if (empty($this->where) || empty($this->wherepars)) {
+        if (empty(self::$staticObj->where) || empty(self::$staticObj->wherepars)) {
             echo '未给出条件';
         }
-        if (empty($this->table)) {
+        if (empty(self::$staticObj->table)) {
             echo '未给出表';
         } else {
-            $parsStr = $this->SqlizePars($pars);
-            $this->setSql(<<<SQL
-            update $this->table $parsStr where $this->where
+            $parsStr = self::$staticObj->SqlizePars($pars);
+            self::$staticObj->setSql(<<<SQL
+            update self::$staticObj->table $parsStr where self::$staticObj->where
 SQL
 );
-            $pars = array_merge($this->creatParameters($pars), $this->getWherepars());
-            echo $this->getSql();
+            $pars = array_merge(self::$staticObj->creatPars($pars), self::$staticObj->getWherepars());
+            echo self::$staticObj->getSql();
             var_dump($pars);
-            $this->execute($this->getSql(), $pars);
-            $this->debug();
+            self::$staticObj->execute(self::$staticObj->getSql(), $pars);
+            self::$staticObj->debug();
         }
     }
 
+    public function parseFields($fields)
+    {
+        if (is_array($fields)) {
+            foreach ($fields as $k => $v) {
+                $fieldStr .= "{$k} as {$v} "; // key 字段 value as
+            }
+        } else {
+            $fieldStr = $fields;
+        }
+        return $fieldStr;
+    }
+    /**
+     * @param string $fields
+     * @return mixed
+     */
     public function select($fields = '*')
     {
-      
+
         try {
-            $fieldStr = ' ';
-            if (! empty($this->fields)) {
-                if (is_array($this->fields)) {
-                    
-                    foreach ($this->fields as $k => $v) {
-                        $fieldStr .= "{$k} as {$v} "; // key 字段 value as
-                    }
-                } else {
-                    $fieldStr = $this->fields;
-                }
-            } else {
-                
-                if (is_array($fields)) {
-                    foreach ($fields as $k => $v) {
-                        $fieldStr .= "{$k} as {$v} "; // key 字段 value as
-                    }
-                } else {
-                    $fieldStr = $fields;
-                }
-            }
-            $this->setSql(<<<SQL
-            SELECT   $fieldStr   from   $this->table
+            $fieldStr = self::$staticObj->parseFields($fields);
+            self::$staticObj->setSql(<<<SQL
+            SELECT   $fieldStr   from   self::$staticObj->table
 SQL
 );
-            // echo $this->selectSql;
-            if (! empty($this->wherepars)) {
-                $this->selectSql .= ' where ' . $this->where;
+            // echo self::$staticObj->selectSql;
+            if (! empty(self::$staticObj->wherepars)) {
+                self::$staticObj->selectSql .= ' where ' . self::$staticObj->where;
             }
-            $this->exec($this->getSql(), $this->getWherepars());
-            return $this->statement->fetchAll($this->fetchstyle);
+            self::$staticObj->exec(self::$staticObj->getSql(), self::$staticObj->getWherepars());
+            return self::$staticObj->statement->fetchAll(self::$staticObj->fetchstyle);
         } catch (\PDOException $e) {
             echo $e->errorInfo;
         }
@@ -361,11 +401,11 @@ SQL
             if (empty($where[2])) {
                 throw new \Exception('where条件字段的值未给出');
             } else {
-                
-                $this->where .= ' ' . $where[0] . ' ' . $where[1] . ' :' . $where[0];
-                $this->wherepars[':' . $where[0]] = $where[2];
+
+                self::$staticObj->where .= ' ' . $where[0] . ' ' . $where[1] . ' :' . $where[0];
+                self::$staticObj->wherepars[':' . $where[0]] = $where[2];
             }
-            return $this;
+            return self::$staticObj;
         } catch (Exception $e) {
             echo $e->getMessage();
             exit();
@@ -373,7 +413,7 @@ SQL
             echo $e->getMessage();
             exit();
         }
-        return $this;
+        return self::$staticObj;
     }
 
     public function filteWhere(array $where)
@@ -389,11 +429,11 @@ SQL
                 if (empty($where[2])) {
                     throw new \Exception('where条件字段的值未给出');
                 } else {
-                    
-                    $this->where .= ' ' . $where[0] . ' ' . $where[1] . ' :' . $where[0];
-                    $this->wherepars[':' . $where[0]] = $where[2];
+
+                    self::$staticObj->where .= ' ' . $where[0] . ' ' . $where[1] . ' :' . $where[0];
+                    self::$staticObj->wherepars[':' . $where[0]] = $where[2];
                 }
-                return $this;
+                return self::$staticObj;
             } catch (Exception $e) {
                 echo $e->getMessage();
                 exit();
@@ -402,15 +442,15 @@ SQL
                 exit();
             }
         }
-        
-        return $this;
+
+        return self::$staticObj;
     }
 
     public function exec($sql, $pars = NULL)
     {
-        self::pdoInit();
-        $this->statement = $this->pdo->prepare($sql);
-        $this->statement->execute($pars);
+        self::$staticObj->pdoInit();
+        self::$staticObj->statement = self::$staticObj->pdo->prepare($sql);
+        self::$staticObj->statement->execute($pars);
     }
 
     /**
@@ -421,9 +461,9 @@ SQL
     public function execute($sql, $pars)
     {
         try {
-            $pdo = $this->pdoInit();
-            $this->statement = $pdo->prepare($this->sql);
-            return $this->statement->execute($pars);
+            $pdo = self::$staticObj->pdoInit();
+            self::$staticObj->statement = $pdo->prepare(self::$staticObj->sql);
+            return self::$staticObj->statement->execute($pars);
         } catch (Exception $e) {
             echo $e->getMessage();
         } catch (PDOException $e) {

@@ -82,11 +82,31 @@ abstract class Base implements \Iterator
             $members=Mini::$app->getExtention(static::class);
     
         }
-        foreach ((array)$members as $key => $value) {
+        /*foreach ((array)$members as $key => $value) {
+
             if (property_exists(static::class, $key))
                 $this->$key = $value;
+        }*/
+        var_dump($members);exit;
+        return Mini::creatObjByArgs(static::class,$members);
+    }
+
+    /**
+     * @param unknown 初始化对象
+     */
+    public static function ObjInit($members = null)
+    {
+        if (empty($members)) {
+            $members = Mini::$app->getExtention(static::class);
+
         }
-    
+        /*foreach ((array)$members as $key => $value) {
+
+            if (property_exists(static::class, $key))
+                $this->$key = $value;
+        }*/
+
+        return Mini::creatObjByArgs(static::class, $members);
     }
     
     /**
