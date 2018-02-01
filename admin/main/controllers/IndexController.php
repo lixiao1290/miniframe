@@ -335,16 +335,7 @@ class IndexController extends ControllerBase
 //        include './xiunophp/sphinx.class.php';
         include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
 //        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/sphinx.php';
-        $sx = new \SphinxClient();
-        $sx->SetServer('127.0.0.1', 9312);
-        $sx->SetArrayResult(true);
-        $sx->SetMatchMode(SPH_MATCH_ANY); //��ѯģʽ
-        $sx->SetRankingMode(SPH_RANK_WORDCOUNT); //��������ʽ
-        $sx->SetSortMode(SPH_SORT_RELEVANCE, "WEIGHT() DESC");//�����ֶ�
-        //$sx->SetFilter('catid', array(3,4)); ����
-//        $sx->SetLimits(0, 1000);//��������
-        $r = $sx->Query("自", "word");
-        var_dump(  $r);
+
 //        $sx->Close();
         $ids = array();
         if (is_array($r['matches']) && !empty($r['matches'])) {
@@ -354,16 +345,29 @@ class IndexController extends ControllerBase
         }
         var_dump($ids);
 
-        $sphinx = new \SphinxRt('word', '127.0.0.1:9306');
+        $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
         //打开调试信息
         $sphinx->debug = true;
         //查询
-        $prodList = $sphinx->search();
+//        $prodList = $sphinx->where($condition)->order($orderCondition)->group('prod_uid')->search();
+
+        $prodList = $sphinx ->where("WHERE MATCH('大') and group_id = 5")->limit(100)->search();
+        echo "sphinxrt","<pre>"; print_r($prodList);
         //插入数据
-//        $sphinxData['title'] = $title;
-//        $sphinxData['content'] = $content;
-//        $sphinx->insert($sphinxData);
-        var_dump("sphinxrt",$prodList);
+        $sphinxData['word'] = "大";
+        $sphinxData['group_id'] = 5;
+//        $sphinx->insert($sphinxData); //插入数据
+
+        $sx = new \SphinxClient();
+        $sx->SetServer('127.0.0.1', 9312);
+        $sx->SetArrayResult(true);
+        $sx->SetMatchMode(SPH_MATCH_ANY); //
+        $sx->SetRankingMode(SPH_RANK_WORDCOUNT); //
+        $sx->SetSortMode(SPH_SORT_RELEVANCE, "WEIGHT() DESC");//
+        $sx->SetFilter('group_id', array(5));
+//        $sx->SetLimits(0, 1000);//
+        $r = $sx->Query("大", "ciku");
+        echo "<pre>";print_r(  $r);
     }
 }
 
