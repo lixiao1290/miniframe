@@ -31,7 +31,7 @@ class IndexController extends ControllerBase
 
         $data = [
             'username' => 'lixiao',
-            'hobby' => 'music,wine'
+            'hobby'    => 'music,wine'
         ];
         /* $i = intval(file_get_contents("E:log.txt"));
          file_put_contents("E:log.txt", $i++);*/
@@ -89,7 +89,7 @@ class IndexController extends ControllerBase
     public function ffmpeg()
     {
         $ffpeg = FFMpeg::create([
-            'ffmpeg.binaries' => 'E:\ffpeg/ffmpeg.exe',
+            'ffmpeg.binaries'  => 'E:\ffpeg/ffmpeg.exe',
             'ffprobe.binaries' => 'E:\ffpeg/ffprobe.exe'
         ]);
 
@@ -392,9 +392,16 @@ class IndexController extends ControllerBase
      */
     public function insertSphinx()
     {
-
-        $db_config=array("host" => "localhost", "port" => "3306", "db" => "test", "user" => "root", "pwd" => "root","type"=>"mysql");
-        $list=Db::database($db_config)->table("ciku_keyword")->asArray();
+        $argcs = array("i", "ijf", "idjfa");
+        $db_config = array(
+            "host" => "localhost",
+            "port" => "3306",
+            "db"   => "test",
+            "user" => "root",
+            "pwd"  => "root",
+            "type" => "mysql"
+        );
+        $list = Db::db($db_config)->table("ciku_keyword")->limit("50")->asArray();
         var_dump($list);
         die;
         $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');

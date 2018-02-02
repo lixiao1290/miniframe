@@ -56,26 +56,25 @@ class Mini
 
     public static function creatObjByArgs($classname, $args)
     {
-
-        if (class_exists($classname)) {
-
-            $reflectionClass = new \ReflectionClass($classname);
-            $reflectionMethod = $reflectionClass->getConstructor();
-            if ($reflectionClass->getConstructor() && $paremeters = $reflectionClass->getConstructor()->getParameters()) {
-                $actualParameters = array();
-                foreach ($paremeters as $parameter) {
-                    echo $parameter->name;
-                    $actualParameters[$parameter->name] = $args[$parameter->name];
+        try {
+            if (class_exists($classname)) {
+                $reflectionClass = new \ReflectionClass($classname);
+                $reflectionMethod = $reflectionClass->getConstructor();
+                if ($reflectionClass->getConstructor() && $paremeters = $reflectionClass->getConstructor()->getParameters()) {
+                    $actualParameters = array();
+                    foreach ($paremeters as $parameter) {
+                        $actualParameters[] = $args[$parameter->name];
+                    }
+                    $obj = $reflectionClass->newInstanceArgs($actualParameters);
+                    return $obj;
                 }
-                var_dump($actualParameters);
-                $obj = $reflectionClass->newInstanceArgs($actualParameters);
+            } else {
+                throw new \Exception("class ".$classname."  not found");
             }
-
-
-            /*$reflectionClass = new \ReflectionClass($classname);
-            $obj = $reflectionClass->newInstanceArgs($args);*/
-            return $obj;
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
+
     }
 
     public static function creatObjByReflectionClass($reflectionClass)
