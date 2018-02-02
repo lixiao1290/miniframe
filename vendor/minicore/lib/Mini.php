@@ -37,11 +37,11 @@ class Mini
     {
         $reflectionClass = new \ReflectionClass($name);
         $reflectionMethod = $reflectionClass->getConstructor();
-        if ($reflectionClass->getConstructor()) {
-            $paremeters = $reflectionClass->getConstructor()->getParameters();
-            if ($paremeters) {
+        if ($reflectionClass->getConstructor()) {/*if the class  has   constructor*/
+            $parameter = $reflectionClass->getConstructor()->getParameters();
+            if ($parameter) { /*if the constuctor  has parameters*/
                 $actualParameters = array();
-                foreach ($paremeters as $parameter) {
+                foreach ($parameter as $parameter) {
                     $className = $parameter->getClass()->getName();
                     try {
                         if (class_exists($className)) {
@@ -55,10 +55,10 @@ class Mini
                 }
 //            var_dump($name, $actualParameters);
                 $obj = $reflectionClass->newInstanceArgs($actualParameters);
-            } else {
+            } else { /*if the constuctor  has not parameters*/
                 $obj = $reflectionClass->newInstance();
             }
-        } else {
+        } else { /*if the class  has not constructor*/
             $obj = $reflectionClass->newInstanceWithoutConstructor();
         }
         return $obj;
@@ -76,22 +76,26 @@ class Mini
             if (class_exists($classname)) {
                 $reflectionClass = new \ReflectionClass($classname);
                 $reflectionMethod = $reflectionClass->getConstructor();
-                if ($reflectionClass->getConstructor()) {
-                    $paremeters = $reflectionClass->getConstructor()->getParameters();
-                    if ($paremeters) {
+                if ($reflectionClass->getConstructor()) { /*if the class  has   constructor*/
+                    $parameters = $reflectionClass->getConstructor()->getParameters();
+                    if ($parameters) {
                         $actualParameters = array();
-                        foreach ($paremeters as $parameter) {
+                        foreach ($parameters as $parameter) {
                             $actualParameters[] = $args[$parameter->name];
                         }
                         $obj = $reflectionClass->newInstanceArgs($actualParameters);
-                        return $obj;
-                    } else {
+
+                    } else { /*if the class  has no  parameters*/
                         /*todo*/
+                        $obj = $reflectionClass->newInstance();
                     }
+                } else { /** if the class  has no  constructor*/
+                    $obj = $reflectionClass->newInstanceWithoutConstructor();
                 }
             } else {
                 throw new \Exception("class " . $classname . "  not found");
             }
+            return $obj;
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
