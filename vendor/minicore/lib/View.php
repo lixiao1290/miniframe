@@ -9,21 +9,27 @@
 namespace minicore\lib;
 
 
+/**
+ * Class View
+ * @package minicore\lib
+ */
 class View
 {
+    /**
+     * @param null $path
+     * @return int
+     */
     public static function view($path = NULL)
     {
-        // exit;
         if (is_null($path)) {
-            // print_r(dirname());
-            // echo '@',__FUNCTION__;
 
             $actdir = Mini::$app->getControllerName();
             $actfile = Mini::$app->getAct();
-            $filename = Mini::$app->getControllerStance()->getViewPath(). '\\' . strtolower($actdir) . '\\' . strtolower($actfile) . '.' . Mini::$app->getConfig('viewSuffix');
+            $filename = Mini::$app->getControllerInstance()->getViewPath() . '\\' . strtolower($actdir) ;
+            $filename.='\\' . strtolower($actfile) . '.' . Mini::$app->getConfig('viewSuffix');
             // var_dump('<pre>',debug_backtrace());
             if (file_exists($filename)) {
-                extract(Mini::$app->getControllerStance()->getViewVars());
+                extract(Mini::$app->getControllerInstance()->getViewVars());
 
                 include $filename;
                 return 0;

@@ -5,14 +5,30 @@ namespace minicore\lib;
 class ControllerBase extends Base
 {
 
+    /**
+     * @var
+     */
     private $css;
 
+    /**
+     * @var
+     */
     private $js;
 
+    /**
+     * @var
+     */
     private $viewVars;
 
+    /**
+     * @var
+     */
     private $pageFunc;
 
+    /**
+     * @var string
+     * 视图文件存放路径
+     */
     private $viewPath;
 
     /**
@@ -58,6 +74,9 @@ class ControllerBase extends Base
         return $this->viewVars;
     }
 
+    /**
+     * ControllerBase constructor.
+     */
     public function __construct()
     {
         if (method_exists(get_called_class(), 'initial')) {
@@ -70,6 +89,9 @@ class ControllerBase extends Base
         // echo $this->viewPath;
     }
 
+    /**
+     *
+     */
     public function head()
     {
         while (list ($key, $value) = each($this->css)) {
@@ -79,6 +101,9 @@ class ControllerBase extends Base
         }
     }
 
+    /**
+     *
+     */
     public function body()
     {
         while (list ($key, $value) = each($this->js)) {
@@ -88,6 +113,9 @@ class ControllerBase extends Base
         }
     }
 
+    /**
+     * @param null $path
+     */
     public function includeFile($path = null)
     {
         $file = Mini::$app->getViewPath() . '//' . $path;
@@ -132,6 +160,9 @@ class ControllerBase extends Base
         }
     }
 
+    /**
+     *
+     */
     public function beforeView()
     {
         if ($layout = Mini::$app->getConfig('layout')) {
@@ -168,6 +199,9 @@ class ControllerBase extends Base
         }
     }
 
+    /**
+     * @param $widget
+     */
     public static function widget($widget)
     {
         $path = Mini::$app->getConfig('controllerNamespace');

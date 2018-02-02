@@ -1,6 +1,7 @@
 <?php
 namespace minicore\lib;
 
+use minicore\config\Configer;
 use minicore\interfaces\MiniInterface;
 
 class MiniBase extends Base implements MiniInterface
@@ -16,12 +17,8 @@ class MiniBase extends Base implements MiniInterface
      */
     public function getConfig($key=NULL)
     {
-        if($key) {
-            return $this->config[$key]?:false;
-        } else {
-            return $this->config;
-        }
-    
+            return Configer::getConfig($key);
+
     }
     public function setConfig( $value)
     {

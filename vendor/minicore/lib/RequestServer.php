@@ -4,6 +4,7 @@ namespace minicore\lib;
 
 use minicore\config\ConfigBase;
 use app;
+use minicore\config\Configer;
 
 /**
  *
@@ -17,12 +18,11 @@ class RequestServer extends Base
     public static $urlDelimiter;
 
     /* 控制器 在url参数中位置是第几个 */
-    public static $actLevel=3;
+    public static $actLevel = 3;
 
     public function __construct()
     {
     }
-
 
 
     /**
@@ -74,14 +74,14 @@ class RequestServer extends Base
 
             return array(
                 'controller' => $controller,
-                'act' => $act
+                'act'        => $act
             );
         } else {
 
             $pars = explode('\\', $url);
-             $pars = array_filter($pars);//var_dump($pars);
+            $pars = array_filter($pars);//var_dump($pars);
             $actArr = array_splice($pars, 0, self::$actLevel);
-            if(!empty($pars)) {
+            if (!empty($pars)) {
                 self::initGet($pars);
             }
             $act = array_pop($actArr);
@@ -97,9 +97,9 @@ class RequestServer extends Base
             }
             $controller = $controller;
             $routeArr = array(
-                'module' => Mini::$app->getModule(),
+                'module'     => Mini::$app->getModule(),
                 'controller' => $controller,
-                'act' => $act
+                'act'        => $act
             );
 
             $routeArr['route'] = implode('/', $routeArr);
@@ -113,7 +113,7 @@ class RequestServer extends Base
     public static function runRout($routeArr)
     {
         if (array_key_exists(static::class, Mini::$app->getConfig('extentions'))) {
-            static::miniObjInitStatic(Mini::$app->getConfig('extentions')[static::class]);
+            static::miniObjInitStatic(Configer::getConfig('extentions')[static::class]);
         }
         // echo self::$urlDelimiter,'ijiji';
         if (1 == Mini::$app->getConfig('routType')) {
@@ -130,19 +130,19 @@ class RequestServer extends Base
                 $routeArr['act'] = Mini::$app->getConfig('defaultAct');
             }
             if ($routeArr['module']) {
-                $Controller = Mini::$app->getConfig('appNamespace') . '\\' . $routeArr['module'] . '\\controllers\\' . $routeArr['controller'] . Mini::$app->getConfig('ControllerSuffix');
+                $controller = Mini::$app->getConfig('appNamespace') . '\\' . $routeArr['module'] . '\\controllers\\' . $routeArr['controller'] . Mini::$app->getConfig('ControllerSuffix');
             } else {
-                $Controller = Mini::$app->getConfig('appNamespace') . '\\' . $routeArr['controller'] . Mini::$app->getConfig('ControllerSuffix');
+                $controller = Mini::$app->getConfig('appNamespace') . '\\' . $routeArr['controller'] . Mini::$app->getConfig('ControllerSuffix');
             }
+//            $controller="";
             Mini::$app->setControllerName($routeArr['controller']);
-            Mini::$app->setController($Controller);
-            Mini::$app->setAct(Mini::$app->getConfig('actPrefix') . $routeArr['act'] . Mini::$app->getConfig('actSuffix'));
-            if (class_exists($Controller)) {
-                $controllerReflectObj=(new \ReflectionClass($Controller));
-                Mini::$app->setControllerReflectObj($controllerReflectObj);
-                $controllerObj = $controllerReflectObj->newInstance();
+            Mini::$app->setController($controller);
+            $act=Mini::$app->getConfig('actPrefix') . $routeArr['act'] . Mini::$app->getConfig('actSuffix');
+            Mini::$app->setAct($act);
+            if (class_exists($controller)) {
+                $controllerObj = Mini::createObj($controller);
                 Mini::$app->setControllerInstance($controllerObj);
-                if(method_exists($controllerObj,Mini::$app->getAct())) {
+                if (method_exists($controllerObj, Mini::$app->getAct())) {
                     call_user_func(array(
                         $controllerObj,
                         Mini::$app->getAct()
@@ -155,10 +155,7 @@ class RequestServer extends Base
                 }
 
             } else {
-                header("HTTP/1.1 404 Not Found");
-                header("Status: 404 Not Found");
-                exit();
-                echo('未发现控制器，检查您的url');
+                throw new \Exception("class" . $controller . " not found");
             }
         }
     }
@@ -183,7 +180,7 @@ class RequestServer extends Base
                         $str => null
                     )); // exit;
                     return strtr($rs, array(
-                        '/' => '\\',
+                        '/'         => '\\',
                         'index.php' => ''
                     ));
                 }

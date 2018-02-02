@@ -3,6 +3,7 @@
 namespace minicore\lib;
 
 use minicore\config\ConfigBase;
+use minicore\mvc\controller\ExceptionController;
 use minicore\traits\SingleInstance;
 use minicore\helper\Db;
 use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
@@ -52,9 +53,9 @@ class MiniApp extends MiniBase
     /**
      * @param ControllerBase $controllerInstance
      */
-    public function setControllerInstance($controllerStance)
+    public function setControllerInstance($controllerInstance)
     {
-        $this->controllerStance = $controllerInstance;
+        $this->controllerInstance= $controllerInstance;
     }
 
     /**
@@ -217,6 +218,7 @@ class MiniApp extends MiniBase
         return $this->act;
     }
 
+
     /**
      *
      * @param field_type $controller
@@ -309,7 +311,19 @@ class MiniApp extends MiniBase
            $path=$this->getControllerInstance()->getClassFile();
            $this->setAppPath();
        } catch (\Exception $exception) {
+           /* @var ExceptionController $exceptionController*/
+          /* $exceptionController=Mini::createObj(ExceptionController::class);
+           $exceptionController->assign("message",$exception->getMessage());
+           $exceptionController->assign("file",$exception->getFile());
+           $exceptionController->assign("line",$exception->getLine());
+           $exceptionController->assign("code",$exception->getCode());
+           $exceptionController->assign("trace",$exception->getTraceAsString());*/
+
            echo $exception->getMessage();
+           echo $exception->getFile();
+           echo $exception->getLine();
+           echo $exception->getCode();
+           echo $exception->getTraceAsString();
        }
 
     }
@@ -320,7 +334,7 @@ class MiniApp extends MiniBase
             $this->config = include dirname(__FILE__) . '/../config/Config.php';
         } else {
 //            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
-            $this->setConfig($config);
+//            $this->setConfig($config);
             Configer::setConfig($config);
 
         }

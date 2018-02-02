@@ -4,12 +4,10 @@ namespace minicore\lib;
 
 /**
  * @author lixiao
+ * lixiao.god@163.com
  *
  */
-/**
- * Class Mini
- * @package minicore\lib
- */
+
 /**
  * Class Mini
  * @package minicore\lib
@@ -30,17 +28,24 @@ class Mini
     {
     }
 
+
     /**
-     *给出类名，获得对象
+     * @param $name classname
+     * @return object
      */
     public static function createObj($name)
     {
+        if (!class_exists($name)) {
+            throw new \Exception("class " . $name . " not found");
+        }
         $reflectionClass = new \ReflectionClass($name);
         $reflectionMethod = $reflectionClass->getConstructor();
-        if ($reflectionClass->getConstructor()) {/*if the class  has   constructor*/
+        if ($reflectionClass->getConstructor()) {
+            /**  if the class  has   constructor*/
             $parameter = $reflectionClass->getConstructor()->getParameters();
-            if ($parameter) { /*if the constuctor  has parameters*/
-                $actualParameters = array();
+            if ($parameter) {
+                /**if the constuctor  has parameters*/
+                $actualParameters = array();/**   */
                 foreach ($parameter as $parameter) {
                     $className = $parameter->getClass()->getName();
                     try {
@@ -55,17 +60,18 @@ class Mini
                 }
 //            var_dump($name, $actualParameters);
                 $obj = $reflectionClass->newInstanceArgs($actualParameters);
-            } else { /*if the constuctor  has not parameters*/
+            } else {
+                /**if the constuctor  has not parameters*/
                 $obj = $reflectionClass->newInstance();
             }
-        } else { /*if the class  has not constructor*/
+        } else { /**if the class  has not constructor*/
             $obj = $reflectionClass->newInstanceWithoutConstructor();
         }
         return $obj;
     }
 
     /**
-     * 给粗参数类名，返回对象
+     * create object from args
      * @param $classname
      * @param $args
      * @return object
@@ -76,7 +82,8 @@ class Mini
             if (class_exists($classname)) {
                 $reflectionClass = new \ReflectionClass($classname);
                 $reflectionMethod = $reflectionClass->getConstructor();
-                if ($reflectionClass->getConstructor()) { /*if the class  has   constructor*/
+                if ($reflectionClass->getConstructor()) {
+                    /** if the class  has   constructor*/
                     $parameters = $reflectionClass->getConstructor()->getParameters();
                     if ($parameters) {
                         $actualParameters = array();
@@ -88,7 +95,8 @@ class Mini
                     } else { /*if the class  has no  parameters*/
                         $obj = $reflectionClass->newInstance();
                     }
-                } else { /** if the class  has no  constructor*/
+                } else {
+                    /**  #if the class  has no  constructor*/
                     $obj = $reflectionClass->newInstanceWithoutConstructor();
                 }
             } else {

@@ -7,7 +7,7 @@ use app\tools\ReceiveMail;
 use common\lib\Snoopy;
 use common\models\demo;
 use minicore\helper\Db;
-use minicore\lib\ControllerBase;
+use minicore\lib\Controller;
 use minicore\helper\DbContainer;
 use FFMpeg\FFMpeg;
 use minicore\lib\View;
@@ -16,7 +16,7 @@ use minicore\lib\Mini;
 use app\tools\ConvertEncoder;
 use Syscover\EmailReader\Server;
 
-class IndexController extends ControllerBase
+class IndexController extends Controller
 {
 
     public function initial()
@@ -317,7 +317,7 @@ class IndexController extends ControllerBase
     public function animate()
     {
         return View::view();
-        $this->view();
+
     }
 
     /**
