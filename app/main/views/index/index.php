@@ -165,7 +165,7 @@
 		<div class="Hui-tabNav-wp">
 			<ul id="min_title_list" class="acrossTab cl">
 				<li class="active">
-					<span title="我的桌面" data-href="welcome.html">我的桌面</span>
+					<span title="我的桌面" data-href="">我的桌面</span>
 					<em></em></li>
 		</ul>
 	</div>
@@ -174,7 +174,7 @@
 	<div id="iframe_box" class="Hui-article">
 		<div class="show_iframe">
 			<div style="display:none" class="loading"></div>
-			<iframe scrolling="yes" frameborder="0" src="main/index/welcome"></iframe>
+			<iframe scrolling="yes" frameborder="0" src=" index.php/main/index/welcome"></iframe>
 	</div>
 </div>
 </section>
@@ -195,11 +195,7 @@
 <script type="text/javascript" src="<?=$AssetDir?>lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
 <script type="text/javascript">
 
-    function rl() {
-         // $.get("http://www.cipm-expo.com/e/cpxx_chs.php?ID=1389&W=http://www.cipm-expo.com/e/cplb_chs.php$ID=8^P=1^O=1");
-         console.log("s");
-    }
-    setInterval("rl()",100);
+
 $(function(){
 	/*$("#min_title_list li").contextMenu('Huiadminmenu', {
 		bindings: {
