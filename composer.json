@@ -12,6 +12,7 @@
 	"syscover/email-reader": "~2.0",
 	"evenement/evenement":"2.0.*",
 	"php-ffmpeg/php-ffmpeg":"v0.11.0"
+	
   },
   "autoload": {
     "psr-4": {
