@@ -296,18 +296,21 @@ class MiniApp extends MiniBase
 
     public function run()
     {
-        if (1 == $this->getConfig('RunMode')) {
+       try {
+           if (1 == $this->getConfig('RunMode')) {
 
 
-            $runClass = Configer::getConfig('app.runClass.class');
-            $runMethod = Configer::getConfig('app.runClass.method');
-            $runObj = (new \ReflectionClass($runClass))->newInstance();
-            call_user_func([$runObj, $runMethod]);
-            // RequestServer::runRout($routArr);
-        }
-        $path=$this->getControllerInstance()->getClassFile();
-        echo $path;
-        $this->setAppPath();
+               $runClass = Configer::getConfig('app.runClass.class');
+               $runMethod = Configer::getConfig('app.runClass.method');
+               $runObj = (new \ReflectionClass($runClass))->newInstance();
+               call_user_func([$runObj, $runMethod]);
+               // RequestServer::runRout($routArr);
+           }
+           $path=$this->getControllerInstance()->getClassFile();
+           $this->setAppPath();
+       } catch (\Exception $exception) {
+           echo $exception->getMessage();
+       }
 
     }
 

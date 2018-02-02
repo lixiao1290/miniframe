@@ -86,7 +86,6 @@ class Mini
                         $obj = $reflectionClass->newInstanceArgs($actualParameters);
 
                     } else { /*if the class  has no  parameters*/
-                        /*todo*/
                         $obj = $reflectionClass->newInstance();
                     }
                 } else { /** if the class  has no  constructor*/
