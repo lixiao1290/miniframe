@@ -340,7 +340,7 @@ class IndexController extends Controller
      * sphinxRt 实时索引curd 类 相当于sphinx拿来作数据库用可以执行sql语句
      * sphinx.conf中的serachd 配置listen=9306:mysql41 实现sphinx可以支持mysql连接执行sql语句端口为9306
      * 连接命令：mysql -h 127.0.0.1 -P 9306
-     * 启动sphinx bin\searchd.exe  --config ./sphinx.conf nmp集成环境
+     * 启动sphinx bin\searchd.exe  --config ./sphinx.conf (nmp集成环境)
      * 数据文件 vendor\minicore\sqlmigration
      *
      *
