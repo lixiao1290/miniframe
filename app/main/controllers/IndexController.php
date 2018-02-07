@@ -350,29 +350,18 @@ class IndexController extends Controller
 //        include './xiunophp/sphinx.class.php';
         include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
 //        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/sphinx.php';
-
-//        $sx->Close();
-        $ids = array();
-        if (is_array($r['matches']) && !empty($r['matches'])) {
-            foreach ($r['matches'] as $k => $v) {
-                $ids[$v['id']] = $v['id'];
-            }
-        }
-        var_dump($ids);
-
         $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
         //打开调试信息
         $sphinx->debug = false;
         //查询
 //        $prodList = $sphinx->where($condition)->order($orderCondition)->group('prod_uid')->search();
-
         $prodList = $sphinx->where("WHERE MATCH('大') and group_id = 5")->limit(100)->search();
         echo "sphinxrt", "<pre>";
         print_r($prodList);
         //插入数据
         $sphinxData['word'] = "大";
         $sphinxData['group_id'] = 5;
-//        $sphinx->insert($sphinxData); //插入数据
+//      $sphinx->insert($sphinxData); //插入数据
 
         $sx = new \SphinxClient();
         $sx->SetServer('127.0.0.1', 9312);
@@ -392,6 +381,8 @@ class IndexController extends Controller
      */
     public function insertSphinx()
     {
+        include dirname(dirname(dirname(dirname($this->getClassFile())))) . '/common' . '/lib/SphinxRt.class.php';
+
         $argcs = array("i", "ijf", "idjfa");
         $db_config = array(
             "host" => "localhost",
@@ -401,17 +392,25 @@ class IndexController extends Controller
             "pwd"  => "root",
             "type" => "mysql"
         );
-        $list = Db::db($db_config)->table("ciku_keyword")->limit("50")->asArray();
-        var_dump($list);
-        die;
+        $list = Db::db($db_config)->table("ciku_keyword")->limit("5000")->asArray();
         $sphinx = new \SphinxRt('ciku', '127.0.0.1:9306');
         //打开调试信息
         $sphinx->debug = false;
         //插入数据
-        $sphinxData['word'] = "大";
-        $sphinxData['group_id'] = 5;
-        $sphinx->insert($sphinxData); //插入数据
+        $acount=0;
+        foreach ($list as $value) {
 
+            $sphinxData['_id'] = $value['id'];
+            $sphinxData['word'] = $value['word'];
+            $sphinxData['cat_id'] = $value['cat_id'];
+            $r = $sphinx->insert($sphinxData); //插入数据
+            if($r) {
+                $acount+=1;
+            } else {
+                var_dump($sphinx->getError());
+            }
+        }
+        echo $acount;
     }
 }
 
