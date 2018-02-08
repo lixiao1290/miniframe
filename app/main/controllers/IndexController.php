@@ -8,14 +8,13 @@ use common\lib\Snoopy;
 use common\models\demo;
 use minicore\helper\Db;
 use minicore\lib\Controller;
-use minicore\helper\DbContainer;
 use FFMpeg\FFMpeg;
 use minicore\lib\View;
 use minicore\model\minidemo;
 use minicore\lib\Mini;
 use app\tools\ConvertEncoder;
 use Syscover\EmailReader\Server;
-
+use app\common\models;
 class IndexController extends Controller
 {
 
@@ -330,7 +329,7 @@ class IndexController extends Controller
         /**
          * @var  demo $demo
          */
-        $demo = Mini::createObj(app\common\models\demo::class);
+        $demo = Mini::createObj(models\demo::class);
         $demo->big();
     }
 
