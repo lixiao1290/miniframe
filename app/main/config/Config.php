@@ -25,7 +25,7 @@ return array(
 		'actionLevel' => 1,
 
 		'controllerLevel' => 0,
-
+        'defaultRoute'=>'main/index/index',
 		'controllerNamespace' => 'app\controllers',
 		'appNamespace' => 'app',
 

@@ -60,13 +60,17 @@ class RequestServer extends Base
     public static function generatRoute($url)
     {
 
-
+        $pars = explode('\\', $url);
+        $pars = array_filter($pars);
+        if(count($pars)<self::$actLevel) {
+           $route= Configer::getConfig("defaultRoute"); 
+           return self::generatRoute(self::analyzeUrl($route));
+        }
         if (strpos($url, '?')) {
             $url = substr($url, 0, strpos($url, '?'));
         }
         if (2 == self::$actLevel) {
-            $pars = explode('\\', $url);
-            $pars = array_filter($pars);
+
             $actArr = array_splice($pars, 0, self::$actLevel);
             self::initGet($pars);
             $act = array_pop($actArr);
@@ -78,8 +82,7 @@ class RequestServer extends Base
             );
         } else {
 
-            $pars = explode('\\', $url);
-            $pars = array_filter($pars);//var_dump($pars);
+
             $actArr = array_splice($pars, 0, self::$actLevel);
             if (!empty($pars)) {
                 self::initGet($pars);

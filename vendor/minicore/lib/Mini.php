@@ -50,7 +50,7 @@ class Mini
                     $className = $parameter->getClass()->getName();
                     try {
                         if (class_exists($className)) {
-                            $actualParameters[] = static::creatObj($className);
+                            $actualParameters[] = static::createObj($className);
                         } else {
                             throw new \Exception("class " . $classname . "  not found");
                         }

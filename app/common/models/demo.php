@@ -5,11 +5,7 @@
  * Date: 2018/1/24 0024
  * Time: 下午 17:16
  */
-
-namespace common\models;
-
-
-use app\main\controllers\base;
+namespace app\common\models;
 
 class demo
 {

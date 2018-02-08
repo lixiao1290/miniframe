@@ -330,7 +330,7 @@ class IndexController extends Controller
         /**
          * @var  demo $demo
          */
-        $demo = Mini::createObj(demo::class);
+        $demo = Mini::createObj(app\common\models\demo::class);
         $demo->big();
     }
 
