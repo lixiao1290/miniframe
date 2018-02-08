@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c
+class ComposerStaticInitffd0def001968d2b1204bba573612d8b
 {
     public static $files = array (
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
@@ -129,9 +129,9 @@ class ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

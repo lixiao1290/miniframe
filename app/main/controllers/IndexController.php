@@ -325,9 +325,8 @@ class IndexController extends Controller
     public function refle()
     {
 
-        var_dump($_SERVER);
         /**
-         * @var  demo $demo
+         * @var  models\demo $demo
          */
         $demo = Mini::createObj(models\demo::class);
         $demo->big();
