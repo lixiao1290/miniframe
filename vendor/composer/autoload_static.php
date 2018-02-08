@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitffd0def001968d2b1204bba573612d8b
 {
-    public static $files = array (
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'm' => 
         array (
@@ -27,24 +23,6 @@ class ComposerStaticInitffd0def001968d2b1204bba573612d8b
         array (
             'app\\' => 4,
             'admin\\' => 6,
-        ),
-        'S' => 
-        array (
-            'Syscover\\EmailReader\\' => 21,
-            'Symfony\\Component\\Process\\' => 26,
-            'Symfony\\Component\\Filesystem\\' => 29,
-        ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 8,
-        ),
-        'M' => 
-        array (
-            'Monolog\\' => 8,
-        ),
-        'D' => 
-        array (
-            'Doctrine\\Common\\Cache\\' => 22,
         ),
     );
 
@@ -69,61 +47,6 @@ class ComposerStaticInitffd0def001968d2b1204bba573612d8b
         array (
             0 => __DIR__ . '/../..' . '/admin',
         ),
-        'Syscover\\EmailReader\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/syscover/email-reader/src/Syscover/EmailReader',
-        ),
-        'Symfony\\Component\\Process\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/process',
-        ),
-        'Symfony\\Component\\Filesystem\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/filesystem',
-        ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
-        'Monolog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
-        ),
-        'Doctrine\\Common\\Cache\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        'N' => 
-        array (
-            'Neutron' => 
-            array (
-                0 => __DIR__ . '/..' . '/neutron/temporary-filesystem/src',
-            ),
-        ),
-        'F' => 
-        array (
-            'FFMpeg' => 
-            array (
-                0 => __DIR__ . '/..' . '/php-ffmpeg/php-ffmpeg/src',
-            ),
-        ),
-        'E' => 
-        array (
-            'Evenement' => 
-            array (
-                0 => __DIR__ . '/..' . '/evenement/evenement/src',
-            ),
-        ),
-        'A' => 
-        array (
-            'Alchemy' => 
-            array (
-                0 => __DIR__ . '/..' . '/alchemy/binary-driver/src',
-            ),
-        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -131,7 +54,6 @@ class ComposerStaticInitffd0def001968d2b1204bba573612d8b
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitffd0def001968d2b1204bba573612d8b::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
