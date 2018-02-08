@@ -11,7 +11,7 @@
   "require": {
     "swiftmailer/swiftmailer": "^5.4",
     "syscover/email-reader": "~2.0",
-	"php-ffmpeg/php-ffmpeg":"v0.11.0"
+	"php-ffmpeg/php-ffmpeg":"v0.11.0",
 	
   },
   "autoload": {
