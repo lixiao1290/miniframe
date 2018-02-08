@@ -14,11 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "app\\": "app/",
-      "minicore\\": "vendor/minicore/",
-      "admin\\": "admin/",
-      "emailreader\\": "vendor/emailreader/",
-      "common\\":"common"
+      "minicore\\": "minicore/"
     }
   }
 }
