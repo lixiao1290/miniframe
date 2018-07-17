@@ -1,20 +1,18 @@
 {
-  "name": "lixiao/miniframe",
-  "description": "lixiao's",
-  "license": "BSD-3-Clause",
-  "authors": [
-    {
-      "name": "lixiao",
-      "email": "209201763@qq.com"
-    }
-  ],
-  "require": {
-    
-	
-  },
-  "autoload": {
+    "name": "lixiao/miniframe",
+    "description": "php framework",
+    "type": "library",
+    "license": "appache",
+    "authors": [
+        {
+            "name": "lixiao",
+            "email": "lixiao.god@163.com"
+        }
+    ],
+    "require": {},
+	"autoload": {
     "psr-4": {
-      "minicore\\": "minicore/"
+      "minicore\\": "lixiao/minicore/"
     }
   }
 }
