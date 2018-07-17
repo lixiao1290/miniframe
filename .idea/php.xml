@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/minicore/sqlmigration" />
+      <path value="$PROJECT_DIR$/vendor/minicore/interfaces" />
+      <path value="$PROJECT_DIR$/vendor/minicore/helper" />
+      <path value="$PROJECT_DIR$/vendor/minicore/traits" />
+      <path value="$PROJECT_DIR$/vendor/minicore/model" />
+      <path value="$PROJECT_DIR$/vendor/minicore/lib" />
+      <path value="$PROJECT_DIR$/vendor/minicore/mvc" />
+      <path value="$PROJECT_DIR$/vendor/minicore/run" />
+      <path value="$PROJECT_DIR$/vendor/minicore/config" />
+    </include_path>
+  </component>
+</project>
