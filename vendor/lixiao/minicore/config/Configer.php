@@ -2,13 +2,14 @@
 
 namespace minicore\config;
 
+use minicore\interfaces\Configable;
 use minicore\lib\Base;
 
 /**
  * Class Configer
  * @package minicore\config
  */
-class Configer extends Base
+class Configer extends Base implements Configable
 {
 
     /**

@@ -2,15 +2,11 @@
 
 namespace minicore\lib;
 
-use minicore\config\ConfigBase;
+use app\run\RunClass;
+use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
+use minicore\config\Configer;
 use minicore\mvc\controller\ExceptionController;
 use minicore\traits\SingleInstance;
-use minicore\helper\Db;
-use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
-use minicore\helper\DbContainer;
-use minicore\interfaces\MiniInterface;
-use minicore\config\Configer;
-use app\run\RunClass;
 
 /**
  *
@@ -18,7 +14,7 @@ use app\run\RunClass;
  * @property
  *
  */
-class MiniApp extends MiniBase
+class MiniApp
 {
 
     /**
@@ -36,7 +32,7 @@ class MiniApp extends MiniBase
      */
     private $baseDir;
 
-
+    public $config;
     /**
      * @var \miniCore\lib\ControllerBase $controllerStance
      */
@@ -55,7 +51,7 @@ class MiniApp extends MiniBase
      */
     public function setControllerInstance($controllerInstance)
     {
-        $this->controllerInstance= $controllerInstance;
+        $this->controllerInstance = $controllerInstance;
     }
 
     /**
@@ -109,7 +105,6 @@ class MiniApp extends MiniBase
 
     public function __get($name = NULL)
     {
-        var_dump($name);
         if (array_key_exists($name, $this->component)) {
             return $this->component[$name];
         }
@@ -155,7 +150,6 @@ class MiniApp extends MiniBase
     {
         $this->viewPath = $viewPath;
     }
-
 
 
     public $appPath;
@@ -292,50 +286,51 @@ class MiniApp extends MiniBase
     public function getExtention($key = null)
     { // var_dump($key,$this->getConfig('extentions')[$key]);
         if ($key) {
-            return $this->getConfig('extentions')[$key] ?: null;
+            return Configurator::getConfig('extentions')[$key] ?: null;
         }
     }
 
     public function run()
     {
-       try {
-           if (1 == $this->getConfig('RunMode')) {
+        try {
+            if (1 == Configurator::getConfig('RunMode')) {
 
 
-               $runClass = Configer::getConfig('app.runClass.class');
-               $runMethod = Configer::getConfig('app.runClass.method');
-               $runObj = (new \ReflectionClass($runClass))->newInstance();
-               call_user_func([$runObj, $runMethod]);
-               // RequestServer::runRout($routArr);
-           }
-           $path=$this->getControllerInstance()->getClassFile();
-           $this->setAppPath();
-       } catch (\Exception $exception) {
-           /* @var ExceptionController $exceptionController*/
-          /* $exceptionController=Mini::createObj(ExceptionController::class);
-           $exceptionController->assign("message",$exception->getMessage());
-           $exceptionController->assign("file",$exception->getFile());
-           $exceptionController->assign("line",$exception->getLine());
-           $exceptionController->assign("code",$exception->getCode());
-           $exceptionController->assign("trace",$exception->getTraceAsString());*/
+                $runClass = Configurator::getConfig('app.runClass.class');
+                $runMethod = Configurator::getConfig('app.runClass.method');
+                $runObj = (new \ReflectionClass($runClass))->newInstance();
+                call_user_func([$runObj, $runMethod]);
+                // RequestServer::runRout($routArr);
+            }
+            $path = $this->getControllerInstance()->getClassFile();
+            $this->setAppPath();
+        } catch (\Exception $exception) {
+            /* @var ExceptionController $exceptionController */
+            /* $exceptionController=Mini::createObj(ExceptionController::class);
+             $exceptionController->assign("message",$exception->getMessage());
+             $exceptionController->assign("file",$exception->getFile());
+             $exceptionController->assign("line",$exception->getLine());
+             $exceptionController->assign("code",$exception->getCode());
+             $exceptionController->assign("trace",$exception->getTraceAsString());*/
 
-           echo $exception->getMessage();
-           echo $exception->getFile();
-           echo $exception->getLine();
-           echo $exception->getCode();
-           echo $exception->getTraceAsString();
-       }
+            echo $exception->getMessage();
+            echo $exception->getFile();
+            echo $exception->getLine();
+            echo $exception->getCode();
+            echo $exception->getTraceAsString();
+        }
 
     }
 
     public function __construct($config = null)
-    { 
+    {
         if (is_null($config)) {
-            $this->config = include dirname(__FILE__) . '/../config/Config.php';
+            Configurator::setConfig('mini', include dirname(__FILE__) . '/../config/Config.php');
+
         } else {
 //            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
 //            $this->setConfig($config);
-            Configer::setConfig($config);
+            Configurator::setConfig('mini', $config);
 
         }
 

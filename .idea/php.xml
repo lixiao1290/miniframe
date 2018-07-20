@@ -12,6 +12,7 @@
       <path value="$PROJECT_DIR$/vendor/minicore/mvc" />
       <path value="$PROJECT_DIR$/vendor/minicore/run" />
       <path value="$PROJECT_DIR$/vendor/minicore/config" />
+      <path value="$PROJECT_DIR$/vendor/lixiao/minicore" />
     </include_path>
   </component>
 </project>
