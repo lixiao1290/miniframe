@@ -17,7 +17,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="yii2adminadvance" />
     <orderEntry type="module" module-name="lwork" />
     <orderEntry type="module-library">
       <library name="PHP" type="php">

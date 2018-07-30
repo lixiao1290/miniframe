@@ -4,7 +4,7 @@ namespace minicore\lib;
 
 use app\run\RunClass;
 use Composer\Autoload\ComposerStaticInit344e82d8c2bfce44cf961e58b48d128c;
-use minicore\config\Configer;
+use minicore\interfaces\Configable;
 use minicore\mvc\controller\ExceptionController;
 use minicore\traits\SingleInstance;
 
@@ -31,8 +31,10 @@ class MiniApp
      * @var string $baseDir
      */
     private $baseDir;
-
-    public $config;
+    /**
+     * @var  Configurator $configurator
+     **/
+    public $configurator;
     /**
      * @var \miniCore\lib\ControllerBase $controllerStance
      */
@@ -286,18 +288,18 @@ class MiniApp
     public function getExtention($key = null)
     { // var_dump($key,$this->getConfig('extentions')[$key]);
         if ($key) {
-            return Configurator::getConfig('extentions')[$key] ?: null;
+            return $this->configurator->getConfigByPatterm('mini.extentions')[$key] ?: null;
         }
     }
 
     public function run()
     {
         try {
-            if (1 == Configurator::getConfig('RunMode')) {
+            if (1 == $this->configurator->getConfigByName('mini')['RunMode']) {
 
 
-                $runClass = Configurator::getConfig('app.runClass.class');
-                $runMethod = Configurator::getConfig('app.runClass.method');
+                $runClass = $this->configurator->getConfigByPatterm('mini.app.runClass.class');
+                $runMethod = $this->configurator->getConfigByPatterm('mini.app.runClass.method');
                 $runObj = (new \ReflectionClass($runClass))->newInstance();
                 call_user_func([$runObj, $runMethod]);
                 // RequestServer::runRout($routArr);
@@ -321,21 +323,26 @@ class MiniApp
         }
 
     }
-
-    public function __construct($config = null)
+    /**
+     * @var Configable $config
+     **/
+    public function __construct(Configable $config = null)
     {
+        /**
+         * @var Configurator $config
+         **/
         if (is_null($config)) {
-            Configurator::setConfig('mini', include dirname(__FILE__) . '/../config/Config.php');
+            $this->configurator->setConfig('mini', include dirname(__FILE__) . '/../config/Config.php');
 
         } else {
 //            $config['indexDir'] = dirname(debug_backtrace(0, 1)[0]['file']) . '/cache/config';
 //            $this->setConfig($config);
-            Configurator::setConfig('mini', $config);
-
+//            $this->configurator->setConfig($config, 'mini');
+            $this->configurator = $config;
         }
 
         Mini::$app = $this;
-        self::setParams($config['params']);
+        self::setParams($config->getConfigByPatterm('mini.params'));
         if (PHP_SESSION_DISABLED === session_status()) {
             session_start();
         }

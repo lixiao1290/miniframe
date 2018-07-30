@@ -9,26 +9,28 @@ class Configurator extends Base implements Configable
     /**
      * @var array
      */
-    private static $config = array();
+    private static $configs = array();
 
     /**
+     * @var string $name the name of config
+     *
      * Configer::getConfig('db.db')
-     * @return the $config
+     * @return the $configs
      */
-    public static function getConfigByName($name)
+    public function getConfigByName($name)
     {
         if (!empty($name)) {
-            if (array_key_exists($patterm, self::$config))
+            if (array_key_exists($name, self::$configs))
                 return self::$configs[$name];
         }
     }
 
-    public static function getConfigs()
+    public function getConfigs()
     {
         return self::$configs;
     }
 
-    public static function getConfigByPatterm($patterm = null)
+    public function getConfigByPatterm($patterm = null)
     {
         $return = self::$configs;
         $tok = strtok($patterm, '.');
@@ -42,18 +44,19 @@ class Configurator extends Base implements Configable
 
     /**
      *
-     * @param multitype : $config
+     * @param multitype : $configs
      */
-    public static function setConfig($config, $name)
+    public function setConfig($configs, $name)
     {
-        self::$config[$name] = $configs;
+        self::$configs[$name] = $configs;
     }
 
     /**
      * Configer constructor.
      */
-    public function __construct()
+    public function __construct($configs)
     {
+        self::$configs = $configs;
     }
 
 }

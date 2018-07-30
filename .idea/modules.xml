@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../lwork/.idea/lwork.iml" filepath="$PROJECT_DIR$/../lwork/.idea/lwork.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/miniframe.iml" filepath="$PROJECT_DIR$/.idea/miniframe.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../yii2adminadvance/.idea/yii2adminadvance.iml" filepath="$PROJECT_DIR$/../yii2adminadvance/.idea/yii2adminadvance.iml" />
     </modules>
   </component>
 </project>
